@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "harcApp",
   "private": true,
   "scripts": {
     "build": "turbo run build",
