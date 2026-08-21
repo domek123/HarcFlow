@@ -36,3 +36,12 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# === Aider Configuration & Cache ===
+CONVENTIONS.md
+.aider*
+.aider.conf.yml
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache*
+.aider.model.settings.yml
