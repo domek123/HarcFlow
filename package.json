@@ -1,5 +1,5 @@
 {
-  "name": "harcApp",
+  "name": "harcapp",
   "private": true,
   "scripts": {
     "build": "turbo run build",
