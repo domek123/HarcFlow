@@ -3,10 +3,14 @@ import { StrictMode } from 'react'
 import './i18n/config';
 import { createRoot } from 'react-dom/client'
 
+import { ApiProvider } from '@harcapp/api';
+
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ApiProvider>
+      <App />
+    </ApiProvider>
   </StrictMode>,
 )

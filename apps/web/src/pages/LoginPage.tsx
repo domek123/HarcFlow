@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useLogin } from "@/hooks/useLogin"
 
-const LoginPage = () => {
+export const LoginPage = () => {
   const { t } = useTranslation()
   const { email, setEmail, password, setPassword, handleLogin, error, loading } = useLogin();
 
@@ -53,5 +53,3 @@ const LoginPage = () => {
     </div>
   )
 }
-
-export default LoginPage

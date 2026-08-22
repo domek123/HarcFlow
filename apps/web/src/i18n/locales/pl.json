@@ -1,19 +1,46 @@
 {
   "login": {
     "title": "Zaloguj się",
-    "description": "Wprowadź swoje dane logowania, aby uzyskać dostęp do konta.",
+    "description": "Wprowadź swoje dane logowania.",
     "email": {
-      "label": "Adres e-mail",
-      "placeholder": "jan@example.com"
+      "label": "Email",
+      "placeholder": "wprowadź swój email"
     },
-    "loading": "Ładowanie...",
     "password": {
       "label": "Hasło",
-      "placeholder": "••••••••"
+      "placeholder": "wprowadź swoje hasło"
     },
     "button": "Zaloguj się",
+    "loading": "Trwa logowanie...",
+    "error": "Błąd logowania, nieprawidłowy login lub hasło",
     "forgotPassword": "Zapomniałeś hasła?",
-    "createAccount": "Stwórz konto",
-    "error": "Nieprawidłowy adres e-mail lub hasło."
+    "createAccount": "Utwórz konto"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "addButton": "Dodaj nową drużynę",
+    "description": "Zarządzaj drużynami i członkami.",
+    "addTroop": {
+      "title": "Dodaj nową drużynę",
+      "mainDescription": "Wprowadź dane nowej drużyny.",
+      "name": {
+        "label": "Nazwa",
+        "placeholder": "wprowadź nazwę drużyny"
+      },
+      "description": {
+        "label": "Opis",
+        "placeholder": "wprowadź opis drużyny"
+      }
+    },
+    "noDescription": "Brak opisu",
+    "members": "{{count}} członków",
+    "viewDetails": "Zobacz szczegóły",
+    "loadingTroops": "Ładowanie listy drużyn...",
+    "errorLoadingTroops": "Wystąpił błąd przy pobieraniu drużyn: {{message}}",
+    "noTroops": "Brak zarejestrowanych drużyn. Kliknij przycisk powyżej, aby dodać pierwszą.",
+    "deleteTroopTitle": "Czy na pewno chcesz usunąć?",
+    "deleteTroopDescription": "Usunięcie drużyny {{name}} spowoduje usunięcie wszystkich powiązanych z nią elementów. Czy jesteś pewien, że chcesz kontynuować?",
+    "delete": "Usuń",
+    "cancel": "Anuluj"
   }
 }
