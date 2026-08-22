@@ -10,6 +10,7 @@ module.exports = {
         "mobile", // apps/mobile
         "types", // packages/types
         "validators", // packages/validators
+        "client-api", // packages/api
         "deps", // Aktualizacje zależności
         "release",
       ],
