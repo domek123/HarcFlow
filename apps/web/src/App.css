@@ -1,184 +1,116 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
+
+    --color-card: hsl(var(--card));
+    --color-card-foreground: hsl(var(--card-foreground));
+
+    --color-popover: hsl(var(--popover));
+    --color-popover-foreground: hsl(var(--popover-foreground));
+
+    --color-primary: hsl(var(--primary));
+    --color-primary-foreground: hsl(var(--primary-foreground));
+
+    --color-secondary: hsl(var(--secondary));
+    --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+    --color-muted: hsl(var(--muted));
+    --color-muted-foreground: hsl(var(--muted-foreground));
+
+    --color-accent: hsl(var(--accent));
+    --color-accent-foreground: hsl(var(--accent-foreground));
+
+    --color-destructive: hsl(var(--destructive));
+    --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+    --color-border: hsl(var(--border));
+    --color-input: hsl(var(--input));
+    --color-ring: hsl(var(--ring));
+
+    --radius-radius: var(--radius);
 }
 
-.hero {
-  position: relative;
+:root {
+    /* Tło: Ciepłe, naturalne płótno / jasny krem */
+    --background: 40 20% 97%;
+    --foreground: 120 15% 12%;
 
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
+    /* Karty i elementy: Czysta biel z małym akcentem ciepła */
+    --card: 40 25% 99%;
+    --card-foreground: 120 15% 12%;
+    --popover: 40 25% 99%;
+    --popover-foreground: 120 15% 12%;
 
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
+    /* Główny kolor marki (Primary): Głęboka harcerska zieleń wojskowa / leśna */
+    --primary: 135 32% 24%;
+    --primary-foreground: 40 25% 98%;
 
-  .framework,
-  .vite {
-    position: absolute;
-  }
+    /* Kolor pomocniczy (Secondary): Ciepły musztardowy/mosiądz/piasek */
+    --secondary: 38 45% 88%;
+    --secondary-foreground: 135 32% 20%;
 
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
+    /* Elementy stonowane: Jasny piasek / beż filcowy */
+    --muted: 40 18% 90%;
+    --muted-foreground: 120 8% 40%;
 
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
+    /* Akcenty: Brąz / odcień naturalnej skóry */
+    --accent: 32 30% 86%;
+    --accent-foreground: 135 32% 18%;
+
+    /* Stan błędu / akcje destrukcyjne: Stonowana czerwień */
+    --destructive: 0 55% 42%;
+    --destructive-foreground: 40 25% 98%;
+
+    /* Obramowania i Inputy: Subtelny odcień ziemi */
+    --border: 40 15% 83%;
+    --input: 40 15% 83%;
+    --ring: 135 32% 24%;
+
+    /* Zaokrąglenie rogów */
+    --radius: 0.5rem;
 }
 
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
+.dark {
+    --background: 135 20% 8%;
+    --foreground: 40 20% 92%;
 
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+    --card: 135 18% 11%;
+    --card-foreground: 40 20% 92%;
+    --popover: 135 18% 11%;
+    --popover-foreground: 40 20% 92%;
+
+    --primary: 135 28% 42%;
+    --primary-foreground: 135 20% 8%;
+
+    --secondary: 135 15% 18%;
+    --secondary-foreground: 40 20% 92%;
+
+    --muted: 135 15% 16%;
+    --muted-foreground: 40 10% 65%;
+
+    --accent: 32 20% 20%;
+    --accent-foreground: 40 20% 92%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 40 20% 92%;
+
+    --border: 135 15% 20%;
+    --input: 135 15% 20%;
+    --ring: 135 28% 42%;
 }
 
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
+@layer base {
+    * {
+        @apply border-border;
     }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
+    body {
+        @apply bg-background text-foreground;
     }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
-}
-
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
-}
-
-.ticks {
-  position: relative;
-  width: 100%;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
-
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
 }

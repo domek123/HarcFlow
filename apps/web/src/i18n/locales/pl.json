@@ -1,0 +1,19 @@
+{
+  "login": {
+    "title": "Zaloguj się",
+    "description": "Wprowadź swoje dane logowania, aby uzyskać dostęp do konta.",
+    "email": {
+      "label": "Adres e-mail",
+      "placeholder": "jan@example.com"
+    },
+    "loading": "Ładowanie...",
+    "password": {
+      "label": "Hasło",
+      "placeholder": "••••••••"
+    },
+    "button": "Zaloguj się",
+    "forgotPassword": "Zapomniałeś hasła?",
+    "createAccount": "Stwórz konto",
+    "error": "Nieprawidłowy adres e-mail lub hasło."
+  }
+}
