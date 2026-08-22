@@ -30,7 +30,8 @@
       "description": {
         "label": "Opis",
         "placeholder": "wprowadź opis drużyny"
-      }
+      },
+      "loading": "Dodawanie drużyny..."
     },
     "noDescription": "Brak opisu",
     "members": "{{count}} członków",
