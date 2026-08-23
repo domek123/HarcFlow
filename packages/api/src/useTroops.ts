@@ -17,22 +17,38 @@ export function useTroops(supabase: SupabaseClient) {
   });
 }
 
+export function useTroopDetails(supabase: SupabaseClient, troopId: string) {
+  return useQuery({
+    queryKey: ['scout-troop', troopId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('ScoutTroop')
+        .select('*')
+        .eq('id', troopId)
+        .single();
+
+      if (error) throw error;
+      return data as TroopDTO;
+    },
+  });
+}
+
 export function useCreateTroop(supabase: SupabaseClient) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (newTroop: { name: string; description?: string }) => {
+    mutationFn: async (newTroop: { name?: string; description?: string }) => {
       const { data, error } = await supabase
-        .from('ScoutTroop')
+        .from("ScoutTroop")
         .insert([newTroop])
-        .select('*')
+        .select("*")
         .single();
 
       if (error) throw error;
       return data as TroopDTO;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['scout-troops'] });
+      queryClient.invalidateQueries({ queryKey: ["scout-troops"] });
     },
   });
 }
