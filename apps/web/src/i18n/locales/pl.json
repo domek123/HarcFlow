@@ -43,5 +43,87 @@
     "deleteTroopDescription": "Usunięcie drużyny {{name}} spowoduje usunięcie wszystkich powiązanych z nią elementów. Czy jesteś pewien, że chcesz kontynuować?",
     "delete": "Usuń",
     "cancel": "Anuluj"
+  },
+  "troopDetails": {
+    "backToList": "Powrót do listy drużyn",
+    "foundedYear": "Rok założenia: {{year}}",
+    "membersTitle": "Członkowie Drużyny",
+    "totalCount": "Łącznie: {{count}} osób",
+    "totalCount_one": "Łącznie: {{count}} osoba",
+    "totalCount_few": "Łącznie: {{count}} osoby",
+    "totalCount_many": "Łącznie: {{count}} osób",
+    "searchPlaceholder": "Szukaj po imieniu, nazwisku, emailu...",
+    "sortBy": {
+      "placeholder": "Sortuj według...",
+      "none": "Brak sortowania",
+      "function": "Funkcja",
+      "rank": "Stopień",
+      "degree": "Stopień instruktorski"
+    },
+    "table": {
+      "name": "Imię i Nazwisko",
+      "gender": "Płeć",
+      "birthDate": "Data ur.",
+      "contact": "Kontakt",
+      "function": "Funkcja",
+      "rank": "St. Instruktorski",
+      "degree": "St. Harcerski",
+      "actions": "Akcje",
+      "empty": "Brak członków spełniających kryteria wyszukiwania."
+    },
+    "addModal": {
+      "trigger": "Dodaj członka",
+      "title": "Dodaj nowego członka",
+      "description": "Wprowadź dane osobowe oraz harcerskie profilu członka.",
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "email": "Email",
+      "phoneNumber": "Telefon",
+      "birthDate": "Data urodzenia",
+      "gender": "Płeć",
+      "function": "Funkcja",
+      "functionPlaceholder": "np. DRUZYNOWY",
+      "rank": "Stopień Instruktrorski",
+      "rankPlaceholder": "np. PWD",
+      "degree": "Stopień Harcerski",
+      "degreePlaceholder": "np. CWIK",
+      "cancel": "Anuluj",
+      "save": "Zapisz",
+      "errors": {
+        "firstNameRequired": "Imię jest wymagane.",
+        "lastNameRequired": "Nazwisko jest wymagane.",
+        "emailInvalid": "Nieprawidłowy adres email.",
+        "phoneInvalid": "Nieprawidłowy numer telefonu.",
+        "birthDateRequired": "Data urodzenia jest wymagana."
+      }
+    }
+  },
+  "enums": {
+    "gender": {
+      "MALE": "Mężczyzna",
+      "FEMALE": "Kobieta"
+    },
+    "function": {
+      "NONE": "Brak",
+      "DRUZYNOWY": "Drużynowy",
+      "PRZYBOCZNY": "Przyboczny",
+      "ZASTEPOWY": "Zastępowy",
+      "PODZASTEPOWY": "Podzastępowy"
+    },
+    "rank": {
+      "NONE": "Brak",
+      "PRZEWODNIK": "Przewodnik",
+      "PODHARCMISTRZ": "Podharcmistrz",
+      "HARCMISTRZ": "Harcmistrz"
+    },
+    "degree": {
+      "NONE": "Brak",
+      "HO": "Harcerz Orli",
+      "HR": "Harcerz Rzeczypospolitej",
+      "ML": "Młodzik",
+      "WYW": "Wywiadowca",
+      "CW": "Ćwik",
+      "DH": "Druh"
+    }
   }
 }

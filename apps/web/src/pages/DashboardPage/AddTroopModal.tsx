@@ -24,7 +24,7 @@ export const AddTroopModal = () => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
-  const createTroopMutation = useCreateTroop(supabase);
+  const {mutate, isError, error, isPending} = useCreateTroop(supabase);
 
   const {
     register,
@@ -37,7 +37,7 @@ export const AddTroopModal = () => {
   });
 
   const onSubmit = (data: CreateTroopInput) => {
-    createTroopMutation.mutate(data, {
+    mutate(data, {
       onSuccess: () => {
         setIsOpen(false);
         reset();
@@ -92,9 +92,9 @@ export const AddTroopModal = () => {
           </div>
         </form>
 
-        {createTroopMutation.isError && (
+        {isError && (
           <p className="text-sm text-destructive">
-            {(createTroopMutation.error as Error).message}
+            {(error as Error).message}
           </p>
         )}
 
@@ -102,10 +102,10 @@ export const AddTroopModal = () => {
           <Button
             type="submit"
             form="add-troop-form"
-            disabled={createTroopMutation.isPending}
+            disabled={isPending}
             className="w-full"
           >
-            {createTroopMutation.isPending
+            {isPending
               ? t('dashboard.addTroop.loading')
               : t('dashboard.addButton')}
           </Button>

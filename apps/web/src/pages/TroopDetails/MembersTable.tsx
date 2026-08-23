@@ -1,0 +1,105 @@
+import React from 'react';
+
+import { Calendar, Mail, Phone, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useParams } from "react-router-dom";
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useDeleteTroopMember } from "@harcapp/api";
+import { type ScoutProfileDTO } from '@harcapp/types';
+
+interface MembersTableProps {
+  members: ScoutProfileDTO[];
+}
+
+export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
+  const { t } = useTranslation();
+  const { id } = useParams<{ id: string }>();
+  const {mutateAsync: deleteMember} = useDeleteTroopMember(id);
+
+  return (
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>{t('troopDetails.table.name')}</TableHead>
+            <TableHead>{t('troopDetails.table.gender')}</TableHead>
+            <TableHead>{t('troopDetails.table.birthDate')}</TableHead>
+            <TableHead>{t('troopDetails.table.contact')}</TableHead>
+            <TableHead>{t('troopDetails.table.function')}</TableHead>
+            <TableHead>{t('troopDetails.table.rank')}</TableHead>
+            <TableHead>{t('troopDetails.table.degree')}</TableHead>
+            <TableHead className="text-right">{t('troopDetails.table.actions')}</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {members.map((member) => (
+            <TableRow key={member.id}>
+              <TableCell className="font-medium">
+                {member.firstName} {member.lastName}
+              </TableCell>
+              <TableCell>
+                <Badge variant="secondary">{member.gender}</Badge>
+              </TableCell>
+              <TableCell>
+                {member.birthDate ? (
+                  <div className="flex items-center gap-1 text-sm">
+                    <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                    {member.birthDate}
+                  </div>
+                ) : (
+                  '-'
+                )}
+              </TableCell>
+              <TableCell>
+                <div className="space-y-1 text-xs">
+                  {member.email && (
+                    <div className="flex items-center gap-1">
+                      <Mail className="h-3 w-3 text-muted-foreground" />
+                      {member.email}
+                    </div>
+                  )}
+                  {member.phoneNumber && (
+                    <div className="flex items-center gap-1">
+                      <Phone className="h-3 w-3 text-muted-foreground" />
+                      {member.phoneNumber}
+                    </div>
+                  )}
+                </div>
+              </TableCell>
+              <TableCell>
+                <Badge>
+                  {t(`enums.function.${member.function}`, member.function)}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                {t(`enums.rank.${member.rank}`, member.rank)}
+              </TableCell>
+              <TableCell>
+                {t(`enums.degree.${member.degree}`, member.degree)}</TableCell>
+              <TableCell className="text-right">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                  onClick={() => deleteMember(member.id)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+          {members.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={8} className="text-center py-6 text-muted-foreground">
+                {t('troopDetails.table.empty')}
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  );
+};

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -11,12 +12,13 @@ import {
   CardFooter,
   Card,
 } from "@/components/ui/card.tsx";
-import { DeleteTroopModal } from "@/pages/DahsboardPage/DeleteTroopModal.tsx";
+import { DeleteTroopModal } from "@/pages/DashboardPage/DeleteTroopModal.tsx";
 import type { TroopDTO } from "@harcapp/types";
 
 export const TroopCard = ({ troop }: { troop: TroopDTO }) => {
   const [isOpen, setIsOpen] = useState(false);
   const {t} = useTranslation();
+  const navigate = useNavigate();
 
   return <Card key={troop.id} className="flex flex-col justify-between border-border bg-card">
     <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
@@ -61,6 +63,7 @@ export const TroopCard = ({ troop }: { troop: TroopDTO }) => {
       <Button
         variant="outline"
         className="w-full"
+        onClick={()=> navigate(`/troop/${troop.id}`)}
       >
         {t('dashboard.viewDetails')}
       </Button>

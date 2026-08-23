@@ -1,2 +1,3 @@
 export * from "./LoginPage"
-export * from "./DahsboardPage/DashboardPage"
+export * from "@/pages/DashboardPage/DashboardPage"
+export * from "./TroopDetails/TroopDetailPage"
