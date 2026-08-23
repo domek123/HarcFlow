@@ -6,20 +6,23 @@ export type BadgeStatus = 'PLANNED' | 'OPENED' | 'CLOSED';
 
 export interface ScoutProfileDTO {
   id: string;
+  userId: string;
   firstName: string;
   lastName: string;
+  email: string;
+  phoneNumber?: string;
+  birthDate: string;
+  gender: 'MALE' | 'FEMALE',
   rank: Rank;
   degree: Degree;
   function: Function;
-  troopName: string;
-  patrolName?: string;
-  hasNaramiennik: boolean;
 }
 
 export interface TroopDTO {
   id: string;
   name: string;
   description?: string;
+  creationYear: number;
   patrolCount: number;
   memberCount: number;
 }
