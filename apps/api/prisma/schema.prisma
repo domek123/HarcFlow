@@ -7,19 +7,18 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(uuid())
-  email       String?   @unique
-  phoneNumber String?   @unique
-  firstName   String
-  lastName    String
-  birthDate   DateTime?
-  pesel       String?   @unique
-  gender      Gender
-  role        Role      @default(USER)
-
+  id           String        @id @default(uuid())
+  email        String?       @unique
+  phoneNumber  String?       @unique
+  firstName    String
+  lastName     String
+  birthDate    DateTime?
+  pesel        String?       @unique
+  gender       Gender
+  role         Role          @default(USER)
+  notes        ScoutNote[]
   scoutProfile ScoutProfile?
   parents      Parent[]      @relation("UserParents")
-  notes        ScoutNote[]
 }
 
 model Parent {
@@ -28,98 +27,82 @@ model Parent {
   lastName    String
   phoneNumber String
   email       String?
-
-  children User[] @relation("UserParents")
+  children    User[]  @relation("UserParents")
 }
 
-// DANE HARCERSKIE
 model ScoutProfile {
-  id     String @id @default(uuid())
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  rank           Rank     @default(NONE)
-  degree         Degree   @default(NONE)
-  function       Function @default(NONE)
-  hasNaramiennik Boolean  @default(false)
+  id             String       @id @default(uuid())
+  userId         String       @unique
+  rank           Rank         @default(NONE)
+  degree         Degree       @default(NONE)
+  function       Function     @default(NONE)
+  hasNaramiennik Boolean      @default(false)
   troopId        String
   patrolId       String?
-
-  troops ScoutTroop   @relation(fields: [troopId], references: [id])
-  patrol ScoutPatrol? @relation(fields: [patrolId], references: [id])
-  badges UserBadge[]
-  notes  ScoutNote[]
+  notes          ScoutNote[]
+  patrol         ScoutPatrol? @relation(fields: [patrolId], references: [id])
+  troops         ScoutTroop   @relation(fields: [troopId], references: [id])
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badges         UserBadge[]
 }
 
-// HISTORIA I STATUS SPRAWNOŚCI
 model UserBadge {
   profileId String
   badgeId   String
-  status    BadgeStatus @default(PLANNED)
-
-  openedAt DateTime?
-  wonAt    DateTime?
-
-  profile ScoutProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  badge   MeritBadge   @relation(fields: [badgeId], references: [id])
+  status    BadgeStatus  @default(PLANNED)
+  openedAt  DateTime?
+  wonAt     DateTime?
+  badge     MeritBadge   @relation(fields: [badgeId], references: [id])
+  profile   ScoutProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@id([profileId, badgeId])
 }
 
 model ScoutNote {
-  id        String   @id @default(uuid())
+  id        String       @id @default(uuid())
   content   String
-  createdAt DateTime @default(now())
-
-  authorId String
-  author   User   @relation(fields: [authorId], references: [id])
-
+  createdAt DateTime     @default(now())
+  authorId  String
   profileId String
+  author    User         @relation(fields: [authorId], references: [id])
   profile   ScoutProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 }
 
-// ORGANIZACJA (Drużyny/Zastępy)
 model ScoutTroop {
-  id           String  @id @default(uuid())
-  name         String
-  description  String?
-  creationYear Int?
-
-  patrols        ScoutPatrol[]
-  members        ScoutProfile[]
+  id             String          @id @default(dbgenerated("gen_random_uuid()"))
+  name           String
+  description    String?
+  creationYear   Int?
   badgeInventory BadgesStore[]
   troopInventory InventoryItem[]
+  patrols        ScoutPatrol[]
+  members        ScoutProfile[]
 }
 
 model ScoutPatrol {
-  id           String @id @default(uuid())
+  id           String         @id @default(uuid())
   name         String
-  assemblyDay  Int //1-7
-  assemblyTime String //18:30
-
-  troopId String
-  troop   ScoutTroop @relation(fields: [troopId], references: [id])
-
-  members ScoutProfile[]
+  assemblyDay  Int
+  assemblyTime String
+  troopId      String
+  troop        ScoutTroop     @relation(fields: [troopId], references: [id])
+  members      ScoutProfile[]
 }
 
-// MAGAZYN (Fizyczne plakietki w szafie drużyny)
 model BadgesStore {
   troopId String
   badgeId String
-  amount  Int    @default(0)
-
-  troop ScoutTroop @relation(fields: [troopId], references: [id])
-  badge MeritBadge @relation(fields: [badgeId], references: [id])
+  amount  Int        @default(0)
+  badge   MeritBadge @relation(fields: [badgeId], references: [id])
+  troop   ScoutTroop @relation(fields: [troopId], references: [id])
 
   @@id([troopId, badgeId])
 }
 
 model MeritBadge {
-  id    String @id @default(uuid())
-  name  String
-  level Int
-
+  id         String        @id @default(uuid())
+  name       String
+  level      Int
   stock      BadgesStore[]
   achievedBy UserBadge[]
 }
@@ -130,8 +113,7 @@ model InventoryItem {
   amount  Int
   troopId String
   type    InventoryItemType
-
-  troop ScoutTroop @relation(fields: [troopId], references: [id])
+  troop   ScoutTroop        @relation(fields: [troopId], references: [id])
 }
 
 enum BadgeStatus {
