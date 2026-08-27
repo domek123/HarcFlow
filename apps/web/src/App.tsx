@@ -1,11 +1,13 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import './App.css'
+import "./App.css";
 
-import { DashboardPage, LoginPage,TroopDetailsPage  } from "@/pages";
+import { DashboardPage, LoginPage, TroopDetailsPage } from "@/pages";
+import { configureApiClient } from "@harcapp/api";
+
+configureApiClient(import.meta.env.VITE_API_URL);
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes>
@@ -14,7 +16,7 @@ function App() {
         <Route path="/troop/:id" element={<TroopDetailsPage />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,5 +1,6 @@
-export * from './config';
-export * from './provider';
+export * from "./reactQuery-config";
+export * from "./reactQuery-provider";
+export * from "./api-client";
 
-export * from "./useTroops"
-export * from "./useTroopMember"
+export * from "./troops/use-troops";
+export * from "./troopMembers/use-troop-members";
