@@ -2,13 +2,19 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
 
-import { DashboardPage, LoginPage, TroopDetailsPage } from "@/pages";
+import {
+  DashboardPage,
+  LoginPage,
+  ResetPasswordPage,
+  SetNewPasswordPage,
+  TroopDetailsPage,
+} from "@/pages";
 import { configureApiClient } from "@harcapp/api-client";
 
 import {
   NotFoundRedirect,
-  ProtectedRoute,
-  PublicOnlyRoute,
+  ProtectedLayout,
+  PublicOnlyLayout,
 } from "./lib/protectedRoute";
 
 configureApiClient(import.meta.env.VITE_API_URL);
@@ -17,30 +23,16 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/login"
-          element={
-            <PublicOnlyRoute>
-              <LoginPage />
-            </PublicOnlyRoute>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/troop/:id"
-          element={
-            <ProtectedRoute>
-              <TroopDetailsPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route element={<PublicOnlyLayout />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/set-new-password" element={<SetNewPasswordPage />} />
+        </Route>
+
+        <Route element={<ProtectedLayout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/troop/:id" element={<TroopDetailsPage />} />
+        </Route>
         <Route path="*" element={<NotFoundRedirect />} />
       </Routes>
     </BrowserRouter>

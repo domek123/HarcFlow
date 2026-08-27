@@ -16,6 +16,45 @@
     "forgotPassword": "Zapomniałeś hasła?",
     "createAccount": "Utwórz konto"
   },
+  "resetPassword": {
+    "title": "Resetowanie hasła",
+    "description": "Podaj adres email, a wyślemy Ci link do ustawienia nowego hasła.",
+    "updateTitle": "Ustaw nowe hasło",
+    "updateDescription": "Wprowadź i potwierdź nowe hasło.",
+    "email": {
+      "label": "Email",
+      "placeholder": "wprowadź swój email"
+    },
+    "button": "Wyślij link resetujący",
+    "loading": "Wysyłanie linku...",
+    "error": "Nie udało się wysłać linku resetującego.",
+    "success": "Link resetujący został wysłany. Sprawdź swoją skrzynkę email.",
+    "newPassword": {
+      "label": "Nowe hasło"
+    },
+    "confirmPassword": {
+      "label": "Potwierdź nowe hasło"
+    },
+    "passwordsDoNotMatch": "Hasła muszą być takie same.",
+    "updateButton": "Ustaw nowe hasło",
+    "updateLoading": "Zapisywanie hasła...",
+    "updateSuccess": "Hasło zostało zmienione. Możesz się teraz zalogować.",
+    "backToLogin": "Wróć do logowania"
+  },
+  "setNewPassword": {
+    "title": "Ustaw nowe hasło",
+    "description": "Wprowadź i potwierdź nowe hasło do swojego konta.",
+    "checkingSession": "Sprawdzanie linku resetującego...",
+    "invalidSession": "Link resetujący jest nieprawidłowy lub wygasł. Poproś o nowy link.",
+    "newPassword": "Nowe hasło",
+    "confirmPassword": "Potwierdź nowe hasło",
+    "passwordsDoNotMatch": "Hasła muszą być takie same.",
+    "button": "Ustaw nowe hasło",
+    "loading": "Zapisywanie hasła...",
+    "error": "Nie udało się ustawić nowego hasła.",
+    "success": "Hasło zostało zmienione. Możesz się teraz zalogować.",
+    "backToLogin": "Wróć do logowania"
+  },
   "dashboard": {
     "title": "Dashboard",
     "addButton": "Dodaj nową drużynę",

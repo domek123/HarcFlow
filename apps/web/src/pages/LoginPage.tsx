@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -65,12 +66,12 @@ export const LoginPage = () => {
             {loading ? t("login.loading") : t("login.button")}
           </Button>
           <div className="flex w-full justify-between text-sm">
-            <a
-              href="#"
+            <Link
+              to="/reset-password"
               className="text-muted-foreground hover:text-primary hover:underline"
             >
               {t("login.forgotPassword")}
-            </a>
+            </Link>
           </div>
         </CardFooter>
       </Card>

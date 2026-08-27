@@ -1,6 +1,6 @@
-import { type ReactNode, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { supabase } from "./supabase";
 
@@ -31,44 +31,37 @@ function useAuth() {
   return { session, isLoading };
 }
 
-interface AuthRouteProps {
-  children: ReactNode;
-  fallback?: ReactNode;
-}
-
 const DefaultLoader = (
   <div className="flex h-screen items-center justify-center">Ładowanie...</div>
 );
 
-export function ProtectedRoute({
-  children,
-  fallback = DefaultLoader,
-}: AuthRouteProps) {
+export function ProtectedLayout() {
   const { session, isLoading } = useAuth();
   const location = useLocation();
 
-  if (isLoading) return <>{fallback}</>;
+  if (isLoading) {
+    return DefaultLoader;
+  }
 
   if (!session) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 }
 
-export function PublicOnlyRoute({
-  children,
-  fallback = DefaultLoader,
-}: AuthRouteProps) {
+export function PublicOnlyLayout() {
   const { session, isLoading } = useAuth();
 
-  if (isLoading) return <>{fallback}</>;
+  if (isLoading) {
+    return DefaultLoader;
+  }
 
   if (session) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 }
 
 export function NotFoundRedirect() {
