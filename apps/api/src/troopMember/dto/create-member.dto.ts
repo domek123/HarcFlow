@@ -5,38 +5,39 @@ import {
   IsOptional,
   IsEnum,
   IsDateString,
-  IsUUID
+  IsUUID,
 } from 'class-validator';
 
 export class CreateMemberDto {
   @IsString()
-  firstName: string;
+  firstName!: string;
 
   @IsString()
-  lastName: string;
+  lastName!: string;
 
+  @IsOptional()
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsOptional()
   @IsString()
   phoneNumber?: string;
 
   @IsDateString()
-  birthDate: string;
+  birthDate!: string;
 
   @IsEnum(Gender)
-  gender: Gender;
+  gender!: Gender;
 
   @IsUUID()
-  troopId: string;
+  troopId!: string;
 
   @IsEnum(Rank)
-  rank: Rank;
+  rank!: Rank;
 
   @IsEnum(Degree)
-  degree: Degree;
+  degree!: Degree;
 
   @IsEnum(Function)
-  function: Function;
+  function!: Function;
 }
