@@ -4,27 +4,31 @@ import type { TroopDTO } from "@harcapp/types";
 
 export function useTroops(supabase: SupabaseClient) {
   return useQuery({
-    queryKey: ['scout-troops'],
+    queryKey: ["scout-troops"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('ScoutTroop')
-        .select('*')
-        .order('name', { ascending: true });
+        .from("ScoutTroop")
+        .select("*, ScoutProfile(count)")
+        .order("name", { ascending: true });
 
       if (error) throw error;
-      return data as TroopDTO[];
+
+      return data.map((troop) => ({
+        ...troop,
+        memberCount: troop.ScoutProfile[0]?.count || 0,
+      })) as TroopDTO[];
     },
   });
 }
 
 export function useTroopDetails(supabase: SupabaseClient, troopId: string) {
   return useQuery({
-    queryKey: ['scout-troop', troopId],
+    queryKey: ["scout-troop", troopId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('ScoutTroop')
-        .select('*')
-        .eq('id', troopId)
+        .from("ScoutTroop")
+        .select("*")
+        .eq("id", troopId)
         .single();
 
       if (error) throw error;
@@ -59,14 +63,14 @@ export function useDeleteTroop(supabase: SupabaseClient) {
   return useMutation({
     mutationFn: async (troopId: string) => {
       const { error } = await supabase
-        .from('ScoutTroop')
+        .from("ScoutTroop")
         .delete()
-        .eq('id', troopId);
+        .eq("id", troopId);
 
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['scout-troops'] });
+      queryClient.invalidateQueries({ queryKey: ["scout-troops"] });
     },
   });
 }
