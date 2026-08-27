@@ -13,6 +13,7 @@ module.exports = {
         "client-api", // packages/api
         "deps", // Aktualizacje zależności
         "release",
+        "all",
       ],
     ],
     "scope-case": [2, "always", "kebab-case"],
