@@ -101,6 +101,23 @@
       "title": "Edytuj członka drużyny",
       "description": "Zaktualizuj dane wybranego członka drużyny.",
       "save": "Zapisz zmiany"
+    },
+    "editTroopModal": {
+      "title": "Edytuj dane drużyny",
+      "description": "Zmień nazwę, opis lub rok założenia drużyny.",
+      "name": "Nazwa drużyny",
+      "descriptionLabel": "Opis",
+      "creationYear": "Rok założenia"
+    },
+    "validation": {
+      "nameRequired": "Nazwa drużyny jest wymagana.",
+      "nameMin": "Nazwa musi mieć co najmniej 3 znaki.",
+      "nameMax": "Nazwa nie może przekraczać 100 znaków.",
+      "descriptionMax": "Opis nie może przekraczać 500 znaków.",
+      "yearInvalid": "Wprowadź poprawny rok.",
+      "yearInteger": "Rok musi być liczbą całkowitą.",
+      "yearMin": "Rok założenia nie może być wcześniejszy niż 1900.",
+      "yearMax": "Rok założenia nie może być w przyszłości."
     }
   },
   "enums": {
