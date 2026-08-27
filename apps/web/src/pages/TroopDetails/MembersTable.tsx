@@ -22,6 +22,16 @@ interface MembersTableProps {
   members: ScoutProfileDTO[];
 }
 
+import type { Function as ScoutFunction } from "@harcapp/types";
+
+const functionBadgeVariants: Record<ScoutFunction, string> = {
+  DRUZYNOWY: "bg-blue-950 text-white hover:bg-blue-900",
+  PRZYBOCZNY: "bg-emerald-700 text-white hover:bg-emerald-800",
+  ZASTEPOWY: "bg-amber-900 text-white hover:bg-amber-950",
+  PODZASTEPOWY: "bg-slate-500 text-white hover:bg-slate-600",
+  NONE: "bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-200",
+};
+
 export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
@@ -57,7 +67,9 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                 {member.firstName} {member.lastName}
               </TableCell>
               <TableCell>
-                <Badge variant="secondary">{member.gender}</Badge>
+                <Badge variant="secondary">
+                  {t(`enums.gender.${member.gender}`)}
+                </Badge>
               </TableCell>
               <TableCell>
                 {member.birthDate ? (
@@ -86,16 +98,17 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                 </div>
               </TableCell>
               <TableCell>
-                <Badge>
-                  {t(`enums.function.${member.function}`, member.function)}
+                <Badge
+                  className={
+                    functionBadgeVariants[member.function] ??
+                    "bg-slate-500 text-white"
+                  }
+                >
+                  {t(`enums.function.${member.function}`)}
                 </Badge>
               </TableCell>
-              <TableCell>
-                {t(`enums.rank.${member.rank}`, member.rank)}
-              </TableCell>
-              <TableCell>
-                {t(`enums.degree.${member.degree}`, member.degree)}
-              </TableCell>
+              <TableCell>{t(`enums.rank.${member.rank}`)}</TableCell>
+              <TableCell>{t(`enums.degree.${member.degree}`)}</TableCell>
               <TableCell className="text-right">
                 <Button
                   variant="ghost"
