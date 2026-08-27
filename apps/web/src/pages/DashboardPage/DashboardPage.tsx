@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "@/lib/supabase.ts";
 import { AddTroopModal } from "@/pages/DashboardPage/AddTroopModal.tsx";
 import { TroopCard } from "@/pages/DashboardPage/TroopCard.tsx";
-import { useTroops } from "@harcapp/api";
+import { useTroops } from "@harcapp/api-client";
 import type { TroopDTO } from "@harcapp/types";
 
 export const DashboardPage = () => {

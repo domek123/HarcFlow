@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { MemberDialog } from "@/pages/TroopDetails/AddMemberModal.tsx";
-import { useDeleteTroopMember } from "@harcapp/api";
+import { useDeleteTroopMember } from "@harcapp/api-client";
 import { type ScoutProfileDTO } from "@harcapp/types";
 
 interface MembersTableProps {

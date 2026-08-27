@@ -25,7 +25,7 @@ import { useTroopMembers } from "@/hooks/useTroopMembers";
 import { supabase } from "@/lib/supabase.ts";
 import { MemberDialog } from "@/pages/TroopDetails/AddMemberModal.tsx";
 import { MembersTable } from "@/pages/TroopDetails/MembersTable.tsx";
-import { useTroopDetails } from "@harcapp/api";
+import { useTroopDetails } from "@harcapp/api-client";
 
 import { EditTroopModal } from "./EditTroopModal";
 

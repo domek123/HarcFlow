@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Label } from "@/components/ui/label.tsx";
 import { supabase } from "@/lib/supabase.ts";
-import { useCreateTroop } from "@harcapp/api";
+import { useCreateTroop } from "@harcapp/api-client";
 import {
   type CreateTroopInput,
   createTroopSchema,

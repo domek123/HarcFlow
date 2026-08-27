@@ -7,7 +7,7 @@ import type {
   UpdateMemberPayload,
 } from "./types";
 
-import { apiClient } from "../api-client";
+import { apiClient } from "../api";
 
 export async function fetchTroopMembers(
   supabase: SupabaseClient,

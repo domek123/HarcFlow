@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { supabase } from "@/lib/supabase.ts";
-import { useTroopMembersList } from "@harcapp/api";
+import { useTroopMembersList } from "@harcapp/api-client";
 
 export type SortByOptions = "function" | "rank" | "degree" | "none";
 

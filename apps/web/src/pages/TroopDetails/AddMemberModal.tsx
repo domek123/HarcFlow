@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAddMember, useUpdateTroopMember } from "@harcapp/api";
+import { useAddMember, useUpdateTroopMember } from "@harcapp/api-client";
 import type {
   Degree,
   Rank,

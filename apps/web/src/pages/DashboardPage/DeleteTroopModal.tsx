@@ -10,7 +10,7 @@ import {
   Dialog,
 } from "@/components/ui/dialog.tsx";
 import { supabase } from "@/lib/supabase.ts";
-import { useDeleteTroop } from "@harcapp/api";
+import { useDeleteTroop } from "@harcapp/api-client";
 import type { TroopDTO } from "@harcapp/types";
 
 type DeleteTroopModalProps = {

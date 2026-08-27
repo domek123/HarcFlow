@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/lib/supabase";
-import { useUpdateTroop } from "@harcapp/api";
+import { useUpdateTroop } from "@harcapp/api-client";
 import type { TroopDTO } from "@harcapp/types";
 import {
   type UpdateTroopFormValues,
