@@ -18,26 +18,28 @@ export const DashboardPage = () => {
         <div className="flex justify-between items-center border-b border-border pb-5">
           <div>
             <h1 className="text-3xl font-bold text-primary">
-              {t('dashboard.title')}
+              {t("dashboard.title")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t('dashboard.description')}
+              {t("dashboard.description")}
             </p>
           </div>
 
-        <AddTroopModal />
+          <AddTroopModal />
         </div>
 
         {/* Sekcja stanu ładowania i błędów pobierania */}
         {isLoading && (
           <div className="text-center py-12 text-muted-foreground">
-            {t('dashboard.loadingTroops')}
+            {t("dashboard.loadingTroops")}
           </div>
         )}
 
         {isError && (
           <div className="text-center py-12 text-destructive">
-            {t('dashboard.errorLoadingTroops', { message: (error as Error).message })}
+            {t("dashboard.errorLoadingTroops", {
+              message: (error as Error).message,
+            })}
           </div>
         )}
 
@@ -46,10 +48,12 @@ export const DashboardPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {!troops || troops.length === 0 ? (
               <div className="col-span-full text-center py-12 text-muted-foreground">
-                {t('dashboard.noTroops')}
+                {t("dashboard.noTroops")}
               </div>
             ) : (
-              troops.map((troop: TroopDTO) => <TroopCard key={troop.id} troop={troop} />)
+              troops.map((troop: TroopDTO) => (
+                <TroopCard key={troop.id} troop={troop} />
+              ))
             )}
           </div>
         )}

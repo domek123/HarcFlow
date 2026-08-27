@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -13,10 +13,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAddMember, useUpdateTroopMember } from "@harcapp/api";
 import type {
   Degree,
@@ -24,7 +30,10 @@ import type {
   Function as ScoutFunction,
   ScoutProfileDTO,
 } from "@harcapp/types";
-import { createAddMemberSchema, type AddMemberFormValues } from "@harcapp/validators";
+import {
+  createAddMemberSchema,
+  type AddMemberFormValues,
+} from "@harcapp/validators";
 
 interface MemberDialogProps {
   isOpen: boolean;
@@ -32,14 +41,18 @@ interface MemberDialogProps {
   memberToEdit?: ScoutProfileDTO | null;
 }
 
-export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialogProps) => {
+export const MemberDialog = ({
+  isOpen,
+  onOpenChange,
+  memberToEdit,
+}: MemberDialogProps) => {
   const { t } = useTranslation();
   const { id: troopId } = useParams<{ id: string }>();
 
   const isEditMode = Boolean(memberToEdit);
 
-  const { mutateAsync: addMember } = useAddMember(troopId);
-  const { mutateAsync: updateMember } = useUpdateTroopMember(troopId);
+  const { mutateAsync: addMember } = useAddMember(troopId ?? "");
+  const { mutateAsync: updateMember } = useUpdateTroopMember(troopId ?? "");
 
   const memberSchema = createAddMemberSchema(t);
 
@@ -53,15 +66,15 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
   } = useForm<AddMemberFormValues>({
     resolver: zodResolver(memberSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      birthDate: '',
-      gender: 'MALE',
-      function: 'NONE',
-      rank: 'NONE',
-      degree: 'NONE',
+      firstName: "",
+      lastName: "",
+      email: "",
+      phoneNumber: "",
+      birthDate: "",
+      gender: "MALE",
+      function: "NONE",
+      rank: "NONE",
+      degree: "NONE",
     },
   });
 
@@ -69,27 +82,29 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
     if (isOpen) {
       if (memberToEdit) {
         reset({
-          firstName: memberToEdit.firstName || '',
-          lastName: memberToEdit.lastName || '',
-          email: memberToEdit.email || '',
-          phoneNumber: memberToEdit.phoneNumber || '',
-          birthDate: memberToEdit.birthDate ? memberToEdit.birthDate.split('T')[0] : '',
-          gender: memberToEdit.gender || 'MALE',
-          function: memberToEdit.function || 'NONE',
-          rank: memberToEdit.rank || 'NONE',
-          degree: memberToEdit.degree || 'NONE',
+          firstName: memberToEdit.firstName || "",
+          lastName: memberToEdit.lastName || "",
+          email: memberToEdit.email || "",
+          phoneNumber: memberToEdit.phoneNumber || "",
+          birthDate: memberToEdit.birthDate
+            ? memberToEdit.birthDate.split("T")[0]
+            : "",
+          gender: memberToEdit.gender || "MALE",
+          function: memberToEdit.function || "NONE",
+          rank: memberToEdit.rank || "NONE",
+          degree: memberToEdit.degree || "NONE",
         });
       } else {
         reset({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phoneNumber: '',
-          birthDate: '',
-          gender: 'MALE',
-          function: 'NONE',
-          rank: 'NONE',
-          degree: 'NONE',
+          firstName: "",
+          lastName: "",
+          email: "",
+          phoneNumber: "",
+          birthDate: "",
+          gender: "MALE",
+          function: "NONE",
+          rank: "NONE",
+          degree: "NONE",
         });
       }
     }
@@ -100,7 +115,7 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
   const selectedRank = watch("rank");
   const selectedDegree = watch("degree");
 
-  const onSubmit = async (values: Omit<ScoutProfileDTO, "id">) => {
+  const onSubmit = async (values: Omit<ScoutProfileDTO, "id" | "userId">) => {
     if (isEditMode && memberToEdit) {
       await updateMember({
         id: memberToEdit.id,
@@ -115,18 +130,18 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-125">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <DialogHeader>
             <DialogTitle>
               {isEditMode
-                ? t('troopDetails.editModal.title')
-                : t('troopDetails.addModal.title')}
+                ? t("troopDetails.editModal.title")
+                : t("troopDetails.addModal.title")}
             </DialogTitle>
             <DialogDescription>
               {isEditMode
-                ? t('troopDetails.editModal.description')
-                : t('troopDetails.addModal.description')}
+                ? t("troopDetails.editModal.description")
+                : t("troopDetails.addModal.description")}
             </DialogDescription>
           </DialogHeader>
 
@@ -134,17 +149,25 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
             {/* Imię i Nazwisko */}
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="firstName">{t('troopDetails.addModal.firstName')}</Label>
-                <Input id="firstName" {...register('firstName')} />
+                <Label htmlFor="firstName">
+                  {t("troopDetails.addModal.firstName")}
+                </Label>
+                <Input id="firstName" {...register("firstName")} />
                 {errors.firstName && (
-                  <p className="text-xs text-destructive">{errors.firstName.message}</p>
+                  <p className="text-xs text-destructive">
+                    {errors.firstName.message}
+                  </p>
                 )}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="lastName">{t('troopDetails.addModal.lastName')}</Label>
-                <Input id="lastName" {...register('lastName')} />
+                <Label htmlFor="lastName">
+                  {t("troopDetails.addModal.lastName")}
+                </Label>
+                <Input id="lastName" {...register("lastName")} />
                 {errors.lastName && (
-                  <p className="text-xs text-destructive">{errors.lastName.message}</p>
+                  <p className="text-xs text-destructive">
+                    {errors.lastName.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -152,17 +175,25 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
             {/* Email i Telefon */}
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">{t('troopDetails.addModal.email')}</Label>
-                <Input id="email" type="email" {...register('email')} />
+                <Label htmlFor="email">
+                  {t("troopDetails.addModal.email")}
+                </Label>
+                <Input id="email" type="email" {...register("email")} />
                 {errors.email && (
-                  <p className="text-xs text-destructive">{errors.email.message}</p>
+                  <p className="text-xs text-destructive">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="phoneNumber">{t('troopDetails.addModal.phoneNumber')}</Label>
-                <Input id="phoneNumber" {...register('phoneNumber')} />
+                <Label htmlFor="phoneNumber">
+                  {t("troopDetails.addModal.phoneNumber")}
+                </Label>
+                <Input id="phoneNumber" {...register("phoneNumber")} />
                 {errors.phoneNumber && (
-                  <p className="text-xs text-destructive">{errors.phoneNumber.message}</p>
+                  <p className="text-xs text-destructive">
+                    {errors.phoneNumber.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -170,17 +201,27 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
             {/* Data Urodzenia i Płeć */}
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="birthDate">{t('troopDetails.addModal.birthDate')}</Label>
-                <Input id="birthDate" type="date" {...register('birthDate')} />
+                <Label htmlFor="birthDate">
+                  {t("troopDetails.addModal.birthDate")}
+                </Label>
+                <Input id="birthDate" type="date" {...register("birthDate")} />
                 {errors.birthDate && (
-                  <p className="text-xs text-destructive">{errors.birthDate.message}</p>
+                  <p className="text-xs text-destructive">
+                    {errors.birthDate.message}
+                  </p>
                 )}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="gender">{t('troopDetails.addModal.gender')}</Label>
+                <Label htmlFor="gender">
+                  {t("troopDetails.addModal.gender")}
+                </Label>
                 <Select
                   value={selectedGender}
-                  onValueChange={(val) => setValue("gender", val as "MALE" | "FEMALE", { shouldValidate: true })}
+                  onValueChange={(val) =>
+                    setValue("gender", val as "MALE" | "FEMALE", {
+                      shouldValidate: true,
+                    })
+                  }
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue>
@@ -188,12 +229,18 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="MALE">{t('enums.gender.MALE')}</SelectItem>
-                    <SelectItem value="FEMALE">{t('enums.gender.FEMALE')}</SelectItem>
+                    <SelectItem value="MALE">
+                      {t("enums.gender.MALE")}
+                    </SelectItem>
+                    <SelectItem value="FEMALE">
+                      {t("enums.gender.FEMALE")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.gender && (
-                  <p className="text-xs text-destructive">{errors.gender.message}</p>
+                  <p className="text-xs text-destructive">
+                    {errors.gender.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -202,73 +249,114 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
             <div className="grid grid-cols-3 gap-2 w-full">
               {/* FUNKCJA */}
               <div className="grid gap-2 min-w-0">
-                <Label htmlFor="function">{t('troopDetails.addModal.function')}</Label>
+                <Label htmlFor="function">
+                  {t("troopDetails.addModal.function")}
+                </Label>
                 <Select
                   value={selectedFunction}
-                  onValueChange={(val) => setValue("function", val as ScoutFunction, { shouldValidate: true })}
+                  onValueChange={(val) =>
+                    setValue("function", val as ScoutFunction, {
+                      shouldValidate: true,
+                    })
+                  }
                 >
                   <SelectTrigger id="function" className="w-full">
-                    <SelectValue placeholder={t('troopDetails.addModal.functionPlaceholder')}>
+                    <SelectValue
+                      placeholder={t(
+                        "troopDetails.addModal.functionPlaceholder",
+                      )}
+                    >
                       <span className="truncate block">
-                        {t(`enums.function.${selectedFunction}`, selectedFunction)}
+                        {t(
+                          `enums.function.${selectedFunction}`,
+                          selectedFunction,
+                        )}
                       </span>
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="NONE">{t('enums.function.NONE')}</SelectItem>
-                    <SelectItem value="DRUZYNOWY">{t('enums.function.DRUZYNOWY')}</SelectItem>
-                    <SelectItem value="PRZYBOCZNY">{t('enums.function.PRZYBOCZNY')}</SelectItem>
-                    <SelectItem value="ZASTEPOWY">{t('enums.function.ZASTEPOWY')}</SelectItem>
-                    <SelectItem value="PODZASTEPOWY">{t('enums.function.PODZASTEPOWY')}</SelectItem>
+                    <SelectItem value="NONE">
+                      {t("enums.function.NONE")}
+                    </SelectItem>
+                    <SelectItem value="DRUZYNOWY">
+                      {t("enums.function.DRUZYNOWY")}
+                    </SelectItem>
+                    <SelectItem value="PRZYBOCZNY">
+                      {t("enums.function.PRZYBOCZNY")}
+                    </SelectItem>
+                    <SelectItem value="ZASTEPOWY">
+                      {t("enums.function.ZASTEPOWY")}
+                    </SelectItem>
+                    <SelectItem value="PODZASTEPOWY">
+                      {t("enums.function.PODZASTEPOWY")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* RANK */}
               <div className="grid gap-2 min-w-0">
-                <Label htmlFor="rank">{t('troopDetails.addModal.rank')}</Label>
+                <Label htmlFor="rank">{t("troopDetails.addModal.rank")}</Label>
                 <Select
                   value={selectedRank}
-                  onValueChange={(val) => setValue("rank", val as Rank, { shouldValidate: true })}
+                  onValueChange={(val) =>
+                    setValue("rank", val as Rank, { shouldValidate: true })
+                  }
                 >
                   <SelectTrigger id="rank" className="w-full">
-                    <SelectValue placeholder={t('troopDetails.addModal.rankPlaceholder')}>
+                    <SelectValue
+                      placeholder={t("troopDetails.addModal.rankPlaceholder")}
+                    >
                       <span className="truncate block">
                         {t(`enums.rank.${selectedRank}`, selectedRank)}
                       </span>
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="NONE">{t('enums.rank.NONE')}</SelectItem>
-                    <SelectItem value="PRZEWODNIK">{t('enums.rank.PRZEWODNIK')}</SelectItem>
-                    <SelectItem value="PODHARCMISTRZ">{t('enums.rank.PODHARCMISTRZ')}</SelectItem>
-                    <SelectItem value="HARCMISTRZ">{t('enums.rank.HARCMISTRZ')}</SelectItem>
+                    <SelectItem value="NONE">{t("enums.rank.NONE")}</SelectItem>
+                    <SelectItem value="PRZEWODNIK">
+                      {t("enums.rank.PRZEWODNIK")}
+                    </SelectItem>
+                    <SelectItem value="PODHARCMISTRZ">
+                      {t("enums.rank.PODHARCMISTRZ")}
+                    </SelectItem>
+                    <SelectItem value="HARCMISTRZ">
+                      {t("enums.rank.HARCMISTRZ")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* DEGREE */}
               <div className="grid gap-2 min-w-0">
-                <Label htmlFor="degree">{t('troopDetails.addModal.degree')}</Label>
+                <Label htmlFor="degree">
+                  {t("troopDetails.addModal.degree")}
+                </Label>
                 <Select
                   value={selectedDegree}
-                  onValueChange={(val) => setValue("degree", val as Degree, { shouldValidate: true })}
+                  onValueChange={(val) =>
+                    setValue("degree", val as Degree, { shouldValidate: true })
+                  }
                 >
                   <SelectTrigger id="degree" className="w-full overflow-hidden">
-                    <SelectValue placeholder={t('troopDetails.addModal.degreePlaceholder')}>
+                    <SelectValue
+                      placeholder={t("troopDetails.addModal.degreePlaceholder")}
+                    >
                       <span className="truncate block">
                         {t(`enums.degree.${selectedDegree}`, selectedDegree)}
                       </span>
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="NONE">{t('enums.degree.NONE')}</SelectItem>
-                    <SelectItem value="DH">{t('enums.degree.DH')}</SelectItem>
-                    <SelectItem value="ML">{t('enums.degree.ML')}</SelectItem>
-                    <SelectItem value="WYW">{t('enums.degree.WYW')}</SelectItem>
-                    <SelectItem value="CW">{t('enums.degree.CW')}</SelectItem>
-                    <SelectItem value="HO">{t('enums.degree.HO')}</SelectItem>
-                    <SelectItem value="HR">{t('enums.degree.HR')}</SelectItem>
+                    <SelectItem value="NONE">
+                      {t("enums.degree.NONE")}
+                    </SelectItem>
+                    <SelectItem value="DH">{t("enums.degree.DH")}</SelectItem>
+                    <SelectItem value="ML">{t("enums.degree.ML")}</SelectItem>
+                    <SelectItem value="WYW">{t("enums.degree.WYW")}</SelectItem>
+                    <SelectItem value="CW">{t("enums.degree.CW")}</SelectItem>
+                    <SelectItem value="HO">{t("enums.degree.HO")}</SelectItem>
+                    <SelectItem value="HR">{t("enums.degree.HR")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -276,13 +364,17 @@ export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialo
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              {t('troopDetails.addModal.cancel')}
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
+              {t("troopDetails.addModal.cancel")}
             </Button>
             <Button type="submit">
               {isEditMode
-                ? t('troopDetails.editModal.save')
-                : t('troopDetails.addModal.save')}
+                ? t("troopDetails.editModal.save")
+                : t("troopDetails.addModal.save")}
             </Button>
           </DialogFooter>
         </form>

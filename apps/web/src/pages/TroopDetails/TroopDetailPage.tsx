@@ -35,11 +35,11 @@ export const TroopDetailsPage: React.FC = () => {
 
   const { data: troop, isLoading } = useTroopDetails(supabase, id);
 
-  const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
-  const [isEditTroopModalOpen, setIsEditTroopModalOpen] = useState(false);
-
   const { members, totalCount, search, setSearch, sortBy, setSortBy } =
     useTroopMembers(id);
+
+  const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
+  const [isEditTroopModalOpen, setIsEditTroopModalOpen] = useState(false);
 
   if (isLoading || !troop) {
     return (

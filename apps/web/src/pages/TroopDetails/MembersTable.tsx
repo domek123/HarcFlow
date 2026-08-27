@@ -1,15 +1,22 @@
 import React, { useState } from "react";
 
 import { Calendar, Mail, Phone, Trash2, Pencil } from "lucide-react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { MemberDialog } from "@/pages/TroopDetails/AddMemberModal.tsx";
 import { useDeleteTroopMember } from "@harcapp/api";
-import { type ScoutProfileDTO } from '@harcapp/types';
+import { type ScoutProfileDTO } from "@harcapp/types";
 
 interface MembersTableProps {
   members: ScoutProfileDTO[];
@@ -18,22 +25,29 @@ interface MembersTableProps {
 export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
-  const {mutateAsync: deleteMember} = useDeleteTroopMember(id);
-  const [memberToEdit, setMemberToEdit] = useState<ScoutProfileDTO | null>(null);
+
+  const { mutateAsync: deleteMember } = useDeleteTroopMember(id ?? "");
+
+  const [memberToEdit, setMemberToEdit] = useState<ScoutProfileDTO | null>(
+    null,
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>{t('troopDetails.table.name')}</TableHead>
-            <TableHead>{t('troopDetails.table.gender')}</TableHead>
-            <TableHead>{t('troopDetails.table.birthDate')}</TableHead>
-            <TableHead>{t('troopDetails.table.contact')}</TableHead>
-            <TableHead>{t('troopDetails.table.function')}</TableHead>
-            <TableHead>{t('troopDetails.table.rank')}</TableHead>
-            <TableHead>{t('troopDetails.table.degree')}</TableHead>
-            <TableHead className="text-right">{t('troopDetails.table.actions')}</TableHead>
+            <TableHead>{t("troopDetails.table.name")}</TableHead>
+            <TableHead>{t("troopDetails.table.gender")}</TableHead>
+            <TableHead>{t("troopDetails.table.birthDate")}</TableHead>
+            <TableHead>{t("troopDetails.table.contact")}</TableHead>
+            <TableHead>{t("troopDetails.table.function")}</TableHead>
+            <TableHead>{t("troopDetails.table.rank")}</TableHead>
+            <TableHead>{t("troopDetails.table.degree")}</TableHead>
+            <TableHead className="text-right">
+              {t("troopDetails.table.actions")}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -52,7 +66,7 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                     {member.birthDate}
                   </div>
                 ) : (
-                  '-'
+                  "-"
                 )}
               </TableCell>
               <TableCell>
@@ -80,7 +94,8 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                 {t(`enums.rank.${member.rank}`, member.rank)}
               </TableCell>
               <TableCell>
-                {t(`enums.degree.${member.degree}`, member.degree)}</TableCell>
+                {t(`enums.degree.${member.degree}`, member.degree)}
+              </TableCell>
               <TableCell className="text-right">
                 <Button
                   variant="ghost"
@@ -106,14 +121,21 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
           ))}
           {members.length === 0 && (
             <TableRow>
-              <TableCell colSpan={8} className="text-center py-6 text-muted-foreground">
-                {t('troopDetails.table.empty')}
+              <TableCell
+                colSpan={8}
+                className="text-center py-6 text-muted-foreground"
+              >
+                {t("troopDetails.table.empty")}
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
-      <MemberDialog isOpen={isModalOpen} onOpenChange={setIsModalOpen} memberToEdit={memberToEdit} />
+      <MemberDialog
+        isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        memberToEdit={memberToEdit}
+      />
     </div>
   );
 };

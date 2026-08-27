@@ -51,11 +51,6 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
     },
   });
 
-  const onSubmit = async (data: UpdateTroopFormValues) => {
-    await updateTroop({ id: troop.id, dto: data });
-    onOpenChange(false);
-  };
-
   useEffect(() => {
     if (isOpen) {
       reset({
@@ -66,6 +61,11 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
     }
   }, [isOpen, reset, troop]);
 
+  const onSubmit = async (data: UpdateTroopFormValues) => {
+    await updateTroop({ id: troop.id, dto: data });
+    onOpenChange(false);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-106.25">
@@ -75,17 +75,14 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
               {t("troopDetails.editTroopModal.title", "Edytuj dane drużyny")}
             </DialogTitle>
             <DialogDescription>
-              {t(
-                "troopDetails.editTroopModal.description",
-                "Zmień nazwę, opis lub rok założenia drużyny.",
-              )}
+              {t("troopDetails.editTroopModal.description")}
             </DialogDescription>
           </DialogHeader>
 
           <div className="grid gap-4 py-2">
             <div className="grid gap-2">
               <Label htmlFor="troopName">
-                {t("troopDetails.editTroopModal.name", "Nazwa drużyny")}
+                {t("troopDetails.editTroopModal.name")}
               </Label>
               <Input
                 id="troopName"
@@ -101,7 +98,7 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
 
             <div className="grid gap-2">
               <Label htmlFor="troopDescription">
-                {t("troopDetails.editTroopModal.descriptionLabel", "Opis")}
+                {t("troopDetails.editTroopModal.descriptionLabel")}
               </Label>
               <Input
                 id="troopDescription"
@@ -117,7 +114,7 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
 
             <div className="grid gap-2">
               <Label htmlFor="troopCreationYear">
-                {t("troopDetails.editTroopModal.creationYear", "Rok założenia")}
+                {t("troopDetails.editTroopModal.creationYear")}
               </Label>
               <Input
                 id="troopCreationYear"
@@ -142,9 +139,7 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
               {t("troopDetails.addModal.cancel")}
             </Button>
             <Button type="submit" disabled={isPending}>
-              {isPending
-                ? t("saving", "Zapisywanie...")
-                : t("troopDetails.editModal.save", "Zapisz zmiany")}
+              {isPending ? t("saving") : t("troopDetails.editModal.save")}
             </Button>
           </DialogFooter>
         </form>
