@@ -67,4 +67,33 @@ export class TroopMemberService {
       deletedId: profileId,
     };
   }
+
+  async updateMember(profileId: string, dto: Partial<CreateMemberDto>) {
+    const profile = await this.prisma.scoutProfile.findUnique({
+      where: { id: profileId },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Nie znaleziono profilu harcerskiego');
+    }
+
+    return this.prisma.scoutProfile.update({
+      where: { id: profileId },
+      data: {
+        rank: dto.rank,
+        degree: dto.degree,
+        function: dto.function,
+        user: {
+          update: {
+            firstName: dto.firstName,
+            lastName: dto.lastName,
+            email: dto.email || null,
+            phoneNumber: dto.phoneNumber || null,
+            birthDate: dto.birthDate ? new Date(dto.birthDate) : undefined,
+            gender: dto.gender,
+          },
+        },
+      },
+    });
+  }
 }

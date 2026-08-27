@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Delete,
   Param,
+  Patch,
 } from '@nestjs/common';
 
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -25,5 +26,13 @@ export class TroopMemberController {
   @HttpCode(HttpStatus.OK)
   async deleteMember(@Param('id') id: string) {
     return this.troopMemberService.deleteMember(id);
+  }
+
+  @Patch(':id')
+  async updateMember(
+    @Param('id') id: string,
+    @Body() dto: Partial<CreateMemberDto>,
+  ) {
+    return this.troopMemberService.updateMember(id, dto);
   }
 }
