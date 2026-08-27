@@ -1,2 +1,3 @@
-export * from "./useLogin"
-export * from "./useTroopMembers"
+export * from "./useLogin";
+export * from "./useLogout";
+export * from "./useTroopMembers";

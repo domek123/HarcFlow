@@ -1,5 +1,8 @@
+import { LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+import { Button } from "@/components/ui/button.tsx";
+import { useLogout } from "@/hooks";
 import { supabase } from "@/lib/supabase.ts";
 import { AddTroopModal } from "@/pages/DashboardPage/AddTroopModal.tsx";
 import { TroopCard } from "@/pages/DashboardPage/TroopCard.tsx";
@@ -10,6 +13,8 @@ export const DashboardPage = () => {
   const { t } = useTranslation();
 
   const { data: troops, isLoading, isError, error } = useTroops(supabase);
+
+  const { handleLogout, isLoggingOut, logoutError } = useLogout();
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6">
@@ -25,8 +30,25 @@ export const DashboardPage = () => {
             </p>
           </div>
 
-          <AddTroopModal />
+          <div className="flex items-center gap-3">
+            <AddTroopModal />
+            <Button
+              variant="outline"
+              className="inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium shadow"
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            >
+              <LogOut aria-hidden="true" />
+              {isLoggingOut ? t("dashboard.loggingOut") : t("dashboard.logout")}
+            </Button>
+          </div>
         </div>
+
+        {logoutError && (
+          <p className="text-sm text-destructive">
+            {t("dashboard.logoutError", { message: logoutError })}
+          </p>
+        )}
 
         {/* Sekcja stanu ładowania i błędów pobierania */}
         {isLoading && (

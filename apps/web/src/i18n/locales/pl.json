@@ -19,6 +19,9 @@
   "dashboard": {
     "title": "Dashboard",
     "addButton": "Dodaj nową drużynę",
+    "logout": "Wyloguj się",
+    "loggingOut": "Wylogowywanie...",
+    "logoutError": "Nie udało się wylogować: {{message}}",
     "description": "Zarządzaj drużynami i członkami.",
     "addTroop": {
       "title": "Dodaj nową drużynę",
