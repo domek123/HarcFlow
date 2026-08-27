@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from "react";
 
-import { Calendar, Mail, Phone, Trash2 } from 'lucide-react';
+import { Calendar, Mail, Phone, Trash2, Pencil } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import { useParams } from "react-router-dom";
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { MemberDialog } from "@/pages/TroopDetails/AddMemberModal.tsx";
 import { useDeleteTroopMember } from "@harcapp/api";
 import { type ScoutProfileDTO } from '@harcapp/types';
 
@@ -18,7 +19,8 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const {mutateAsync: deleteMember} = useDeleteTroopMember(id);
-
+  const [memberToEdit, setMemberToEdit] = useState<ScoutProfileDTO | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="rounded-md border">
       <Table>
@@ -83,6 +85,17 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                 <Button
                   variant="ghost"
                   size="icon"
+                  className="text-muted-foreground hover:text-foreground hover:bg-muted"
+                  onClick={() => {
+                    setMemberToEdit(member);
+                    setIsModalOpen(true);
+                  }}
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
                   className="text-destructive hover:text-destructive hover:bg-destructive/10"
                   onClick={() => deleteMember(member.id)}
                 >
@@ -100,6 +113,7 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
           )}
         </TableBody>
       </Table>
+      <MemberDialog isOpen={isModalOpen} onOpenChange={setIsModalOpen} memberToEdit={memberToEdit} />
     </div>
   );
 };

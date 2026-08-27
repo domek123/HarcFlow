@@ -96,6 +96,11 @@
         "phoneInvalid": "Nieprawidłowy numer telefonu.",
         "birthDateRequired": "Data urodzenia jest wymagana."
       }
+    },
+    "editModal": {
+      "title": "Edytuj członka drużyny",
+      "description": "Zaktualizuj dane wybranego członka drużyny.",
+      "save": "Zapisz zmiany"
     }
   },
   "enums": {

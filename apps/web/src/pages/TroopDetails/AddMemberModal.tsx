@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UserPlus } from 'lucide-react';
 import { useForm } from "react-hook-form";
 import { useTranslation } from 'react-i18next';
 import { useParams } from "react-router-dom";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -14,12 +13,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useAddMember } from "@harcapp/api";
+import { useAddMember, useUpdateTroopMember } from "@harcapp/api";
 import type {
   Degree,
   Rank,
@@ -28,17 +26,31 @@ import type {
 } from "@harcapp/types";
 import { createAddMemberSchema, type AddMemberFormValues } from "@harcapp/validators";
 
+interface MemberDialogProps {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+  memberToEdit?: ScoutProfileDTO | null;
+}
 
-export const AddMemberDialog = () => {
+export const MemberDialog = ({ isOpen, onOpenChange, memberToEdit }: MemberDialogProps) => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
+  const { id: troopId } = useParams<{ id: string }>();
 
-  const { id } = useParams<{ id: string }>();
-  const {mutateAsync: addMember} = useAddMember(id);
+  const isEditMode = Boolean(memberToEdit);
+
+  const { mutateAsync: addMember } = useAddMember(troopId);
+  const { mutateAsync: updateMember } = useUpdateTroopMember(troopId);
 
   const memberSchema = createAddMemberSchema(t);
 
-  const {register, watch, formState:{errors}, setValue, reset, handleSubmit} = useForm<AddMemberFormValues>({
+  const {
+    register,
+    watch,
+    formState: { errors },
+    setValue,
+    reset,
+    handleSubmit,
+  } = useForm<AddMemberFormValues>({
     resolver: zodResolver(memberSchema),
     defaultValues: {
       firstName: '',
@@ -53,32 +65,68 @@ export const AddMemberDialog = () => {
     },
   });
 
+  useEffect(() => {
+    if (isOpen) {
+      if (memberToEdit) {
+        reset({
+          firstName: memberToEdit.firstName || '',
+          lastName: memberToEdit.lastName || '',
+          email: memberToEdit.email || '',
+          phoneNumber: memberToEdit.phoneNumber || '',
+          birthDate: memberToEdit.birthDate ? memberToEdit.birthDate.split('T')[0] : '',
+          gender: memberToEdit.gender || 'MALE',
+          function: memberToEdit.function || 'NONE',
+          rank: memberToEdit.rank || 'NONE',
+          degree: memberToEdit.degree || 'NONE',
+        });
+      } else {
+        reset({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phoneNumber: '',
+          birthDate: '',
+          gender: 'MALE',
+          function: 'NONE',
+          rank: 'NONE',
+          degree: 'NONE',
+        });
+      }
+    }
+  }, [isOpen, memberToEdit, reset]);
+
   const selectedGender = watch("gender");
   const selectedFunction = watch("function");
   const selectedRank = watch("rank");
   const selectedDegree = watch("degree");
 
   const onSubmit = async (values: Omit<ScoutProfileDTO, "id">) => {
-    await addMember(values);
+    if (isEditMode && memberToEdit) {
+      await updateMember({
+        id: memberToEdit.id,
+        ...values,
+      });
+    } else {
+      await addMember(values);
+    }
     reset();
-    setIsOpen(false);
+    onOpenChange(false);
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => {
-      setIsOpen(open);
-      if (!open) reset();
-    }}>
-      <DialogTrigger className={buttonVariants()}>
-        <UserPlus className="mr-2 h-4 w-4" />
-        {t('troopDetails.addModal.trigger')}
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <DialogHeader>
-            <DialogTitle>{t('troopDetails.addModal.title')}</DialogTitle>
+            <DialogTitle>
+              {isEditMode
+                ? t('troopDetails.editModal.title')
+                : t('troopDetails.addModal.title')}
+            </DialogTitle>
             <DialogDescription>
-              {t('troopDetails.addModal.description')}
+              {isEditMode
+                ? t('troopDetails.editModal.description')
+                : t('troopDetails.addModal.description')}
             </DialogDescription>
           </DialogHeader>
 
@@ -228,10 +276,14 @@ export const AddMemberDialog = () => {
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               {t('troopDetails.addModal.cancel')}
             </Button>
-            <Button type="submit">{t('troopDetails.addModal.save')}</Button>
+            <Button type="submit">
+              {isEditMode
+                ? t('troopDetails.editModal.save')
+                : t('troopDetails.addModal.save')}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

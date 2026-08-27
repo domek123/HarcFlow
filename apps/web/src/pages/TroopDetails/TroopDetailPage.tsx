@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react";
 
 import { ArrowLeft, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTroopMembers, type SortByOptions } from '@/hooks/useTroopMembers';
 import { supabase } from "@/lib/supabase.ts";
-import { AddMemberDialog } from "@/pages/TroopDetails/AddMemberModal.tsx";
+import { MemberDialog } from "@/pages/TroopDetails/AddMemberModal.tsx";
 import { MembersTable } from "@/pages/TroopDetails/MembersTable.tsx";
 import { useTroopDetails } from "@harcapp/api";
 
@@ -21,6 +21,8 @@ export const TroopDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const {data:troop, isLoading} = useTroopDetails(supabase, id);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     members,
@@ -71,8 +73,8 @@ export const TroopDetailsPage: React.FC = () => {
                 {t('troopDetails.totalCount', { count: totalCount })}
               </CardDescription>
             </div>
-
-            <AddMemberDialog/>
+            <Button onClick={() => setIsModalOpen(true)}>{t("troopDetails.addModal.trigger")}</Button>
+            <MemberDialog isOpen={isModalOpen} onOpenChange={setIsModalOpen} memberToEdit={null}/>
           </div>
         </CardHeader>
 
