@@ -1,8 +1,8 @@
-import type { Rank, Degree, Function } from '@prisma/client';
+import type { Rank, Degree, Function } from "@prisma/client";
 
 export type { Rank, Degree, Function };
 
-export type BadgeStatus = 'PLANNED' | 'OPENED' | 'CLOSED';
+export type BadgeStatus = "PLANNED" | "OPENED" | "CLOSED";
 
 export interface ScoutProfileDTO {
   id: string;
@@ -12,7 +12,7 @@ export interface ScoutProfileDTO {
   email: string;
   phoneNumber?: string;
   birthDate: string;
-  gender: 'MALE' | 'FEMALE',
+  gender: "MALE" | "FEMALE";
   rank: Rank;
   degree: Degree;
   function: Function;
@@ -23,7 +23,6 @@ export interface TroopDTO {
   name: string;
   description?: string;
   creationYear: number;
-  patrolCount: number;
   memberCount: number;
 }
 

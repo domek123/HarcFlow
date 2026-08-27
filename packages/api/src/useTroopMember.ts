@@ -23,7 +23,6 @@ export function useTroopMembersList(supabase: SupabaseClient, troopId: string) {
   return useQuery({
     queryKey: ['scout-troop-members', troopId],
     queryFn: async () => {
-      // 1. Wykonujemy zapytanie z opcjonalną relacją User (LEFT JOIN wyklucza odrzucenie profilu przez !inner)
       const { data, error } = await supabase
         .from('ScoutProfile')
         .select<string, RawScoutProfile>(`
@@ -32,7 +31,7 @@ export function useTroopMembersList(supabase: SupabaseClient, troopId: string) {
           rank,
           degree,
           function,
-          user:User (
+          user:User!inner (
             firstName,
             lastName,
             email,
@@ -123,6 +122,34 @@ export function useDeleteTroopMember(troopId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["scout-troop-members", troopId],
+      });
+    },
+  });
+}
+
+export function useUpdateTroopMember(troopId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (dto:ScoutProfileDTO) => {
+      const response = await fetch(`http://localhost:3000/troop-members/${dto.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dto),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Nie udało się zaktualizować profilu');
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['scout-troop-members', troopId],
       });
     },
   });
