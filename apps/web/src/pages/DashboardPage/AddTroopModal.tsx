@@ -3,6 +3,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -45,7 +46,12 @@ export const AddTroopModal = () => {
     mutate(data, {
       onSuccess: () => {
         setIsOpen(false);
+        toast.success(t("dashboard.addTroop.success"));
         reset();
+      },
+      onError: () => {
+        setIsOpen(false);
+        toast.error("dashboard.addTroop.error");
       },
     });
   };

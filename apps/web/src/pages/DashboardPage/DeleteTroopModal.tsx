@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -31,9 +32,14 @@ export const DeleteTroopModal = ({
   const handleDelete = async () => {
     if (!troop?.id) return;
 
-    await mutateAsync(troop.id, {
-      onSuccess: () => {
+    toast.promise(mutateAsync(troop.id), {
+      success: () => {
         setIsOpen(false);
+        return t("dashboard.deleteTroopSuccess");
+      },
+      error: () => {
+        setIsOpen(false);
+        return t("dashboard.deleteTroopError");
       },
     });
   };

@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -116,16 +117,26 @@ export const MemberDialog = ({
   const selectedDegree = watch("degree");
 
   const onSubmit = async (values: Omit<ScoutProfileDTO, "id" | "userId">) => {
-    if (isEditMode && memberToEdit) {
-      await updateMember({
-        id: memberToEdit.id,
-        ...values,
-      });
-    } else {
-      await addMember(values);
-    }
-    reset();
-    onOpenChange(false);
+    const savePromise =
+      isEditMode && memberToEdit
+        ? updateMember({ id: memberToEdit.id, ...values })
+        : addMember(values);
+
+    toast.promise(savePromise, {
+      loading: t("common.saving"),
+      success: () => {
+        reset();
+        onOpenChange(false);
+        return isEditMode
+          ? t("troopDetails.editModal.success")
+          : t("troopDetails.addModal.success");
+      },
+      error: () => {
+        return isEditMode
+          ? t("troopDetails.editModal.error")
+          : t("troopDetails.addModal.error");
+      },
+    });
   };
 
   return (

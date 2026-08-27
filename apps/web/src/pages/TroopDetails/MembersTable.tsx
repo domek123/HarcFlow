@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Calendar, Mail, Phone, Trash2, Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,11 +18,6 @@ import {
 import { MemberDialog } from "@/pages/TroopDetails/AddMemberModal.tsx";
 import { useDeleteTroopMember } from "@harcapp/api-client";
 import { type ScoutProfileDTO } from "@harcapp/types";
-
-interface MembersTableProps {
-  members: ScoutProfileDTO[];
-}
-
 import type { Function as ScoutFunction } from "@harcapp/types";
 
 const functionBadgeVariants: Record<ScoutFunction, string> = {
@@ -31,6 +27,10 @@ const functionBadgeVariants: Record<ScoutFunction, string> = {
   PODZASTEPOWY: "bg-slate-500 text-white hover:bg-slate-600",
   NONE: "bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-200",
 };
+
+interface MembersTableProps {
+  members: ScoutProfileDTO[];
+}
 
 export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
   const { t } = useTranslation();
@@ -42,6 +42,13 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
     null,
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDeleteMember = (id: string) => {
+    toast.promise(deleteMember(id), {
+      success: () => t("troopDetails.deleteMemberSuccess"),
+      error: () => t("troopDetails.deleteMemberError"),
+    });
+  };
 
   return (
     <div className="rounded-md border">
@@ -125,7 +132,7 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
                   variant="ghost"
                   size="icon"
                   className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                  onClick={() => deleteMember(member.id)}
+                  onClick={() => handleDeleteMember(member.id)}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

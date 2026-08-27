@@ -1,4 +1,8 @@
 {
+  "common": {
+    "saving": "Zapisywanie...",
+    "loading": "Ładowanie..."
+  },
   "login": {
     "title": "Zaloguj się",
     "description": "Wprowadź swoje dane logowania.",
@@ -73,7 +77,9 @@
         "label": "Opis",
         "placeholder": "wprowadź opis drużyny"
       },
-      "loading": "Dodawanie drużyny..."
+      "loading": "Dodawanie drużyny...",
+      "success": "Drużyna została dodana.",
+      "error": "Nie udało się dodać drużyny, spróbuj ponownie poźniej."
     },
     "noDescription": "Brak opisu",
     "members": "{{count}} członków",
@@ -84,7 +90,9 @@
     "deleteTroopTitle": "Czy na pewno chcesz usunąć?",
     "deleteTroopDescription": "Usunięcie drużyny {{name}} spowoduje usunięcie wszystkich powiązanych z nią elementów. Czy jesteś pewien, że chcesz kontynuować?",
     "delete": "Usuń",
-    "cancel": "Anuluj"
+    "cancel": "Anuluj",
+    "deleteTroopSuccess": "Drużyna została usunięta.",
+    "deleteTroopError": "Nie udało się usunąć drużyny, spróbuj ponownie później."
   },
   "troopDetails": {
     "backToList": "Powrót do listy drużyn",
@@ -137,19 +145,25 @@
         "emailInvalid": "Nieprawidłowy adres email.",
         "phoneInvalid": "Nieprawidłowy numer telefonu.",
         "birthDateRequired": "Data urodzenia jest wymagana."
-      }
+      },
+      "success": "Członek drużyny został dodany.",
+      "error": "Nie udało się dodać członka drużyny, spróbuj ponownie później."
     },
     "editModal": {
       "title": "Edytuj członka drużyny",
       "description": "Zaktualizuj dane wybranego członka drużyny.",
-      "save": "Zapisz zmiany"
+      "save": "Zapisz zmiany",
+      "success": "Dane członka drużyny zostały zaktualizowane.",
+      "error": "Nie udało się zaktualizować danych członka drużyny, spróbuj ponownie później."
     },
     "editTroopModal": {
       "title": "Edytuj dane drużyny",
       "description": "Zmień nazwę, opis lub rok założenia drużyny.",
       "name": "Nazwa drużyny",
       "descriptionLabel": "Opis",
-      "creationYear": "Rok założenia"
+      "creationYear": "Rok założenia",
+      "success": "Dane drużyny zostały zaktualizowane.",
+      "error": "Nie udało się zaktualizować danych drużyny, spróbuj ponownie później."
     },
     "validation": {
       "nameRequired": "Nazwa drużyny jest wymagana.",
@@ -160,7 +174,9 @@
       "yearInteger": "Rok musi być liczbą całkowitą.",
       "yearMin": "Rok założenia nie może być wcześniejszy niż 1900.",
       "yearMax": "Rok założenia nie może być w przyszłości."
-    }
+    },
+    "deleteMemberSuccess": "Członek drużyny został usunięty.",
+    "deleteMemberError": "Nie udało się usunąć członka drużyny, spróbuj ponownie później."
   },
   "enums": {
     "gender": {

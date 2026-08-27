@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -61,9 +62,15 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
     }
   }, [isOpen, reset, troop]);
 
-  const onSubmit = async (data: UpdateTroopFormValues) => {
-    await updateTroop({ id: troop.id, dto: data });
-    onOpenChange(false);
+  const onSubmit = (data: UpdateTroopFormValues) => {
+    toast.promise(updateTroop({ id: troop.id, dto: data }), {
+      loading: t("common.saving"),
+      success: () => {
+        onOpenChange(false);
+        return t("troopDetails.editTroopModal.success");
+      },
+      error: () => t("troopDetails.editTroopModal.error"),
+    });
   };
 
   return (
