@@ -3,9 +3,11 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateMemberDto } from './dto/create-member.dto';
+import { UpdateMemberDto } from './dto/update-member.dto';
 
 @Injectable()
 export class TroopMemberService {
@@ -13,7 +15,7 @@ export class TroopMemberService {
 
   async createMember(dto: CreateMemberDto) {
     try {
-      const newScoutProfile = await this.prisma.scoutProfile.create({
+      return await this.prisma.scoutProfile.create({
         data: {
           rank: dto.rank,
           degree: dto.degree,
@@ -32,19 +34,22 @@ export class TroopMemberService {
             },
           },
         },
-        select: {
-          id: true,
-          userId: true,
+        include: {
+          user: true,
         },
       });
-
-      return {
-        message: 'Członek został pomyślnie dodany',
-        memberId: newScoutProfile.id,
-      };
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new BadRequestException(
+            'Użytkownik o podanym adresie email już istnieje.',
+          );
+        }
+      }
       console.error('Prisma Error:', error);
-      throw new BadRequestException(`Błąd dodawania członka: ${error.message}`);
+      throw new BadRequestException(
+        'Wystąpił błąd podczas dodawania członka drużyny.',
+      );
     }
   }
 
@@ -55,7 +60,9 @@ export class TroopMemberService {
     });
 
     if (!profile) {
-      throw new NotFoundException('Nie znaleziono członka drużyny o podanym ID');
+      throw new NotFoundException(
+        'Nie znaleziono członka drużyny o podanym ID',
+      );
     }
 
     await this.prisma.user.delete({
@@ -63,12 +70,12 @@ export class TroopMemberService {
     });
 
     return {
-      message: 'Członek drużyny i jego konto zostały pomyślnie usunięte',
+      message: 'Członek drużyny został pomyślnie usunięty',
       deletedId: profileId,
     };
   }
 
-  async updateMember(profileId: string, dto: Partial<CreateMemberDto>) {
+  async updateMember(profileId: string, dto: UpdateMemberDto) {
     const profile = await this.prisma.scoutProfile.findUnique({
       where: { id: profileId },
     });
@@ -87,12 +94,18 @@ export class TroopMemberService {
           update: {
             firstName: dto.firstName,
             lastName: dto.lastName,
-            email: dto.email || null,
-            phoneNumber: dto.phoneNumber || null,
+            email: dto.email !== undefined ? dto.email || null : undefined,
+            phoneNumber:
+              dto.phoneNumber !== undefined
+                ? dto.phoneNumber || null
+                : undefined,
             birthDate: dto.birthDate ? new Date(dto.birthDate) : undefined,
             gender: dto.gender,
           },
         },
+      },
+      include: {
+        user: true,
       },
     });
   }
