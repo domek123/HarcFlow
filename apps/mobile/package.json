@@ -14,7 +14,7 @@
     "expo-router": "^57.0.17",
     "expo-status-bar": "~57.0.1",
     "i18next": "^26.4.0",
-    "react": "19.2.3",
+    "react": "^19.2.8",
     "react-hook-form": "^7.86.0",
     "react-i18next": "^17.0.12",
     "react-native": "0.86.3",
