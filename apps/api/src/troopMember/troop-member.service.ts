@@ -9,6 +9,8 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 
+import { TroopMemberSectionDTO } from '@harcapp/types';
+
 @Injectable()
 export class TroopMemberService {
   constructor(private readonly prisma: PrismaService) {}
@@ -108,5 +110,58 @@ export class TroopMemberService {
         user: true,
       },
     });
+  }
+
+  async getTroopMembersSection(
+    troopId: string,
+  ): Promise<TroopMemberSectionDTO[]> {
+    const members = await this.prisma.scoutProfile.findMany({
+      where: {
+        troopId: troopId,
+      },
+      select: {
+        id: true,
+        rank: true,
+        degree: true,
+        function: true,
+        patrolId: true,
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            birthDate: true,
+          },
+        },
+        patrol: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        _count: {
+          select: {
+            badges: {
+              where: {
+                status: 'COMPLETED',
+              },
+            },
+          },
+        },
+      },
+      orderBy: [{ function: 'asc' }, { degree: 'desc' }],
+    });
+
+    return members.map((member) => ({
+      id: member.id,
+      firstName: member.user.firstName,
+      lastName: member.user.lastName,
+      birthDate: member.user.birthDate,
+      rank: member.rank,
+      degree: member.degree,
+      function: member.function,
+      patrolId: member.patrolId,
+      patrolName: member.patrol?.name || null,
+      completedBadgesCount: member._count.badges,
+    }));
   }
 }

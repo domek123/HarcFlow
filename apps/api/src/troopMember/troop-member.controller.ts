@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   ParseUUIDPipe,
+  Get,
 } from '@nestjs/common';
 
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -35,5 +36,10 @@ export class TroopMemberController {
     @Body() dto: UpdateMemberDto,
   ) {
     return this.troopMemberService.updateMember(id, dto);
+  }
+
+  @Get('section/:troopId')
+  getTroopMembersSection(@Param('troopId', ParseUUIDPipe) troopId: string) {
+    return this.troopMemberService.getTroopMembersSection(troopId);
   }
 }
