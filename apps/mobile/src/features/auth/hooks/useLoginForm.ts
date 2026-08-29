@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { useAuthStore } from "../../../store/useAuthStore";
 import type { LoginFormValues } from "../types/auth.types";
+import { supabase } from "@/lib/supabase";
 
 export function useLoginForm() {
   const { t } = useTranslation();
@@ -31,13 +32,15 @@ export function useLoginForm() {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
-  const { login } = useAuthStore();
 
   const onSubmit = form.handleSubmit(async (values) => {
     setAuthError(null);
 
     try {
-      await login(values.email, values.password);
+      await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
     } catch (error) {
       const message =
         error instanceof Error

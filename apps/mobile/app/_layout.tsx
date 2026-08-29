@@ -1,20 +1,28 @@
 import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import "../src/i18n/config";
 import "../src/styles/unistyles";
 import { useAuthStore } from "../src/store/useAuthStore";
+import { AuthProvider } from "@/providers/AuthProvider";
 
-export default function RootLayout() {
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
+
+function RouteGuard() {
   const router = useRouter();
   const segments = useSegments();
-  const { isAuthenticated, isHydrated, initialize } = useAuthStore();
+  const { isAuthenticated, isInitialized } = useAuthStore();
 
   useEffect(() => {
-    initialize();
-  }, [initialize]);
-
-  useEffect(() => {
-    if (!isHydrated) {
+    if (!isInitialized) {
       return;
     }
 
@@ -28,7 +36,17 @@ export default function RootLayout() {
     if (isAuthenticated && inAuthGroup) {
       router.replace("/(main)");
     }
-  }, [isAuthenticated, isHydrated, router, segments]);
+  }, [isAuthenticated, isInitialized, router, segments]);
 
   return <Slot />;
+}
+
+export default function RootLayout() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouteGuard />
+      </AuthProvider>
+    </QueryClientProvider>
+  );
 }
