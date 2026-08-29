@@ -48,7 +48,7 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
     defaultValues: {
       name: "",
       description: "",
-      creationYear: 0,
+      creationYear: 2004,
     },
   });
 
@@ -57,12 +57,13 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
       reset({
         name: troop.name,
         description: troop.description ?? "",
-        creationYear: troop.creationYear,
+        creationYear: troop.creationYear ?? undefined,
       });
     }
   }, [isOpen, reset, troop]);
 
   const onSubmit = (data: UpdateTroopFormValues) => {
+    console.log(data);
     toast.promise(updateTroop({ id: troop.id, dto: data }), {
       loading: t("common.saving"),
       success: () => {
@@ -126,7 +127,7 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
               <Input
                 id="troopCreationYear"
                 type="number"
-                {...register("creationYear")}
+                {...(register("creationYear"), { valueAsNumber: true })}
                 aria-invalid={!!errors.creationYear}
               />
               {errors.creationYear && (

@@ -25,7 +25,7 @@ export const updateTroopSchema = z.object({
     .optional()
     .or(z.literal("")),
 
-  creationYear: z
+  creationYear: z.coerce
     .number({
       invalid_type_error: "troopDetails.validation.yearInvalid",
     })
@@ -34,7 +34,8 @@ export const updateTroopSchema = z.object({
     .max(new Date().getFullYear(), {
       message: "troopDetails.validation.yearMax",
     })
-    .optional(),
+    .optional()
+    .nullable(),
 });
 
 export type UpdateTroopFormValues = z.infer<typeof updateTroopSchema>;
