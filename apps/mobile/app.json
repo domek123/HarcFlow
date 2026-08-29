@@ -3,12 +3,14 @@
     "name": "mobile",
     "slug": "mobile",
     "version": "1.0.0",
+    "plugins": ["expo-router"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "expo": {
-      "entryPoint": "./apps/mobile/index.ts"
+    "experiments": {
+      "tsconfigPaths": true
     },
+    "entryPoint": "./apps/mobile/index.ts",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.mobile"

@@ -1,0 +1,77 @@
+{
+  "auth": {
+    "welcomeTitle": "Witaj ponownie!",
+    "welcomeSubtitle": "Zaloguj się, aby kontynuować",
+    "emailLabel": "Adres e-mail",
+    "emailPlaceholder": "jan@example.com",
+    "passwordLabel": "Hasło",
+    "passwordPlaceholder": "••••••••",
+    "showPassword": "Pokaż",
+    "hidePassword": "Ukryj",
+    "loginButton": "Zaloguj się",
+    "registerPrompt": "Nie masz konta?",
+    "registerAction": "Zarejestruj się",
+    "validation": {
+      "email": "Wprowadź poprawny adres e-mail.",
+      "password": "Hasło musi mieć co najmniej 6 znaków."
+    }
+  },
+  "dashboard": {
+    "navigation": {
+      "home": "Główna",
+      "team": "Drużyna",
+      "meetups": "Zbiórki",
+      "inventory": "Magazyn",
+      "profile": "Profil"
+    },
+    "home": {
+      "eyebrow": "Panel główny",
+      "title": "Szybki podgląd",
+      "upcomingEvents": "Nadchodzące wydarzenia",
+      "eventsCount": "{{count}} zaplanowane",
+      "nextMeetup": "Następna zbiórka: {{time}}",
+      "alerts": "Alerty",
+      "alertsCount": "{{count}} do sprawdzenia",
+      "alertsHint": "Zmiany w magazynie i harmonogramie",
+      "summary": "Podsumowanie",
+      "summaryText": "Tutaj pojawią się statystyki drużyny, aktywność oraz najważniejsze powiadomienia.",
+      "forToday": "Na dziś",
+      "todo1": "• Standaryzacja sprzętu",
+      "todo2": "• Kontrola listy obecności",
+      "todo3": "• Potwierdzenie planu zbiórki"
+    },
+    "team": {
+      "title": "Drużyna",
+      "subtitle": "Baza członków, zastępy, próby na stopnie"
+    },
+    "meetups": {
+      "title": "Zbiórki",
+      "subtitle": "Kalendarz, planowanie zbiórek i frekwencja"
+    },
+    "inventory": {
+      "title": "Magazyn",
+      "tabs": {
+        "skills": "Sprawności",
+        "equipment": "Sprzęt i Materiały"
+      },
+      "skillsTitle": "Sprawności",
+      "skillsDescription": "Lista sprawności, kryteriów, poziomów i statusów do weryfikacji.",
+      "skillsList": [
+        "Obcowanie z terenem",
+        "Praca zespołowa",
+        "Organizacja wypraw"
+      ],
+      "equipmentTitle": "Sprzęt i Materiały",
+      "equipmentDescription": "Stan magazynu, przypisanie elementów i potrzeby uzupełnień.",
+      "equipmentList": [
+        "Namioty i śpiwory",
+        "Odpowiednie materiały",
+        "Zapasy i narzędzia"
+      ]
+    },
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Ustawienia drużyny, uprawnienia, eksport danych"
+    }
+  }
+}
