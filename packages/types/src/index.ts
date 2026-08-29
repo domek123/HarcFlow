@@ -40,3 +40,19 @@ export interface CreateScoutInput {
   birthDate: string;
   troopId: string;
 }
+
+export interface RawScoutProfile {
+  id: string;
+  userId: string;
+  rank: Rank;
+  degree: Degree;
+  function: Function;
+  user?: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phoneNumber?: string;
+    birthDate?: string;
+    gender?: "MALE" | "FEMALE";
+  };
+}

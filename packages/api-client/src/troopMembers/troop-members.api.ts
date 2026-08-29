@@ -1,11 +1,13 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import type { ScoutProfileDTO, Rank, Degree, Function } from "@harcapp/types";
-
 import type {
+  ScoutProfileDTO,
+  Rank,
+  Degree,
+  Function,
   RawScoutProfile,
-  AddMemberPayload,
-  UpdateMemberPayload,
-} from "./types";
+} from "@harcapp/types";
+
+import type { AddMemberPayload, UpdateMemberPayload } from "./types";
 
 import { apiClient } from "../api";
 
