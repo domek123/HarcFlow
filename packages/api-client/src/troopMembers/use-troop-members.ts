@@ -5,12 +5,14 @@ import {
   addTroopMember,
   deleteTroopMember,
   updateTroopMember,
+  getTroopMembersSection,
 } from "./troop-members.api";
 import type { AddMemberPayload, UpdateMemberPayload } from "./types";
 
 export const troopMembersKeys = {
   all: ["scout-troop-members"] as const,
   list: (troopId?: string) => [...troopMembersKeys.all, troopId] as const,
+  section: ["scout-troop-members-section"] as const,
 };
 
 export function useTroopMembersList(
@@ -60,5 +62,13 @@ export function useUpdateTroopMember(troopId: string) {
         queryKey: troopMembersKeys.list(troopId),
       });
     },
+  });
+}
+
+export function useGetTroopMembersSection(troopId?: string) {
+  return useQuery({
+    queryKey: troopMembersKeys.section,
+    queryFn: () => getTroopMembersSection(troopId!),
+    enabled: !!troopId,
   });
 }

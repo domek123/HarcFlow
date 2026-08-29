@@ -33,12 +33,19 @@ export async function fetchTroopDetails(
 ): Promise<TroopDTO> {
   const { data, error } = await supabase
     .from("ScoutTroop")
-    .select("*")
+    .select("*, ScoutProfile(count)")
     .eq("id", troopId)
     .single();
 
   if (error) throw error;
-  return data as TroopDTO;
+
+  return {
+    id: data.id,
+    name: data.name,
+    description: data.description,
+    creationYear: data.creationYear,
+    memberCount: data.ScoutProfile[0]?.count || 0,
+  } as TroopDTO;
 }
 
 export async function createTroop(

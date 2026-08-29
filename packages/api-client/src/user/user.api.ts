@@ -31,6 +31,7 @@ export async function fetchCurrentScoutProfile(
       userId,
       rank,
       degree,
+      troopId,
       function,
       user:User!inner (
         firstName,
@@ -64,5 +65,6 @@ export async function fetchCurrentScoutProfile(
     rank: data.rank as Rank,
     degree: data.degree as Degree,
     function: data.function as Function,
+    troopId: data.troopId,
   } as ScoutProfileDTO;
 }

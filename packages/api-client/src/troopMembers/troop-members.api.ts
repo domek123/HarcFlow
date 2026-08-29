@@ -77,3 +77,9 @@ export function updateTroopMember(payload: UpdateMemberPayload) {
     body: JSON.stringify(payload),
   });
 }
+
+export function getTroopMembersSection(troopId: string) {
+  return apiClient<ScoutProfileDTO[]>(`/troop-members/section/${troopId}`, {
+    method: "GET",
+  });
+}
