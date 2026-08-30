@@ -1,5 +1,5 @@
-import React from "react";
 import { View, Text } from "react-native";
+
 import { BaseToast, ErrorToast, ToastConfig } from "react-native-toast-message";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 

@@ -1,7 +1,10 @@
-import { TroopMemberSectionDTO } from "@harcapp/types";
-import { useTranslation } from "react-i18next";
 import { Pressable, View, Text } from "react-native";
+
+import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
+
+import { TroopMemberSectionDTO } from "@harcapp/types";
+
 import { getAgeFromBirthDate } from "../utils/getAgeFromBirthDate";
 
 type MemberItemProps = {

@@ -1,14 +1,17 @@
+import { useState } from "react";
+import { View, Pressable, Text } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
 import { t } from "i18next";
-import { View, Pressable, Text } from "react-native";
-import { MemberItem } from "./MemberItem";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { PatrolGroup } from "../hooks/useTeamScreen";
-import { DeletePatrolModal } from "./DeletePatrolModal";
-import { useState } from "react";
-import { EditPatrolModal } from "./EditPatrolModal";
-import { formatPatrolSchedule } from "../utils/formatPatrolSchedule";
+
 import { PatrolDTO } from "@harcapp/types";
+
+import { PatrolGroup } from "../hooks/useTeamScreen";
+import { formatPatrolSchedule } from "../utils/formatPatrolSchedule";
+import { DeletePatrolModal } from "./DeletePatrolModal";
+import { EditPatrolModal } from "./EditPatrolModal";
+import { MemberItem } from "./MemberItem";
 
 export const PatrolSection = ({
   patrolGroups,

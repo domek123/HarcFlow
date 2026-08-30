@@ -7,17 +7,20 @@ import {
   TextInput,
   View,
 } from "react-native";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+import { Field, SelectField } from "@/components";
+import { supabase } from "@/lib/supabase";
+import { showToast } from "@/utils/toast";
 import {
-  addMemberDefaultValues,
-  AddMemberFormValues,
-  createAddMemberSchema,
-  defaultValues,
-} from "@harcapp/validators";
+  useAddMember,
+  useFetchCurrentScoutProfile,
+  useFetchPatrols,
+} from "@harcapp/api-client";
 import type {
   Degree,
   Function,
@@ -25,20 +28,18 @@ import type {
   Rank,
   ScoutProfileDTO,
 } from "@harcapp/types";
-import { Field, SelectField } from "@/components";
+import {
+  addMemberDefaultValues,
+  AddMemberFormValues,
+  createAddMemberSchema,
+} from "@harcapp/validators";
+
 import {
   genderOptions,
   functionOptions,
   rankOptions,
   degreeOptions,
 } from "../constants";
-import {
-  useAddMember,
-  useFetchCurrentScoutProfile,
-  useFetchPatrols,
-} from "@harcapp/api-client";
-import { supabase } from "@/lib/supabase";
-import { showToast } from "@/utils/toast";
 
 type AddMemberModalProps = {
   isOpen: boolean;

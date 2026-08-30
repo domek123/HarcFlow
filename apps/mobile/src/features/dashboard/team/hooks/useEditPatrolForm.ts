@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { Platform } from "react-native";
-import { useForm } from "react-hook-form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { useForm } from "react-hook-form";
+
+import type { PatrolDTO } from "@harcapp/types";
 import {
   UpdatePatrolFormValues,
   updatePatrolSchema,
 } from "@harcapp/validators";
-import type { PatrolDTO } from "@harcapp/types";
+
+import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 
 const parseTimeToDate = (value?: string) => {
   const [hours = 18, minutes = 0] = (value ?? "18:00")

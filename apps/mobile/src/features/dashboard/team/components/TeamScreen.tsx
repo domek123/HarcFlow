@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Pressable,
   RefreshControl,
@@ -6,15 +7,15 @@ import {
   TextInput,
   View,
 } from "react-native";
+
+import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { useTranslation } from "react-i18next";
 
-import { MemberItem } from "./MemberItem";
 import { useTeamScreen } from "../hooks/useTeamScreen";
-import { useState } from "react";
-import { AddPatrolModal } from "./AddPatrolModal";
 import { AddMemberModal } from "./AddMemberModal";
+import { AddPatrolModal } from "./AddPatrolModal";
+import { MemberItem } from "./MemberItem";
 import { PatrolSection } from "./PatrolSection";
 
 export function TeamScreen() {

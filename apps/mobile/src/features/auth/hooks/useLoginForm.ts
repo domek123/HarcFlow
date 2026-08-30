@@ -1,12 +1,13 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo, useState } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
-import { useAuthStore } from "../../../store/useAuthStore";
-import type { LoginFormValues } from "../types/auth.types";
 import { supabase } from "@/lib/supabase";
+
+import type { LoginFormValues } from "../types/auth.types";
 
 export function useLoginForm() {
   const { t } = useTranslation();

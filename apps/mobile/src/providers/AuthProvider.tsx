@@ -1,5 +1,7 @@
 import { useEffect } from "react";
+
 import { supabase } from "@lib/supabase";
+
 import { useAuthStore } from "@/store/useAuthStore";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

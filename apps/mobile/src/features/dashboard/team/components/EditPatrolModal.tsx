@@ -7,15 +7,17 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
-import { useTranslation } from "react-i18next";
-import { Controller } from "react-hook-form";
 
-import { useEditPatrol } from "../hooks/useEditPatrol";
-import type { PatrolGroup } from "../hooks/useTeamScreen";
-import { PATROL_DAY_OPTIONS } from "../constants";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
+
+import { PATROL_DAY_OPTIONS } from "../constants";
+import { useEditPatrol } from "../hooks/useEditPatrol";
 import { useEditPatrolForm } from "../hooks/useEditPatrolForm";
+
+import type { PatrolGroup } from "../hooks/useTeamScreen";
 
 type EditPatrolModalProps = {
   isEditPatrolModalOpen: boolean;

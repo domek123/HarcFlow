@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
+
 import { supabase } from "@/lib/supabase";
 import {
   useFetchCurrentScoutProfile,
@@ -6,6 +7,7 @@ import {
   useTroopDetailsWithPatrols,
 } from "@harcapp/api-client";
 import type { TroopMemberSectionDTO, Function } from "@harcapp/types";
+
 import { sortMembersByRank } from "../utils/sortMembersByRank";
 
 export interface PatrolGroup {

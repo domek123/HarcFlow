@@ -1,5 +1,6 @@
-import { useTranslation } from "react-i18next";
 import { View, Pressable, Text, ScrollView } from "react-native";
+
+import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 type SelectFieldProps = {

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { supabase } from "@/lib/supabase";
 import { showToast } from "@/utils/toast";
 import {
@@ -9,7 +11,6 @@ import {
   UpdatePatrolFormValues,
   updatePatrolSchema,
 } from "@harcapp/validators";
-import { useTranslation } from "react-i18next";
 
 export const useEditPatrol = () => {
   const { t } = useTranslation();

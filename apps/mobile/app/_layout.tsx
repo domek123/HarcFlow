@@ -1,14 +1,17 @@
-import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Slot, useRouter, useSegments } from "expo-router";
 
 import "../src/i18n/config";
 import "../src/styles/unistyles";
-import { useAuthStore } from "../src/store/useAuthStore";
+import Toast from "react-native-toast-message";
+
+import { toastConfig } from "@/lib/toastConfig";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { configureApiClient } from "@harcapp/api-client";
-import Toast from "react-native-toast-message";
-import { toastConfig } from "@/lib/toastConfig";
+
+import { useAuthStore } from "../src/store/useAuthStore";
 
 configureApiClient(process.env.EXPO_PUBLIC_API_URL!);
 

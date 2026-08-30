@@ -1,5 +1,6 @@
-import type { Session } from "@supabase/supabase-js";
 import { create } from "zustand";
+
+import type { Session } from "@supabase/supabase-js";
 
 type AuthState = {
   session: Session | null;

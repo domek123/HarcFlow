@@ -1,3 +1,8 @@
+import { Modal, View, Pressable, Text } from "react-native";
+
+import { useTranslation } from "react-i18next";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
+
 import { supabase } from "@/lib/supabase";
 import { showToast } from "@/utils/toast";
 import {
@@ -5,9 +10,6 @@ import {
   useFetchCurrentScoutProfile,
 } from "@harcapp/api-client";
 import { PatrolDTO } from "@harcapp/types";
-import { useTranslation } from "react-i18next";
-import { Modal, View, Pressable, Text } from "react-native";
-import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 type DeletePatrolModalProps = {
   isDeletePatrolModalOpen: boolean;

@@ -1,11 +1,13 @@
+import { useState } from "react";
+
+import { useTranslation } from "react-i18next";
+
 import { supabase } from "@/lib/supabase";
 import { showToast } from "@/utils/toast";
 import {
   useCreatePatrol,
   useFetchCurrentScoutProfile,
 } from "@harcapp/api-client";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 export const useAddPatrol = () => {
   const { t } = useTranslation();

@@ -7,16 +7,22 @@
     "@harcapp/api-client": "workspace:*",
     "@harcapp/types": "workspace:*",
     "@harcapp/validators": "workspace:*",
+    "@harcapp/eslint-config": "workspace:*",
     "@hookform/resolvers": "^5.9.1",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "^9.1.0",
     "@supabase/supabase-js": "^2.112.3",
+    "eslint": "^10.9.1",
+    "eslint-config-expo": "~57.0.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.2.2",
     "expo": "~57.0.18",
     "expo-constants": "^57.0.16",
     "expo-linking": "^57.0.8",
     "expo-router": "^57.0.17",
     "expo-status-bar": "~57.0.1",
     "i18next": "^26.4.0",
+    "prettier": "^3.9.6",
     "react": "^19.2.8",
     "react-hook-form": "^7.86.0",
     "react-i18next": "^17.0.12",
@@ -41,7 +47,9 @@
     "dev": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "private": true
 }
