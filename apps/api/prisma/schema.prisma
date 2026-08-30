@@ -93,9 +93,9 @@ model ScoutTroop {
 
 model ScoutPatrol {
   id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String
-  assemblyDay  Int
-  assemblyTime String
+  name         String         @unique
+  assemblyDay  Int?
+  assemblyTime String?
   troopId      String         @db.Uuid
 
   troop        ScoutTroop     @relation(fields: [troopId], references: [id])
