@@ -135,16 +135,6 @@ export class TroopMemberService {
         patrol: {
           select: {
             id: true,
-            name: true,
-          },
-        },
-        _count: {
-          select: {
-            badges: {
-              where: {
-                status: 'COMPLETED',
-              },
-            },
           },
         },
       },
@@ -160,8 +150,6 @@ export class TroopMemberService {
       degree: member.degree,
       function: member.function,
       patrolId: member.patrolId,
-      patrolName: member.patrol?.name || null,
-      completedBadgesCount: member._count.badges,
     }));
   }
 }

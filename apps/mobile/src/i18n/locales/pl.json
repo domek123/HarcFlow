@@ -1,4 +1,9 @@
 {
+  "common": {
+    "saving": "Zapisywanie...",
+    "loading": "Ładowanie...",
+    "deleting": "Usuwanie..."
+  },
   "auth": {
     "welcomeTitle": "Witaj ponownie!",
     "welcomeSubtitle": "Zaloguj się, aby kontynuować",
@@ -42,7 +47,34 @@
     },
     "team": {
       "title": "Drużyna",
-      "subtitle": "Baza członków, zastępy, próby na stopnie"
+      "subtitle": "Baza członków, zastępy, próby na stopnie",
+      "defaultName": "Drużyna harcerska",
+      "members": "Członkowie",
+      "addPerson": "Dodaj osobę",
+      "addPatrol": "Dodaj zastęp",
+      "searchPlaceholder": "Szukaj członka...",
+      "loadingMembers": "Ładowanie członków drużyny...",
+      "staff": "Kadra",
+      "noStaff": "Brak członków w kadrze.",
+      "patrols": "Zastępy",
+      "noPatrols": "Brak zastępów.",
+      "noPatrolMembers": "Brak członków w tym zastępie.",
+      "unassigned": "Brak przypisania",
+      "allAssigned": "Wszyscy członkowie są przypisani.",
+      "addPatrolTitle": "Dodaj zastęp",
+      "patrolNameLabel": "Nazwa zastępu",
+      "patrolExample": "np. Orlęta",
+      "cancel": "Anuluj",
+      "save": "Zapisz",
+      "deletePatrolTitle": "Usuń zastęp",
+      "deletePatrolMessage": "Czy na pewno chcesz usunąć zastęp {{patrolName}}?",
+      "deletePatrolConfirm": "Usuń",
+      "deletePatrolSuccess": "Zastęp został pomyślnie usunięty.",
+      "deletePatrolError": "Wystąpił błąd podczas usuwania zastępu. Spróbuj ponownie później.",
+      "addPatrolSuccess": "Zastęp został pomyślnie dodany.",
+      "addPatrolError": "Wystąpił błąd podczas dodawania zastępu. Spróbuj ponownie później.",
+      "updatePatrolSuccess": "Zastęp został pomyślnie zaktualizowany.",
+      "updatePatrolError": "Wystąpił błąd podczas aktualizacji zastępu. Spróbuj ponownie później."
     },
     "meetups": {
       "title": "Zbiórki",
@@ -72,6 +104,34 @@
     "profile": {
       "title": "Profil",
       "subtitle": "Ustawienia drużyny, uprawnienia, eksport danych"
+    }
+  },
+  "enums": {
+    "gender": {
+      "MALE": "Mężczyzna",
+      "FEMALE": "Kobieta"
+    },
+    "function": {
+      "NONE": "Szeregowy",
+      "DRUZYNOWY": "Drużynowy",
+      "PRZYBOCZNY": "Przyboczny",
+      "ZASTEPOWY": "Zastępowy",
+      "PODZASTEPOWY": "Podzastępowy"
+    },
+    "rank": {
+      "NONE": "Brak",
+      "PRZEWODNIK": "Przewodnik",
+      "PODHARCMISTRZ": "Podharcmistrz",
+      "HARCMISTRZ": "Harcmistrz"
+    },
+    "degree": {
+      "NONE": "Brak",
+      "HO": "Harcerz Orli",
+      "HR": "Harcerz Rzeczypospolitej",
+      "ML": "Młodzik",
+      "WYW": "Wywiadowca",
+      "CW": "Ćwik",
+      "DH": "Druh"
     }
   }
 }

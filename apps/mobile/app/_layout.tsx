@@ -6,6 +6,11 @@ import "../src/i18n/config";
 import "../src/styles/unistyles";
 import { useAuthStore } from "../src/store/useAuthStore";
 import { AuthProvider } from "@/providers/AuthProvider";
+import { configureApiClient } from "@harcapp/api-client";
+import Toast from "react-native-toast-message";
+import { toastConfig } from "@/lib/toastConfig";
+
+configureApiClient(process.env.EXPO_PUBLIC_API_URL!);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,6 +51,7 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <RouteGuard />
+        <Toast config={toastConfig} />
       </AuthProvider>
     </QueryClientProvider>
   );
