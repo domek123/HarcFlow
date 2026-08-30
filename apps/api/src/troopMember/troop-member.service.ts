@@ -25,6 +25,11 @@ export class TroopMemberService {
           troops: {
             connect: { id: dto.troopId },
           },
+          ...(dto.patrolId && {
+            patrol: {
+              connect: { id: dto.patrolId },
+            },
+          }),
           user: {
             create: {
               firstName: dto.firstName,

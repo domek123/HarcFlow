@@ -40,4 +40,8 @@ export class CreateMemberDto {
 
   @IsEnum(Function)
   function!: Function;
+
+  @IsOptional()
+  @IsUUID()
+  patrolId?: string;
 }
