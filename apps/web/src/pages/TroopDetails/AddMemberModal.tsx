@@ -32,6 +32,7 @@ import type {
   ScoutProfileDTO,
 } from "@harcapp/types";
 import {
+  addMemberDefaultValues,
   createAddMemberSchema,
   type AddMemberFormValues,
 } from "@harcapp/validators";
@@ -66,17 +67,7 @@ export const MemberDialog = ({
     handleSubmit,
   } = useForm<AddMemberFormValues>({
     resolver: zodResolver(memberSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      birthDate: "",
-      gender: "MALE",
-      function: "NONE",
-      rank: "NONE",
-      degree: "NONE",
-    },
+    defaultValues: addMemberDefaultValues,
   });
 
   useEffect(() => {
@@ -89,24 +80,14 @@ export const MemberDialog = ({
           phoneNumber: memberToEdit.phoneNumber || "",
           birthDate: memberToEdit.birthDate
             ? memberToEdit.birthDate.split("T")[0]
-            : "",
+            : undefined,
           gender: memberToEdit.gender || "MALE",
           function: memberToEdit.function || "NONE",
           rank: memberToEdit.rank || "NONE",
           degree: memberToEdit.degree || "NONE",
         });
       } else {
-        reset({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phoneNumber: "",
-          birthDate: "",
-          gender: "MALE",
-          function: "NONE",
-          rank: "NONE",
-          degree: "NONE",
-        });
+        reset(addMemberDefaultValues);
       }
     }
   }, [isOpen, memberToEdit, reset]);

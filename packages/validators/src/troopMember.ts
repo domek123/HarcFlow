@@ -20,9 +20,7 @@ export const createAddMemberSchema = (t: TranslateFn) =>
       .regex(/^[0-9+ \-()]*$/, t("troopDetails.addModal.errors.phoneInvalid"))
       .optional()
       .or(z.literal("")),
-    birthDate: z
-      .string()
-      .min(1, t("troopDetails.addModal.errors.birthDateRequired")),
+    birthDate: z.string().optional(),
     gender: z.enum(["MALE", "FEMALE"]),
     function: z.enum([
       "DRUZYNOWY",
@@ -33,8 +31,22 @@ export const createAddMemberSchema = (t: TranslateFn) =>
     ]),
     rank: z.enum(["HARCMISTRZ", "PODHARCMISTRZ", "PRZEWODNIK", "NONE"]),
     degree: z.enum(["HR", "HO", "CW", "WYW", "ML", "DH", "NONE"]),
+    patrolId: z.string().optional(),
   });
 
 export type AddMemberFormValues = z.infer<
   ReturnType<typeof createAddMemberSchema>
 >;
+
+export const addMemberDefaultValues: AddMemberFormValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phoneNumber: "",
+  birthDate: undefined,
+  gender: "MALE",
+  function: "NONE",
+  rank: "NONE",
+  degree: "NONE",
+  patrolId: undefined,
+};
