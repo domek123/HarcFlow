@@ -95,7 +95,32 @@
         "generic": "Sprawdź poprawność danych i spróbuj ponownie."
       },
       "updatePatrolSuccess": "Zastęp został pomyślnie zaktualizowany.",
-      "updatePatrolError": "Wystąpił błąd podczas aktualizacji zastępu. Spróbuj ponownie później."
+      "updatePatrolError": "Wystąpił błąd podczas aktualizacji zastępu. Spróbuj ponownie później.",
+      "addMemberModal": {
+        "addTitle": "Dodaj użytkownika",
+        "editTitle": "Edytuj profil",
+        "firstName": "Imię",
+        "lastName": "Nazwisko",
+        "email": "Email",
+        "phone": "Telefon",
+        "birthDate": "Data urodzenia",
+        "gender": "Płeć",
+        "function": "Funkcja",
+        "rank": "Stopień",
+        "degree": "Stopień harcerski",
+        "patrol": "Zastęp",
+        "firstNamePlaceholder": "np. Jan",
+        "lastNamePlaceholder": "np. Kowalski",
+        "emailPlaceholder": "jan@example.com",
+        "phonePlaceholder": "+48 123 456 789",
+        "birthDatePlaceholder": "YYYY-MM-DD",
+        "add": "Dodaj",
+        "save": "Zapisz",
+        "addSuccess": "Dodano nowego członka",
+        "addError": "Nie udało się dodać nowego członka",
+        "editSuccess": "Profil został zaktualizowany",
+        "editError": "Nie udało się zaktualizować profilu"
+      }
     },
     "meetups": {
       "title": "Zbiórki",

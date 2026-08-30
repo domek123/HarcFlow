@@ -1,12 +1,15 @@
 export const formatPatrolSchedule = (
-  day: number,
-  time: string,
+  day: number | null,
+  time: string | null,
   t: (key: string) => string,
 ) => {
-  const safeDay = Math.min(7, Math.max(1, Number(day) || 1));
-  const dayLabel = t(`dashboard.team.weekdays.${safeDay}`);
+  const dayLabel = day ? t(`dashboard.team.weekdays.${day}`) : "-";
 
-  return `${dayLabel}, ${time}`;
+  if (!day && !time) {
+    return t("dashboard.team.unassigned");
+  }
+
+  return `${dayLabel}, ${time || "-"}`;
 };
 
 export const parseTimeToDate = (value?: string) => {

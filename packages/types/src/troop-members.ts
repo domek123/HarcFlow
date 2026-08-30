@@ -19,11 +19,12 @@ export interface ScoutProfileDTO {
   troopId: string;
   email?: string;
   phoneNumber?: string;
-  birthDate: string;
+  birthDate?: string;
   gender: Gender;
   rank: Rank;
   degree: Degree;
   function: Function;
+  patrolId?: string | null;
 }
 
 export interface CreateScoutInput {

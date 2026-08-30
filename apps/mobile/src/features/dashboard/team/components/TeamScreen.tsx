@@ -14,6 +14,7 @@ import { MemberItem } from "./MemberItem";
 import { useTeamScreen } from "../hooks/useTeamScreen";
 import { useState } from "react";
 import { AddPatrolModal } from "./AddPatrolModal";
+import { AddMemberModal } from "./AddMemberModal";
 import { PatrolSection } from "./PatrolSection";
 
 export function TeamScreen() {
@@ -36,6 +37,7 @@ export function TeamScreen() {
   } = useTeamScreen();
 
   const [isPatrolModalVisible, setIsPatrolModalVisible] = useState(false);
+  const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -65,7 +67,10 @@ export function TeamScreen() {
         </View>
 
         <View style={styles.actionsRow}>
-          <Pressable style={[styles.actionButton, styles.actionPrimary]}>
+          <Pressable
+            style={[styles.actionButton, styles.actionPrimary]}
+            onPress={() => setIsAddMemberModalVisible(true)}
+          >
             <Text style={[styles.actionButtonText, styles.addScoutButtonText]}>
               {t("dashboard.team.addPerson")}
             </Text>
@@ -128,6 +133,11 @@ export function TeamScreen() {
       <AddPatrolModal
         isPatrolModalVisible={isPatrolModalVisible}
         closePatrolModal={() => setIsPatrolModalVisible(false)}
+      />
+
+      <AddMemberModal
+        isOpen={isAddMemberModalVisible}
+        onClose={() => setIsAddMemberModalVisible(false)}
       />
     </SafeAreaView>
   );
