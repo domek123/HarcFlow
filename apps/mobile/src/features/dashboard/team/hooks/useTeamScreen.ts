@@ -11,6 +11,8 @@ import { sortMembersByRank } from "../utils/sortMembersByRank";
 export interface PatrolGroup {
   id: string;
   name: string;
+  assemblyDay: number;
+  assemblyTime: string;
   members: TroopMemberSectionDTO[];
 }
 
@@ -52,6 +54,8 @@ export const useTeamScreen = () => {
       groupsMap.set(patrol.id, {
         id: patrol.id,
         name: patrol.name,
+        assemblyDay: patrol.assemblyDay,
+        assemblyTime: patrol.assemblyTime,
         members: [],
       });
     });
@@ -76,6 +80,8 @@ export const useTeamScreen = () => {
         group = {
           id: member.patrolId,
           name: "Nieznany zastęp",
+          assemblyDay: 1,
+          assemblyTime: "18:00",
           members: [],
         };
         groupsMap.set(member.patrolId, group);

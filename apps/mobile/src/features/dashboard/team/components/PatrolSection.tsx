@@ -6,6 +6,8 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { PatrolGroup } from "../hooks/useTeamScreen";
 import { DeletePatrolModal } from "./DeletePatrolModal";
 import { useState } from "react";
+import { EditPatrolModal } from "./EditPatrolModal";
+import { formatPatrolSchedule } from "../utils/formatPatrolSchedule";
 import { PatrolDTO } from "@harcapp/types";
 
 export const PatrolSection = ({
@@ -14,6 +16,11 @@ export const PatrolSection = ({
   patrolGroups: PatrolGroup[];
 }) => {
   const { styles } = useStyles(stylesheet);
+
+  const [patrolToEdit, setPatrolToEdit] = useState<Omit<
+    PatrolGroup,
+    "members"
+  > | null>(null);
 
   const [patrolToDelete, setPatrolToDelete] = useState<Pick<
     PatrolDTO,
@@ -27,45 +34,51 @@ export const PatrolSection = ({
         {patrolGroups.length > 0 ? (
           patrolGroups.map((group) => (
             <View key={group.id} style={styles.patrolGroup}>
-              <View style={styles.patrolHeader}>
-                <Text style={styles.patrolTitle}>
-                  {group.name} ({group.members.length})
-                </Text>
+              <View>
+                <View style={styles.patrolHeader}>
+                  <Text style={styles.patrolTitle}>
+                    {group.name} ({group.members.length})
+                  </Text>
 
-                <View style={styles.patrolActions}>
-                  <Pressable
-                    style={styles.iconButton}
-                    onPress={() => {
-                      console.log("Edit patrol", group.id, group.name);
-                    }}
-                    accessibilityLabel={`Edytuj zastęp ${group.name}`}
-                  >
-                    <Ionicons
-                      name="pencil"
-                      size={16}
-                      color={styles.iconButtonText.color}
-                    />
-                  </Pressable>
+                  <View style={styles.patrolActions}>
+                    <Pressable
+                      style={styles.iconButton}
+                      onPress={() => setPatrolToEdit(group)}
+                    >
+                      <Ionicons
+                        name="pencil"
+                        size={16}
+                        color={styles.iconButtonText.color}
+                      />
+                    </Pressable>
 
-                  <Pressable
-                    style={styles.iconButtonDanger}
-                    onPress={() =>
-                      setPatrolToDelete({
-                        id: group.id,
-                        name: group.name,
-                      })
-                    }
-                    accessibilityLabel={`Usuń zastęp ${group.name}`}
-                  >
-                    <Ionicons
-                      name="trash"
-                      size={16}
-                      color={styles.iconButtonDangerText.color}
-                    />
-                  </Pressable>
+                    <Pressable
+                      style={styles.iconButtonDanger}
+                      onPress={() =>
+                        setPatrolToDelete({
+                          id: group.id,
+                          name: group.name,
+                        })
+                      }
+                    >
+                      <Ionicons
+                        name="trash"
+                        size={16}
+                        color={styles.iconButtonDangerText.color}
+                      />
+                    </Pressable>
+                  </View>
                 </View>
+                <Text style={styles.patrolSchedule}>
+                  {t("dashboard.team.meetingSchedule", {
+                    schedule: formatPatrolSchedule(
+                      group.assemblyDay,
+                      group.assemblyTime,
+                      t,
+                    ),
+                  })}
+                </Text>
               </View>
-
               {group.members.length > 0 ? (
                 group.members.map((member) => (
                   <MemberItem member={member} key={member.id} />
@@ -81,6 +94,12 @@ export const PatrolSection = ({
           <Text style={styles.emptyText}>{t("dashboard.team.noPatrols")}</Text>
         )}
       </View>
+
+      <EditPatrolModal
+        isEditPatrolModalOpen={patrolToEdit !== null}
+        closeModal={() => setPatrolToEdit(null)}
+        patrol={patrolToEdit}
+      />
 
       <DeletePatrolModal
         isDeletePatrolModalOpen={patrolToDelete !== null}
@@ -104,18 +123,15 @@ const stylesheet = createStyleSheet((theme) => ({
     color: theme.colors.foreground,
     fontSize: 18,
     fontWeight: "800",
-    marginBottom: 4,
   },
   patrolGroup: {
-    gap: 10,
+    gap: 4,
     marginTop: 4,
   },
   patrolHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    gap: 8,
-    marginBottom: 4,
   },
   patrolTitle: {
     color: theme.colors.primary,
@@ -125,10 +141,15 @@ const stylesheet = createStyleSheet((theme) => ({
     textTransform: "uppercase",
     flex: 1,
   },
+  patrolSchedule: {
+    color: theme.colors.mutedForeground,
+    fontSize: 12,
+    fontWeight: "600",
+    marginBottom: 8,
+  },
   patrolActions: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
   },
   iconButton: {
     width: 28,

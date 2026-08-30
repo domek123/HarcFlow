@@ -61,6 +61,16 @@
       "noPatrolMembers": "Brak członków w tym zastępie.",
       "unassigned": "Brak przypisania",
       "allAssigned": "Wszyscy członkowie są przypisani.",
+      "meetingSchedule": "Zbiórki: {{schedule}}",
+      "weekdays": {
+        "1": "Poniedziałek",
+        "2": "Wtorek",
+        "3": "Środa",
+        "4": "Czwartek",
+        "5": "Piątek",
+        "6": "Sobota",
+        "7": "Niedziela"
+      },
       "addPatrolTitle": "Dodaj zastęp",
       "patrolNameLabel": "Nazwa zastępu",
       "patrolExample": "np. Orlęta",
@@ -73,6 +83,17 @@
       "deletePatrolError": "Wystąpił błąd podczas usuwania zastępu. Spróbuj ponownie później.",
       "addPatrolSuccess": "Zastęp został pomyślnie dodany.",
       "addPatrolError": "Wystąpił błąd podczas dodawania zastępu. Spróbuj ponownie później.",
+      "editPatrolTitle": "Edytuj zastęp",
+      "editPatrolDayLabel": "Dzień zbiórek",
+      "editPatrolTimeLabel": "Godzina zbiórek",
+      "select": "Wybierz",
+      "editPatrolValidation": {
+        "name": "Nazwa zastępu musi mieć co najmniej 2 znaki.",
+        "nameMax": "Nazwa zastępu nie może przekraczać 60 znaków.",
+        "day": "Dzień zbiórek musi być liczbą od 1 do 7.",
+        "time": "Wybierz poprawną godzinę zbiórek.",
+        "generic": "Sprawdź poprawność danych i spróbuj ponownie."
+      },
       "updatePatrolSuccess": "Zastęp został pomyślnie zaktualizowany.",
       "updatePatrolError": "Wystąpił błąd podczas aktualizacji zastępu. Spróbuj ponownie później."
     },
