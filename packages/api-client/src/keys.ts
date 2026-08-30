@@ -9,3 +9,7 @@ export const troopsKeys = {
       ? ([...troopsKeys.detail(id), "patrols"] as const)
       : ([...troopsKeys.details()] as const),
 };
+
+export const patrolsKeys = {
+  troop: (troopId?: string) => ["patrols", troopId],
+};

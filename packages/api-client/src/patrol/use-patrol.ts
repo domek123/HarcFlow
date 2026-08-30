@@ -1,8 +1,21 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { createPatrol, deletePatrol, updatePatrol } from "./patrol.api";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import {
+  createPatrol,
+  deletePatrol,
+  fetchPatrols,
+  updatePatrol,
+} from "./patrol.api";
 import type { CreatePatrolPayload, PatrolDTO } from "@harcapp/types";
-import { troopsKeys } from "../keys";
+import { patrolsKeys, troopsKeys } from "../keys";
+
+export function useFetchPatrols(supabase: SupabaseClient, troopId?: string) {
+  return useQuery({
+    queryKey: patrolsKeys.troop(troopId),
+    queryFn: () => fetchPatrols(supabase, troopId!),
+    enabled: !!troopId,
+  });
+}
 
 export function useCreatePatrol(supabase: SupabaseClient) {
   const queryClient = useQueryClient();
@@ -13,6 +26,9 @@ export function useCreatePatrol(supabase: SupabaseClient) {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: troopsKeys.patrols(variables.troopId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: patrolsKeys.troop(variables.troopId),
       });
     },
   });
@@ -27,6 +43,9 @@ export function useDeletePatrol(supabase: SupabaseClient, troopId?: string) {
       queryClient.invalidateQueries({
         queryKey: troopsKeys.patrols(troopId),
       });
+      queryClient.invalidateQueries({
+        queryKey: patrolsKeys.troop(troopId),
+      });
     },
   });
 }
@@ -39,6 +58,9 @@ export function useUpdatePatrol(supabase: SupabaseClient, troopId?: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: troopsKeys.patrols(troopId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: patrolsKeys.troop(troopId),
       });
     },
   });

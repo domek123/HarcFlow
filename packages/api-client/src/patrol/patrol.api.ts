@@ -1,6 +1,20 @@
 import { CreatePatrolPayload, PatrolDTO } from "@harcapp/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 
+export async function fetchPatrols(
+  supabase: SupabaseClient,
+  troopId: string,
+): Promise<PatrolDTO[]> {
+  const { data, error } = await supabase
+    .from("ScoutPatrol")
+    .select("*")
+    .eq("troopId", troopId)
+    .order("name", { ascending: true });
+
+  if (error) throw error;
+  return data as PatrolDTO[];
+}
+
 export async function createPatrol(
   supabase: SupabaseClient,
   payload: CreatePatrolPayload,

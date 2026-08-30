@@ -25,11 +25,11 @@ export function useTroopMembersList(
   });
 }
 
-export function useAddMember(troopId: string) {
+export function useAddMember(troopId?: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (payload: AddMemberPayload) => addTroopMember(troopId, payload),
+    mutationFn: (payload: AddMemberPayload) => addTroopMember(payload, troopId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: troopMembersKeys.list(troopId),

@@ -59,7 +59,7 @@ export async function fetchTroopMembers(
   })) as ScoutProfileDTO[];
 }
 
-export function addTroopMember(troopId: string, payload: AddMemberPayload) {
+export function addTroopMember(payload: AddMemberPayload, troopId?: string) {
   return apiClient<ScoutProfileDTO>("/troop-members", {
     method: "POST",
     body: JSON.stringify({ ...payload, troopId }),
