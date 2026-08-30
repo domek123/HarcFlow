@@ -12,7 +12,6 @@ import type { AddMemberPayload, UpdateMemberPayload } from "./types";
 export const troopMembersKeys = {
   all: ["scout-troop-members"] as const,
   list: (troopId?: string) => [...troopMembersKeys.all, troopId] as const,
-  section: ["scout-troop-members-section"] as const,
 };
 
 export function useTroopMembersList(
@@ -67,7 +66,7 @@ export function useUpdateTroopMember(troopId: string) {
 
 export function useGetTroopMembersSection(troopId?: string) {
   return useQuery({
-    queryKey: troopMembersKeys.section,
+    queryKey: troopMembersKeys.list(troopId),
     queryFn: () => getTroopMembersSection(troopId!),
     enabled: !!troopId,
   });

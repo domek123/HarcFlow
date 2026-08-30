@@ -5,6 +5,7 @@ import type {
   Degree,
   Function,
   RawScoutProfile,
+  TroopMemberSectionDTO,
 } from "@harcapp/types";
 
 import type { AddMemberPayload, UpdateMemberPayload } from "./types";
@@ -79,7 +80,8 @@ export function updateTroopMember(payload: UpdateMemberPayload) {
 }
 
 export function getTroopMembersSection(troopId: string) {
-  return apiClient<ScoutProfileDTO[]>(`/troop-members/section/${troopId}`, {
-    method: "GET",
-  });
+  return apiClient<TroopMemberSectionDTO[]>(
+    `/troop-members/section/${troopId}`,
+    { method: "GET" },
+  );
 }

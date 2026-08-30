@@ -1,5 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import type { TroopDTO } from "@harcapp/types";
+import type { PatrolDTO, TroopDTO, TroopWithPatrolsDTO } from "@harcapp/types";
 import type {
   RawTroopWithProfileCount,
   CreateTroopPayload,
@@ -46,6 +46,41 @@ export async function fetchTroopDetails(
     creationYear: data.creationYear,
     memberCount: data.ScoutProfile[0]?.count || 0,
   } as TroopDTO;
+}
+
+export async function fetchTroopDetailsWithPatrols(
+  supabase: SupabaseClient,
+  troopId: string,
+): Promise<TroopWithPatrolsDTO> {
+  const { data, error } = await supabase
+    .from("ScoutTroop")
+    .select("*, ScoutProfile(count), ScoutPatrol(*)")
+    .eq("id", troopId)
+    .single();
+
+  if (error || !data) {
+    throw error || new Error("Nie znaleziono drużyny o podanym ID");
+  }
+
+  const scoutProfiles = data.ScoutProfile as unknown as
+    { count: number }[] | null;
+  const memberCount = scoutProfiles?.[0]?.count ?? 0;
+
+  const patrols: PatrolDTO[] = (data.ScoutPatrol || []).map(
+    (patrol: PatrolDTO) => ({
+      id: patrol.id,
+      name: patrol.name,
+      assemblyDay: patrol.assemblyDay,
+      assemblyTime: patrol.assemblyTime,
+    }),
+  );
+
+  return {
+    id: data.id,
+    name: data.name,
+    memberCount,
+    patrols,
+  };
 }
 
 export async function createTroop(

@@ -6,15 +6,10 @@ import {
   createTroop,
   deleteTroop,
   updateTroop,
+  fetchTroopDetailsWithPatrols,
 } from "./troops.api";
 import type { CreateTroopPayload, UpdateTroopArgs } from "./types";
-
-export const troopsKeys = {
-  all: ["scout-troops"] as const,
-  lists: () => [...troopsKeys.all, "list"] as const,
-  details: () => [...troopsKeys.all, "detail"] as const,
-  detail: (id?: string) => [...troopsKeys.details(), id] as const,
-};
+import { troopsKeys } from "../keys";
 
 export function useTroops(supabase: SupabaseClient) {
   return useQuery({
@@ -27,6 +22,17 @@ export function useTroopDetails(supabase: SupabaseClient, troopId?: string) {
   return useQuery({
     queryKey: troopsKeys.detail(troopId),
     queryFn: () => fetchTroopDetails(supabase, troopId!),
+    enabled: !!troopId,
+  });
+}
+
+export function useTroopDetailsWithPatrols(
+  supabase: SupabaseClient,
+  troopId?: string,
+) {
+  return useQuery({
+    queryKey: troopsKeys.patrols(troopId),
+    queryFn: () => fetchTroopDetailsWithPatrols(supabase, troopId!),
     enabled: !!troopId,
   });
 }
@@ -49,7 +55,7 @@ export function useDeleteTroop(supabase: SupabaseClient) {
   return useMutation({
     mutationFn: (troopId: string) => deleteTroop(supabase, troopId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: troopsKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: troopsKeys.all });
     },
   });
 }
