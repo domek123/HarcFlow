@@ -8,3 +8,4 @@ export type {
 
 export * from "./troop-members";
 export * from "./troop";
+export * from "./patrol";

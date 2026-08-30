@@ -9,8 +9,6 @@ export interface TroopMemberSectionDTO {
   degree: Degree;
   function: Function;
   patrolId: string | null;
-  patrolName?: string | null;
-  completedBadgesCount: number;
 }
 
 export interface ScoutProfileDTO {
