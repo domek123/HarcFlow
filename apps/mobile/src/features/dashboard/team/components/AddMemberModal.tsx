@@ -20,6 +20,7 @@ import {
   useAddMember,
   useFetchCurrentScoutProfile,
   useFetchPatrols,
+  useUpdateTroopMember,
 } from "@harcapp/api-client";
 import type {
   Degree,
@@ -56,9 +57,11 @@ export const AddMemberModal = ({
   const { styles } = useStyles(stylesheet);
 
   const { data: currentScout } = useFetchCurrentScoutProfile(supabase);
-  const { mutateAsync: addMember, isPending: isAddPending } = useAddMember(
+  const { mutate: addMember, isPending: isAddPending } = useAddMember(
     currentScout?.troopId,
   );
+  const { mutate: updateMember, isPending: isUpdatePending } =
+    useUpdateTroopMember(currentScout?.troopId ?? "");
   const { data: patrols } = useFetchPatrols(supabase, currentScout?.troopId);
 
   const schema = createAddMemberSchema(t);
@@ -111,20 +114,43 @@ export const AddMemberModal = ({
     });
   }, [patrols]);
 
-  const onSubmit = handleSubmit(async (values) => {
-    try {
-      await addMember({ ...values, troopId: currentScout?.troopId! });
-      showToast.success(
-        memberToEdit
-          ? t("dashboard.team.addMemberModal.editSuccess")
-          : t("dashboard.team.addMemberModal.addSuccess"),
+  const onSubmit = handleSubmit((values) => {
+    if (memberToEdit) {
+      updateMember(
+        {
+          ...memberToEdit,
+          ...values,
+          id: memberToEdit.id,
+        },
+        {
+          onSuccess: () => {
+            showToast.success(t("dashboard.team.addMemberModal.editSuccess"));
+            reset();
+            onClose();
+          },
+          onError: (error) => {
+            showToast.error(t("dashboard.team.addMemberModal.editError"));
+            console.error("Błąd edycji członka:", error);
+          },
+        },
       );
-      onClose();
-    } catch {
-      showToast.error(
-        memberToEdit
-          ? t("dashboard.team.addMemberModal.editError")
-          : t("dashboard.team.addMemberModal.addError"),
+    } else {
+      addMember(
+        {
+          ...values,
+          troopId: currentScout?.troopId!,
+        },
+        {
+          onSuccess: () => {
+            showToast.success(t("dashboard.team.addMemberModal.addSuccess"));
+            reset();
+            onClose();
+          },
+          onError: (error) => {
+            showToast.error(t("dashboard.team.addMemberModal.addError"));
+            console.error("Błąd dodawania członka:", error);
+          },
+        },
       );
     }
   });
@@ -333,7 +359,7 @@ export const AddMemberModal = ({
               <Pressable
                 style={[styles.modalButton, styles.modalConfirmButton]}
                 onPress={onSubmit}
-                disabled={isAddPending}
+                disabled={isAddPending || isUpdatePending}
               >
                 <Text
                   style={[

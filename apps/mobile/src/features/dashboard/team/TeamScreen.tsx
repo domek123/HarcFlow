@@ -12,11 +12,11 @@ import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { useTeamScreen } from "../hooks/useTeamScreen";
-import { AddMemberModal } from "./AddMemberModal";
-import { AddPatrolModal } from "./AddPatrolModal";
-import { MemberItem } from "./MemberItem";
-import { PatrolSection } from "./PatrolSection";
+import { AddMemberModal } from "./components/AddMemberModal";
+import { AddPatrolModal } from "./components/AddPatrolModal";
+import { MemberItem } from "./components/MemberItem";
+import { PatrolSection } from "./components/PatrolSection";
+import { useTeamScreen } from "./hooks/useTeamScreen";
 
 export function TeamScreen() {
   const { t } = useTranslation();

@@ -1,5 +1,6 @@
 import { Pressable, View, Text } from "react-native";
 
+import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
@@ -16,7 +17,11 @@ export const MemberItem = ({ member }: MemberItemProps) => {
   const { styles } = useStyles(stylesheet);
 
   return (
-    <Pressable key={member.id} style={styles.memberCard}>
+    <Pressable
+      key={member.id}
+      style={styles.memberCard}
+      onPress={() => router.push(`/member/${member.id}`)}
+    >
       <View style={styles.memberRow}>
         <View style={styles.memberContent}>
           <View style={styles.memberHeaderRow}>
