@@ -1,4 +1,5 @@
 import type { Rank, Degree, Function, Gender } from "@prisma/client";
+import { PatrolDTO } from "./patrol";
 
 export interface TroopMemberSectionDTO {
   id: string;
@@ -25,6 +26,7 @@ export interface ScoutProfileDTO {
   degree: Degree;
   function: Function;
   patrolId?: string | null;
+  patrol?: PatrolDTO | null;
 }
 
 export interface CreateScoutInput {
@@ -41,6 +43,7 @@ export interface RawScoutProfile {
   rank: Rank;
   degree: Degree;
   troopId: string;
+  patrolId?: string | null;
   function: Function;
   user?: {
     firstName?: string;
@@ -50,4 +53,5 @@ export interface RawScoutProfile {
     birthDate?: string;
     gender?: "MALE" | "FEMALE";
   };
+  patrol?: PatrolDTO;
 }

@@ -9,3 +9,5 @@ export type {
 export * from "./troop-members";
 export * from "./troop";
 export * from "./patrol";
+export * from "./parent";
+export * from "./notes";
