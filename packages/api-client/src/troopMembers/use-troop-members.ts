@@ -8,11 +8,7 @@ import {
   getTroopMembersSection,
 } from "./troop-members.api";
 import type { AddMemberPayload, UpdateMemberPayload } from "./types";
-
-export const troopMembersKeys = {
-  all: ["scout-troop-members"] as const,
-  list: (troopId?: string) => [...troopMembersKeys.all, troopId] as const,
-};
+import { troopMembersKeys } from "../keys";
 
 export function useTroopMembersList(
   supabase: SupabaseClient,
@@ -56,9 +52,12 @@ export function useUpdateTroopMember(troopId: string) {
 
   return useMutation({
     mutationFn: (payload: UpdateMemberPayload) => updateTroopMember(payload),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: troopMembersKeys.list(troopId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: troopMembersKeys.single(variables.id),
       });
     },
   });

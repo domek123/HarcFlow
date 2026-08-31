@@ -7,47 +7,53 @@ import type {
   Function,
 } from "@harcapp/types";
 
-export async function fetchCurrentScoutProfile(
-  supabase: SupabaseClient,
-): Promise<ScoutProfileDTO | null> {
-  const {
-    data: { user: authUser },
-    error: authError,
-  } = await supabase.auth.getUser();
+export type ProfileQuery = { profileId?: string; userId?: string };
 
-  if (authError || !authUser) {
-    console.error(
-      "Błąd pobierania zalogowanego użytkownika z Auth:",
-      authError,
-    );
+export async function fetchScoutProfile(
+  supabase: SupabaseClient,
+  query: ProfileQuery,
+): Promise<ScoutProfileDTO | null> {
+  const { profileId, userId } = query;
+
+  if (!profileId && !userId) {
+    console.error("fetchScoutProfile: Wymagane profileId lub userId");
     return null;
   }
 
-  const { data, error } = await supabase
-    .from("ScoutProfile")
-    .select<string, RawScoutProfile>(
-      `
+  let builder = supabase.from("ScoutProfile").select<string, RawScoutProfile>(`
+    id,
+    userId,
+    rank,
+    degree,
+    troopId,
+    patrolId,
+    function,
+    user:User!inner (
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      birthDate,
+      gender
+    ),
+    patrol:ScoutPatrol (
       id,
-      userId,
-      rank,
-      degree,
-      troopId,
-      function,
-      user:User!inner (
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        birthDate,
-        gender
-      )
-    `,
+      name,
+      assemblyDay,
+      assemblyTime
     )
-    .eq("userId", authUser.id)
-    .single();
+  `);
+
+  if (profileId) {
+    builder = builder.eq("id", profileId);
+  } else if (userId) {
+    builder = builder.eq("userId", userId);
+  }
+
+  const { data, error } = await builder.maybeSingle();
 
   if (error) {
-    console.error("Błąd pobierania profilu zalogowanego użytkownika:", error);
+    console.error("Błąd pobierania profilu harcerza:", error);
     throw error;
   }
 
@@ -66,5 +72,20 @@ export async function fetchCurrentScoutProfile(
     degree: data.degree as Degree,
     function: data.function as Function,
     troopId: data.troopId,
+    patrolId: data.patrolId ?? undefined,
+    patrol: data.patrol ?? null,
   } as ScoutProfileDTO;
+}
+
+export async function fetchCurrentScoutProfile(
+  supabase: SupabaseClient,
+): Promise<ScoutProfileDTO | null> {
+  const {
+    data: { user: authUser },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !authUser) return null;
+
+  return fetchScoutProfile(supabase, { userId: authUser.id });
 }

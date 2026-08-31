@@ -13,3 +13,19 @@ export const troopsKeys = {
 export const patrolsKeys = {
   troop: (troopId?: string) => ["patrols", troopId],
 };
+
+export const troopMembersKeys = {
+  all: ["scout-troop-members"] as const,
+  list: (troopId?: string) => [...troopMembersKeys.all, troopId] as const,
+  single: (profileId?: string) => [...troopMembersKeys.all, profileId] as const,
+};
+
+export const parentsKeys = {
+  all: ["scout-parents"] as const,
+  single: (profileId?: string) => [...parentsKeys.all, profileId] as const,
+};
+
+export const scoutNotesKeys = {
+  all: ["scout-notes"] as const,
+  list: (profileId?: string) => [...scoutNotesKeys.all, profileId] as const,
+};
