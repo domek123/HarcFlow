@@ -43,6 +43,9 @@ export function useDeleteTroopMember(troopId: string) {
       queryClient.invalidateQueries({
         queryKey: troopMembersKeys.list(troopId),
       });
+      queryClient.invalidateQueries({
+        queryKey: troopMembersKeys.single(troopId),
+      });
     },
   });
 }

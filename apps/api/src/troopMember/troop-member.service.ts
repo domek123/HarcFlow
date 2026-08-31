@@ -3,7 +3,7 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Function } from '@prisma/client';
 
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -91,12 +91,28 @@ export class TroopMemberService {
       throw new NotFoundException('Nie znaleziono profilu harcerskiego');
     }
 
+    const targetFunction = dto.function ?? profile.function;
+    const isStaffFunction =
+      targetFunction === Function.DRUZYNOWY ||
+      targetFunction === Function.PRZYBOCZNY;
+
+    let patrolUpdate: any = undefined;
+
+    if (isStaffFunction) {
+      patrolUpdate = { disconnect: true };
+    } else if (dto.patrolId !== undefined) {
+      patrolUpdate = dto.patrolId
+        ? { connect: { id: dto.patrolId } }
+        : { disconnect: true };
+    }
+
     return this.prisma.scoutProfile.update({
       where: { id: profileId },
       data: {
         rank: dto.rank,
         degree: dto.degree,
         function: dto.function,
+        patrol: patrolUpdate,
         user: {
           update: {
             firstName: dto.firstName,
