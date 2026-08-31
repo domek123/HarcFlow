@@ -26,7 +26,7 @@ model Parent {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   firstName   String
   lastName    String
-  phoneNumber String
+  phoneNumber String?
   email       String?
   children    User[]   @relation("UserParents")
 }
