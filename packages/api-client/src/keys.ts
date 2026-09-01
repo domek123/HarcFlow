@@ -29,3 +29,8 @@ export const scoutNotesKeys = {
   all: ["scout-notes"] as const,
   list: (profileId?: string) => [...scoutNotesKeys.all, profileId] as const,
 };
+
+export const scoutBadgesKeys = {
+  all: ["scout-badges"] as const,
+  list: (troopId?: string) => [...scoutBadgesKeys.all, troopId] as const,
+};
