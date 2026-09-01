@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Pressable,
   RefreshControl,
   ScrollView,
   Text,
-  TextInput,
   View,
 } from "react-native";
 
@@ -12,33 +11,29 @@ import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { AddMemberModal } from "./components/AddMemberModal";
-import { AddPatrolModal } from "./components/AddPatrolModal";
-import { MemberItem } from "./components/MemberItem";
-import { PatrolSection } from "./components/PatrolSection";
 import { useTeamScreen } from "./hooks/useTeamScreen";
+import { TroopMembersSegment } from "./TroopMembersSegment";
+
+type TeamTab = "members" | "skills";
 
 export function TeamScreen() {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
-  const {
-    profileLoading,
-    troop,
-    troopLoading,
-    membersLoading,
-    staffMembers,
-    patrolGroups,
-    unassignedMembers,
-    totalMembers,
-    search,
-    setSearch,
-    refreshing,
-    onRefresh,
-  } = useTeamScreen();
+  const teamData = useTeamScreen();
+  const { troop, totalMembers, refreshing, onRefresh } = teamData;
 
-  const [isPatrolModalVisible, setIsPatrolModalVisible] = useState(false);
-  const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState<TeamTab>("members");
+
+  const tabOptions = useMemo(
+    () => [
+      { key: "members", label: t("dashboard.team.tabs.members") },
+      { key: "skills", label: t("dashboard.team.tabs.skills") },
+    ],
+    [t],
+  );
+
+  const isMembersTab = activeTab === "members";
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -65,81 +60,44 @@ export function TeamScreen() {
               <Text style={styles.summaryValue}>{totalMembers}</Text>
             </View>
           </View>
+          <View style={styles.segmentedWrap}>
+            {tabOptions.map((option) => {
+              const selected = activeTab === option.key;
+
+              return (
+                <Pressable
+                  key={option.key}
+                  style={[
+                    styles.segmentButton,
+                    selected && styles.segmentButtonActive,
+                  ]}
+                  onPress={() => setActiveTab(option.key as TeamTab)}
+                >
+                  <Text
+                    style={[
+                      styles.segmentText,
+                      selected && styles.segmentTextActive,
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
         </View>
 
-        <View style={styles.actionsRow}>
-          <Pressable
-            style={[styles.actionButton, styles.actionPrimary]}
-            onPress={() => setIsAddMemberModalVisible(true)}
-          >
-            <Text style={[styles.actionButtonText, styles.addScoutButtonText]}>
-              {t("dashboard.team.addPerson")}
+        {isMembersTab ? (
+          <TroopMembersSegment {...teamData} />
+        ) : (
+          <View style={styles.skillsCard}>
+            <Text style={styles.skillsTitle}>{t("dashboard.team.skills")}</Text>
+            <Text style={styles.skillsText}>
+              {t("dashboard.team.skillsDescription")}
             </Text>
-          </Pressable>
-          <Pressable
-            style={[styles.actionButton, styles.actionSecondary]}
-            onPress={() => setIsPatrolModalVisible(true)}
-          >
-            <Text style={styles.actionButtonText}>
-              {t("dashboard.team.addPatrol")}
-            </Text>
-          </Pressable>
-        </View>
-
-        <View style={styles.searchBox}>
-          <TextInput
-            value={search}
-            onChangeText={setSearch}
-            placeholder={t("dashboard.team.searchPlaceholder")}
-            placeholderTextColor={styles.placeholder.color}
-            style={styles.searchInput}
-          />
-        </View>
-
-        {profileLoading || troopLoading || membersLoading ? (
-          <Text style={styles.loadingText}>
-            {t("dashboard.team.loadingMembers")}
-          </Text>
-        ) : null}
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{t("dashboard.team.staff")}</Text>
-          {staffMembers.length > 0 ? (
-            staffMembers.map((member) => (
-              <MemberItem member={member} key={member.id} />
-            ))
-          ) : (
-            <Text style={styles.emptyText}>{t("dashboard.team.noStaff")}</Text>
-          )}
-        </View>
-
-        <PatrolSection patrolGroups={patrolGroups} />
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            {t("dashboard.team.unassigned")}
-          </Text>
-          {unassignedMembers.length > 0 ? (
-            unassignedMembers.map((member) => (
-              <MemberItem member={member} key={member.id} />
-            ))
-          ) : (
-            <Text style={styles.emptyText}>
-              {t("dashboard.team.allAssigned")}
-            </Text>
-          )}
-        </View>
+          </View>
+        )}
       </ScrollView>
-
-      <AddPatrolModal
-        isPatrolModalVisible={isPatrolModalVisible}
-        closePatrolModal={() => setIsPatrolModalVisible(false)}
-      />
-
-      <AddMemberModal
-        isOpen={isAddMemberModalVisible}
-        onClose={() => setIsAddMemberModalVisible(false)}
-      />
     </SafeAreaView>
   );
 }
@@ -227,6 +185,38 @@ const stylesheet = createStyleSheet((theme) => ({
   addScoutButtonText: {
     color: theme.colors.secondary,
   },
+  segmentedWrap: {
+    flexDirection: "row",
+    backgroundColor: theme.colors.background,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    borderRadius: 14,
+    padding: 4,
+    marginTop: 2,
+  },
+  segmentButton: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+  },
+  segmentButtonActive: {
+    backgroundColor: theme.colors.card,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+  },
+  segmentText: {
+    color: theme.colors.mutedForeground,
+    fontSize: 13,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  segmentTextActive: {
+    color: theme.colors.foreground,
+    fontWeight: "700",
+  },
   searchBox: {
     backgroundColor: theme.colors.card,
     borderRadius: 12,
@@ -264,5 +254,23 @@ const stylesheet = createStyleSheet((theme) => ({
     color: theme.colors.mutedForeground,
     fontSize: 12,
     textAlign: "center",
+  },
+  skillsCard: {
+    backgroundColor: theme.colors.card,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    padding: 18,
+    gap: 12,
+  },
+  skillsTitle: {
+    color: theme.colors.foreground,
+    fontSize: 22,
+    fontWeight: "800",
+  },
+  skillsText: {
+    color: theme.colors.mutedForeground,
+    fontSize: 14,
+    lineHeight: 20,
   },
 }));

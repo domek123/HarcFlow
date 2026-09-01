@@ -55,7 +55,11 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: 16,
     paddingVertical: 3,
   },
-  label: { color: theme.colors.mutedForeground, fontSize: 13, flex: 1 },
+  label: {
+    color: theme.colors.mutedForeground,
+    fontSize: 13,
+    flex: 1,
+  },
   value: {
     color: theme.colors.foreground,
     fontSize: 13,
@@ -63,7 +67,12 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
     textAlign: "right",
   },
-  actionRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 4 },
+  actionRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginTop: 4,
+  },
   actionButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -74,8 +83,14 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingHorizontal: 10,
     paddingVertical: 7,
   },
-  dangerButton: { borderColor: theme.colors.destructive },
-  actionText: { color: theme.colors.primary, fontSize: 12, fontWeight: "700" },
+  dangerButton: {
+    borderColor: theme.colors.destructive,
+  },
+  actionText: {
+    color: theme.colors.primary,
+    fontSize: 12,
+    fontWeight: "700",
+  },
   dangerText: {
     color: theme.colors.destructive,
     fontSize: 12,
