@@ -1,101 +1,134 @@
-import React, { useMemo, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { useCallback, useState } from "react";
+import { Text, TextInput, View } from "react-native";
 
+import { FlashList } from "@shopify/flash-list";
 import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-type InventoryTab = "skills" | "equipment";
+import { getBadgeById } from "@harcapp/types";
+
+import { BadgeRow } from "./components/badges/BadgeRow";
+import { EquipmentPanel } from "./components/equipment/EquipmentPanel";
+import { InventoryTab, InventoryTabs } from "./components/InventoryTabs";
+import { QuantityInputModal } from "./components/modals/QuantityInputModal";
+import { ListItem, useBadgeInventory } from "./hooks/useBadgeInventory";
 
 export function InventoryScreen() {
   const { t } = useTranslation();
-  const { styles } = useStyles(stylesheet);
-  const [activeTab, setActiveTab] = useState<InventoryTab>("skills");
+  const { styles, theme } = useStyles(stylesheet);
 
-  const tabOptions = useMemo(
-    () => [
-      { key: "skills", label: t("dashboard.inventory.tabs.skills") },
-      { key: "equipment", label: t("dashboard.inventory.tabs.equipment") },
-    ],
-    [t],
+  const {
+    searchQuery,
+    setSearchQuery,
+    flattenedData,
+    handleBadgeCountChange,
+    handleBadgeQuantitySet,
+  } = useBadgeInventory();
+
+  const [activeTab, setActiveTab] = useState<InventoryTab>("skills");
+  const [quantityModalState, setQuantityModalState] = useState<{
+    badgeId: string;
+    badgeName: string;
+    currentQuantity: number;
+  } | null>(null);
+
+  const handleOpenQuantityModal = useCallback(
+    (badgeId: string, currentQuantity: number) => {
+      const badgeName = getBadgeById(badgeId)?.name || "";
+
+      setQuantityModalState({
+        badgeId,
+        badgeName,
+        currentQuantity,
+      });
+    },
+    [],
   );
 
-  const isSkillsTab = activeTab === "skills";
+  const handleQuantitySubmit = useCallback(
+    (targetQuantity: number) => {
+      if (!quantityModalState) return;
+
+      handleBadgeQuantitySet(
+        quantityModalState.badgeId,
+        targetQuantity,
+        quantityModalState.currentQuantity,
+      );
+      setQuantityModalState(null);
+    },
+    [handleBadgeQuantitySet, quantityModalState],
+  );
+
+  const renderItem = useCallback(
+    ({ item }: { item: ListItem }) => {
+      if (item.type === "header") {
+        return <Text style={styles.categoryTitle}>{item.title}</Text>;
+      }
+
+      return (
+        <BadgeRow
+          badge={item.data}
+          quantity={item.data.quantity}
+          onCountChange={handleBadgeCountChange}
+          onOpenQuantityModal={handleOpenQuantityModal}
+        />
+      );
+    },
+    [handleBadgeCountChange, handleOpenQuantityModal, styles.categoryTitle],
+  );
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.title}>{t("dashboard.inventory.title")}</Text>
 
-        <View style={styles.segmentedWrap}>
-          {tabOptions.map((option) => {
-            const selected = activeTab === option.key;
+        <InventoryTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-            return (
-              <Pressable
-                key={option.key}
-                style={[
-                  styles.segmentButton,
-                  selected && styles.segmentButtonActive,
-                ]}
-                onPress={() => setActiveTab(option.key as InventoryTab)}
-              >
-                <Text
-                  style={[
-                    styles.segmentText,
-                    selected && styles.segmentTextActive,
-                  ]}
-                >
-                  {option.label}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
+        {activeTab === "skills" ? (
+          <View style={styles.listContainer}>
+            <View style={styles.searchWrap}>
+              <TextInput
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                placeholder={t("dashboard.inventory.searchPlaceholder")}
+                placeholderTextColor={theme.colors.mutedForeground}
+                autoCapitalize="none"
+                autoCorrect={false}
+                style={styles.searchInput}
+              />
+            </View>
 
-        <ScrollView contentContainerStyle={styles.content}>
-          {isSkillsTab ? (
-            <View style={styles.panel}>
-              <Text style={styles.panelTitle}>
-                {t("dashboard.inventory.skillsTitle")}
-              </Text>
-              <Text style={styles.panelText}>
-                {t("dashboard.inventory.skillsDescription")}
-              </Text>
-              <View style={styles.listCard}>
-                <Text style={styles.listItem}>
-                  • {t("dashboard.inventory.skillsList.0")}
-                </Text>
-                <Text style={styles.listItem}>
-                  • {t("dashboard.inventory.skillsList.1")}
-                </Text>
-                <Text style={styles.listItem}>
-                  • {t("dashboard.inventory.skillsList.2")}
-                </Text>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.panel}>
-              <Text style={styles.panelTitle}>
-                {t("dashboard.inventory.equipmentTitle")}
-              </Text>
-              <Text style={styles.panelText}>
-                {t("dashboard.inventory.equipmentDescription")}
-              </Text>
-              <View style={styles.listCard}>
-                <Text style={styles.listItem}>
-                  • {t("dashboard.inventory.equipmentList.0")}
-                </Text>
-                <Text style={styles.listItem}>
-                  • {t("dashboard.inventory.equipmentList.1")}
-                </Text>
-                <Text style={styles.listItem}>
-                  • {t("dashboard.inventory.equipmentList.2")}
-                </Text>
-              </View>
-            </View>
-          )}
-        </ScrollView>
+            <FlashList
+              data={flattenedData}
+              renderItem={renderItem}
+              getItemType={(item) => item.type}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={styles.flashListContent}
+              ListEmptyComponent={
+                <View style={styles.emptyPanel}>
+                  <Text style={styles.emptyPanelText}>
+                    {searchQuery.trim()
+                      ? t("dashboard.inventory.noBadgesMatch")
+                      : t("dashboard.inventory.noBadges")}
+                  </Text>
+                </View>
+              }
+            />
+
+            {quantityModalState && (
+              <QuantityInputModal
+                visible={Boolean(quantityModalState)}
+                badgeName={quantityModalState.badgeName}
+                currentQuantity={quantityModalState.currentQuantity}
+                onClose={() => setQuantityModalState(null)}
+                onSubmit={handleQuantitySubmit}
+              />
+            )}
+          </View>
+        ) : (
+          <EquipmentPanel />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -117,65 +150,42 @@ const stylesheet = createStyleSheet((theme) => ({
     color: theme.colors.foreground,
     marginBottom: 16,
   },
-  segmentedWrap: {
-    flexDirection: "row",
+  listContainer: {
+    flex: 1,
+  },
+  searchWrap: {
+    marginBottom: 12,
+  },
+  searchInput: {
     backgroundColor: theme.colors.card,
     borderWidth: 1,
     borderColor: theme.colors.border,
-    borderRadius: 14,
-    padding: 4,
-    marginBottom: 18,
-  },
-  segmentButton: {
-    flex: 1,
+    borderRadius: 12,
+    paddingHorizontal: 12,
     paddingVertical: 10,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    color: theme.colors.foreground,
+    fontSize: 14,
   },
-  segmentButtonActive: {
-    backgroundColor: theme.colors.primary,
-  },
-  segmentText: {
-    color: theme.colors.mutedForeground,
-    fontSize: 13,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-  segmentTextActive: {
-    color: theme.colors.primaryForeground,
-  },
-  content: {
+  flashListContent: {
     paddingBottom: 24,
   },
-  panel: {
+  categoryTitle: {
+    color: theme.colors.foreground,
+    fontSize: 16,
+    fontWeight: "700",
+    marginTop: 12,
+    marginBottom: 8,
+  },
+  emptyPanel: {
     backgroundColor: theme.colors.card,
     borderWidth: 1,
     borderColor: theme.colors.border,
     borderRadius: 18,
     padding: 18,
-    gap: 12,
   },
-  panelTitle: {
-    color: theme.colors.foreground,
-    fontSize: 22,
-    fontWeight: "700",
-  },
-  panelText: {
+  emptyPanelText: {
     color: theme.colors.mutedForeground,
     fontSize: 14,
     lineHeight: 20,
-  },
-  listCard: {
-    backgroundColor: theme.colors.background,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    borderRadius: 12,
-    padding: 14,
-    gap: 8,
-  },
-  listItem: {
-    color: theme.colors.foreground,
-    fontSize: 14,
   },
 }));

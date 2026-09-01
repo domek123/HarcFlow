@@ -138,9 +138,7 @@ export const AddEditParentModal = ({
 
           <View style={styles.actions}>
             <Pressable style={styles.cancelButton} onPress={onClose}>
-              <Text style={styles.cancelText}>
-                {t("dashboard.team.cancel")}
-              </Text>
+              <Text style={styles.cancelText}>{t("common.cancel")}</Text>
             </Pressable>
             <Pressable style={styles.saveButton} onPress={handleSave}>
               <Text style={styles.saveText}>{t("dashboard.team.save")}</Text>

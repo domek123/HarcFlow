@@ -81,9 +81,7 @@ export const AddNoteModal = ({
 
           <View style={styles.actions}>
             <Pressable style={styles.cancelButton} onPress={handleClose}>
-              <Text style={styles.cancelText}>
-                {t("dashboard.team.cancel")}
-              </Text>
+              <Text style={styles.cancelText}>{t("common.cancel")}</Text>
             </Pressable>
             <Pressable
               style={[

@@ -65,9 +65,7 @@ export const DeletePatrolModal = ({
               style={[styles.modalButton, styles.modalCancelButton]}
               onPress={closeModal}
             >
-              <Text style={styles.modalButtonText}>
-                {t("dashboard.team.cancel")}
-              </Text>
+              <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
             </Pressable>
 
             <Pressable

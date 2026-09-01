@@ -2,7 +2,13 @@
   "common": {
     "saving": "Zapisywanie...",
     "loading": "Ładowanie...",
-    "deleting": "Usuwanie..."
+    "deleting": "Usuwanie...",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "add": "Dodaj",
+    "search": "Szukaj"
   },
   "auth": {
     "welcomeTitle": "Witaj ponownie!",
@@ -120,8 +126,6 @@
         "emailPlaceholder": "jan@example.com",
         "phonePlaceholder": "+48 123 456 789",
         "birthDatePlaceholder": "YYYY-MM-DD",
-        "add": "Dodaj",
-        "save": "Zapisz",
         "addSuccess": "Dodano nowego członka",
         "addError": "Nie udało się dodać nowego członka",
         "editSuccess": "Profil został zaktualizowany",
@@ -138,13 +142,13 @@
         "skills": "Sprawności",
         "equipment": "Sprzęt i Materiały"
       },
-      "skillsTitle": "Sprawności",
-      "skillsDescription": "Lista sprawności, kryteriów, poziomów i statusów do weryfikacji.",
-      "skillsList": [
-        "Obcowanie z terenem",
-        "Praca zespołowa",
-        "Organizacja wypraw"
-      ],
+      "searchPlaceholder": "Szukaj sprawności...",
+      "noBadges": "Brak sprawności w magazynie.",
+      "noBadgesMatch": "Brak sprawności pasujących do wyszukiwania.",
+      "quantityModal": {
+        "title": "Edytuj ilość",
+        "placeholder": "0"
+      },
       "equipmentTitle": "Sprzęt i Materiały",
       "equipmentDescription": "Stan magazynu, przypisanie elementów i potrzeby uzupełnień.",
       "equipmentList": [

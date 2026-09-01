@@ -351,9 +351,7 @@ export const AddMemberModal = ({
                 style={[styles.modalButton, styles.modalCancelButton]}
                 onPress={onClose}
               >
-                <Text style={styles.modalButtonText}>
-                  {t("dashboard.team.cancel")}
-                </Text>
+                <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
               </Pressable>
 
               <Pressable
@@ -367,9 +365,7 @@ export const AddMemberModal = ({
                     styles.modalConfirmButtonText,
                   ]}
                 >
-                  {memberToEdit
-                    ? t("dashboard.team.addMemberModal.save")
-                    : t("dashboard.team.addMemberModal.add")}
+                  {memberToEdit ? t("common.save") : t("common.add")}
                 </Text>
               </Pressable>
             </View>

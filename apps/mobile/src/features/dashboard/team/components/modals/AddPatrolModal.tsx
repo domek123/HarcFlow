@@ -50,9 +50,7 @@ export const AddPatrolModal = ({
                 closePatrolModal();
               }}
             >
-              <Text style={styles.modalButtonText}>
-                {t("dashboard.team.cancel")}
-              </Text>
+              <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
             </Pressable>
 
             <Pressable
