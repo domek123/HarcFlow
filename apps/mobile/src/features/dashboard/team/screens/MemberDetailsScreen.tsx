@@ -19,10 +19,10 @@ import {
   useFetchUserParents,
 } from "@harcapp/api-client";
 
-import { MemberContactSection } from "./components/MemberContactSection";
-import { MemberNotesSection } from "./components/MemberNotesSection";
-import { MemberParentsSection } from "./components/MemberParentsSection";
-import { MemberPersonalInfoSection } from "./components/MemberPersonalInfoSection";
+import { MemberContactSection } from "../components/member-details/MemberContactSection";
+import { MemberNotesSection } from "../components/member-details/MemberNotesSection";
+import { MemberParentsSection } from "../components/member-details/MemberParentsSection";
+import { MemberPersonalInfoSection } from "../components/member-details/MemberPersonalInfoSection";
 
 export function MemberDetailsScreen() {
   const { t } = useTranslation();

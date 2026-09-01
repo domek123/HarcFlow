@@ -7,10 +7,10 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { PatrolDTO } from "@harcapp/types";
 
-import { PatrolGroup } from "../hooks/useTeamScreen";
-import { formatPatrolSchedule } from "../utils/formatPatrolSchedule";
-import { DeletePatrolModal } from "./DeletePatrolModal";
-import { EditPatrolModal } from "./EditPatrolModal";
+import { PatrolGroup } from "../../hooks/useTeamScreen";
+import { formatPatrolSchedule } from "../../utils/formatPatrolSchedule";
+import { DeletePatrolModal } from "../modals/DeletePatrolModal";
+import { EditPatrolModal } from "../modals/EditPatrolModal";
 import { MemberItem } from "./MemberItem";
 
 export const PatrolSection = ({

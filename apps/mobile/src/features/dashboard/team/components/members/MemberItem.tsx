@@ -6,7 +6,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { TroopMemberSectionDTO } from "@harcapp/types";
 
-import { getAgeFromBirthDate } from "../utils/getAgeFromBirthDate";
+import { getAgeFromBirthDate } from "../../utils/getAgeFromBirthDate";
 
 type MemberItemProps = {
   member: TroopMemberSectionDTO;

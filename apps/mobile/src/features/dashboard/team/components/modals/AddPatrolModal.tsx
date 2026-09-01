@@ -3,7 +3,7 @@ import { Modal, View, TextInput, Pressable, Text } from "react-native";
 import { t } from "i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { useAddPatrol } from "../hooks/useAddPatrol";
+import { useAddPatrol } from "../../hooks/useAddPatrol";
 
 type AddPatrolModalProps = {
   isPatrolModalVisible: boolean;

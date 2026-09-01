@@ -9,10 +9,10 @@ import { showToast } from "@/utils/toast";
 import { useDeleteTroopMember } from "@harcapp/api-client";
 import { ScoutProfileDTO } from "@harcapp/types";
 
-import { getAgeFromBirthDate } from "../utils/getAgeFromBirthDate";
-import { AddMemberModal } from "./AddMemberModal";
-import { DeleteUserModal } from "./DeleteUserModal";
-import { ActionButton, ActionRow, DetailRow } from "./SharedUI";
+import { getAgeFromBirthDate } from "../../utils/getAgeFromBirthDate";
+import { AddMemberModal } from "../modals/AddMemberModal";
+import { DeleteUserModal } from "../modals/DeleteUserModal";
+import { ActionButton, ActionRow, DetailRow } from "../shared/SharedUI";
 
 export function MemberPersonalInfoSection({
   member,

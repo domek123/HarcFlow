@@ -8,8 +8,8 @@ import { supabase } from "@/lib/supabase";
 import { useDeleteScoutNote } from "@harcapp/api-client";
 import { ScoutNoteDTO } from "@harcapp/types";
 
-import { AddNoteModal } from "./AddNoteModal";
-import { ActionButton } from "./SharedUI";
+import { AddNoteModal } from "../modals/AddNoteModal";
+import { ActionButton } from "../shared/SharedUI";
 
 export function MemberNotesSection({
   notes,

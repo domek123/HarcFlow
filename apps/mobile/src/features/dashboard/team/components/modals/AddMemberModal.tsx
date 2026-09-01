@@ -40,7 +40,7 @@ import {
   functionOptions,
   rankOptions,
   degreeOptions,
-} from "../constants";
+} from "../../constants";
 
 type AddMemberModalProps = {
   isOpen: boolean;

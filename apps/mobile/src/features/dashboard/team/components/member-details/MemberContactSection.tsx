@@ -5,7 +5,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { ScoutProfileDTO } from "@harcapp/types";
 
-import { DetailRow } from "./SharedUI";
+import { DetailRow } from "../shared/SharedUI";
 
 export function MemberContactSection({ member }: { member: ScoutProfileDTO }) {
   const { t } = useTranslation();

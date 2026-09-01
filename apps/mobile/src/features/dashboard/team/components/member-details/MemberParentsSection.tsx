@@ -9,9 +9,9 @@ import { showToast } from "@/utils/toast";
 import { useDeleteParent } from "@harcapp/api-client";
 import { ParentDTO } from "@harcapp/types";
 
-import { AddEditParentModal } from "./AddEditParentModal";
-import { DeleteParentModal } from "./DeleteParentModal";
-import { ActionButton, ActionRow, DetailRow } from "./SharedUI";
+import { AddEditParentModal } from "../modals/AddEditParentModal";
+import { DeleteParentModal } from "../modals/DeleteParentModal";
+import { ActionButton, ActionRow, DetailRow } from "../shared/SharedUI";
 
 export function MemberParentsSection({
   parents,

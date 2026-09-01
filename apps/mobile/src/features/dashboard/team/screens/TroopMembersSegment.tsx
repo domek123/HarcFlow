@@ -4,11 +4,11 @@ import { View, Pressable, TextInput, Text } from "react-native";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { AddMemberModal } from "./components/AddMemberModal";
-import { AddPatrolModal } from "./components/AddPatrolModal";
-import { MemberItem } from "./components/MemberItem";
-import { PatrolSection } from "./components/PatrolSection";
-import { useTeamScreen } from "./hooks/useTeamScreen";
+import { MemberItem } from "../components/members/MemberItem";
+import { PatrolSection } from "../components/members/PatrolSection";
+import { AddMemberModal } from "../components/modals/AddMemberModal";
+import { AddPatrolModal } from "../components/modals/AddPatrolModal";
+import { useTeamScreen } from "../hooks/useTeamScreen";
 
 type TroopMembersSegmentProps = ReturnType<typeof useTeamScreen>;
 

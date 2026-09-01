@@ -13,11 +13,11 @@ import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { PATROL_DAY_OPTIONS } from "../constants";
-import { useEditPatrol } from "../hooks/useEditPatrol";
-import { useEditPatrolForm } from "../hooks/useEditPatrolForm";
+import { PATROL_DAY_OPTIONS } from "../../constants";
+import { useEditPatrol } from "../../hooks/useEditPatrol";
+import { useEditPatrolForm } from "../../hooks/useEditPatrolForm";
 
-import type { PatrolGroup } from "../hooks/useTeamScreen";
+import type { PatrolGroup } from "../../hooks/useTeamScreen";
 
 type EditPatrolModalProps = {
   isEditPatrolModalOpen: boolean;
