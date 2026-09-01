@@ -11,3 +11,5 @@ export * from "./troop";
 export * from "./patrol";
 export * from "./parent";
 export * from "./notes";
+
+export * from "./badges";
