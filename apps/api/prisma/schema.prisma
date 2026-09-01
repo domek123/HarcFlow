@@ -103,7 +103,9 @@ model ScoutPatrol {
 model BadgeStore {
   troopId String     @db.Uuid
   badgeId String     
-  amount  Int        @default(0)
+  quantity  Int        @default(0)
+  updatedAt DateTime @default(now()) @updatedAt
+
   troop   ScoutTroop @relation(fields: [troopId], references: [id])
 
   @@id([troopId, badgeId])
