@@ -55,16 +55,12 @@ model ScoutProfile {
 
 model UserBadge {
   profileId String       @db.Uuid
-  badgeId   String       @db.Uuid
+  badgeId   String       
   status    BadgeStatus  @default(PLANNED)
-  wonAt     DateTime?
-  badge     MeritBadge   @relation(fields: [badgeId], references: [id])
   profile   ScoutProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@id([profileId, badgeId])
-  @@unique([profileId, badgeId])
   @@index([profileId, status])
-  @@index([wonAt(sort: Desc)])
 }
 
 model ScoutNote {
@@ -85,7 +81,7 @@ model ScoutTroop {
   name           String
   description    String?
   creationYear   Int?
-  badgeInventory BadgesStore[]
+  badgeInventory BadgeStore[]
   troopInventory InventoryItem[]
   patrols        ScoutPatrol[]
   members        ScoutProfile[]
@@ -104,22 +100,13 @@ model ScoutPatrol {
   @@index([troopId])
 }
 
-model BadgesStore {
+model BadgeStore {
   troopId String     @db.Uuid
-  badgeId String     @db.Uuid
+  badgeId String     
   amount  Int        @default(0)
-  badge   MeritBadge @relation(fields: [badgeId], references: [id])
   troop   ScoutTroop @relation(fields: [troopId], references: [id])
 
   @@id([troopId, badgeId])
-}
-
-model MeritBadge {
-  id         String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String
-  level      Int
-  stock      BadgesStore[]
-  achievedBy UserBadge[]
 }
 
 model InventoryItem {
