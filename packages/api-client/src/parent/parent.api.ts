@@ -5,7 +5,20 @@ import {
 } from "@harcapp/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 
-import * as Crypto from "expo-crypto";
+function generateUUID(): string {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
+    return crypto.randomUUID();
+  }
+
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
 
 export async function fetchUserParents(
   supabase: SupabaseClient,
@@ -45,7 +58,7 @@ export async function createParentAndLinkToUser(
   userId: string,
   input: CreateParentInput,
 ): Promise<string> {
-  const parentId = Crypto.randomUUID();
+  const parentId = generateUUID();
 
   const { error: createError } = await supabase.from("Parent").insert({
     id: parentId,
