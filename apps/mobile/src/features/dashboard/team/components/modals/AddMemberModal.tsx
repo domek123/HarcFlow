@@ -22,7 +22,7 @@ import {
   useFetchPatrols,
   useUpdateTroopMember,
 } from "@harcapp/api-client";
-import type {
+import {
   Degree,
   Function,
   Gender,
@@ -94,10 +94,10 @@ export const AddMemberModal = ({
         birthDate: memberToEdit.birthDate
           ? new Date(memberToEdit.birthDate).toISOString().split("T")[0]
           : undefined,
-        gender: memberToEdit.gender ?? "MALE",
-        function: memberToEdit.function ?? "NONE",
-        rank: memberToEdit.rank ?? "NONE",
-        degree: memberToEdit.degree ?? "NONE",
+        gender: memberToEdit.gender ?? Gender.MALE,
+        function: memberToEdit.function ?? Function.NONE,
+        rank: memberToEdit.rank ?? Rank.NONE,
+        degree: memberToEdit.degree ?? Degree.NONE,
         patrolId: memberToEdit.patrolId ?? undefined,
       });
       return;
@@ -331,8 +331,8 @@ export const AddMemberModal = ({
               error={errors.degree?.message}
             />
 
-            {selectedFunction !== "DRUZYNOWY" &&
-              selectedFunction !== "PRZYBOCZNY" && (
+            {selectedFunction !== Function.DRUZYNOWY &&
+              selectedFunction !== Function.PRZYBOCZNY && (
                 <SelectField
                   label={t("dashboard.team.addMemberModal.patrol")}
                   value={selectedPatrol}

@@ -6,7 +6,7 @@ import {
   useGetTroopMembersSection,
   useTroopDetailsWithPatrols,
 } from "@harcapp/api-client";
-import type { TroopMemberSectionDTO, Function } from "@harcapp/types";
+import { TroopMemberSectionDTO, Function } from "@harcapp/types";
 
 import { sortMembersByRank } from "../utils/sortMembersByRank";
 
@@ -64,8 +64,8 @@ export const useTeamScreen = () => {
 
     searchedMembers.forEach((member) => {
       if (
-        member.function === ("DRUZYNOWY" as Function) ||
-        member.function === ("PRZYBOCZNY" as Function)
+        member.function === Function.DRUZYNOWY ||
+        member.function === Function.PRZYBOCZNY
       ) {
         rawStaff.push(member);
         return;

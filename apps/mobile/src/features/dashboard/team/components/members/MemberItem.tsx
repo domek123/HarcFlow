@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { TroopMemberSectionDTO } from "@harcapp/types";
+import { Rank, TroopMemberSectionDTO } from "@harcapp/types";
 
 import { getAgeFromBirthDate } from "../../utils/getAgeFromBirthDate";
 
@@ -39,7 +39,8 @@ export const MemberItem = ({ member }: MemberItemProps) => {
 
           <Text style={styles.memberMetaSecondary}>
             {t(`enums.degree.${member.degree}`)}
-            {member.rank !== "NONE" && ` · ${t(`enums.rank.${member.rank}`)}`}
+            {member.rank !== Rank.NONE &&
+              ` · ${t(`enums.rank.${member.rank}`)}`}
           </Text>
         </View>
       </View>

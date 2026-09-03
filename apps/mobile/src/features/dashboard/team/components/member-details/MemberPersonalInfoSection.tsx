@@ -7,7 +7,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { showToast } from "@/utils/toast";
 import { useDeleteTroopMember } from "@harcapp/api-client";
-import { ScoutProfileDTO } from "@harcapp/types";
+import { Function, ScoutProfileDTO } from "@harcapp/types";
 
 import { getAgeFromBirthDate } from "../../utils/getAgeFromBirthDate";
 import { AddMemberModal } from "../modals/AddMemberModal";
@@ -26,8 +26,8 @@ export function MemberPersonalInfoSection({
   const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
 
   const hasPatrol =
-    member?.function !== "DRUZYNOWY" &&
-    member?.function !== "PRZYBOCZNY" &&
+    member?.function !== Function.DRUZYNOWY &&
+    member?.function !== Function.PRZYBOCZNY &&
     Boolean(member?.patrol);
 
   const { mutate: deleteTroopMember } = useDeleteTroopMember(member.troopId);

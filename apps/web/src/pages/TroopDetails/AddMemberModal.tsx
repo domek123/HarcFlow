@@ -25,11 +25,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useAddMember, useUpdateTroopMember } from "@harcapp/api-client";
-import type {
+import {
   Degree,
+  Function,
+  Gender,
   Rank,
-  Function as ScoutFunction,
-  ScoutProfileDTO,
+  type Function as ScoutFunction,
+  type ScoutProfileDTO,
 } from "@harcapp/types";
 import {
   addMemberDefaultValues,
@@ -81,10 +83,10 @@ export const MemberDialog = ({
           birthDate: memberToEdit.birthDate
             ? memberToEdit.birthDate.split("T")[0]
             : undefined,
-          gender: memberToEdit.gender || "MALE",
-          function: memberToEdit.function || "NONE",
-          rank: memberToEdit.rank || "NONE",
-          degree: memberToEdit.degree || "NONE",
+          gender: memberToEdit.gender || Gender.MALE,
+          function: memberToEdit.function || Function.NONE,
+          rank: memberToEdit.rank || Rank.NONE,
+          degree: memberToEdit.degree || Degree.NONE,
         });
       } else {
         reset(addMemberDefaultValues);
@@ -267,19 +269,19 @@ export const MemberDialog = ({
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="NONE">
+                    <SelectItem value={Function.NONE}>
                       {t("enums.function.NONE")}
                     </SelectItem>
-                    <SelectItem value="DRUZYNOWY">
+                    <SelectItem value={Function.DRUZYNOWY}>
                       {t("enums.function.DRUZYNOWY")}
                     </SelectItem>
-                    <SelectItem value="PRZYBOCZNY">
+                    <SelectItem value={Function.PRZYBOCZNY}>
                       {t("enums.function.PRZYBOCZNY")}
                     </SelectItem>
-                    <SelectItem value="ZASTEPOWY">
+                    <SelectItem value={Function.ZASTEPOWY}>
                       {t("enums.function.ZASTEPOWY")}
                     </SelectItem>
-                    <SelectItem value="PODZASTEPOWY">
+                    <SelectItem value={Function.PODZASTEPOWY}>
                       {t("enums.function.PODZASTEPOWY")}
                     </SelectItem>
                   </SelectContent>
@@ -305,14 +307,16 @@ export const MemberDialog = ({
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="NONE">{t("enums.rank.NONE")}</SelectItem>
-                    <SelectItem value="PRZEWODNIK">
+                    <SelectItem value={Rank.NONE}>
+                      {t("enums.rank.NONE")}
+                    </SelectItem>
+                    <SelectItem value={Rank.PRZEWODNIK}>
                       {t("enums.rank.PRZEWODNIK")}
                     </SelectItem>
-                    <SelectItem value="PODHARCMISTRZ">
+                    <SelectItem value={Rank.PODHARCMISTRZ}>
                       {t("enums.rank.PODHARCMISTRZ")}
                     </SelectItem>
-                    <SelectItem value="HARCMISTRZ">
+                    <SelectItem value={Rank.HARCMISTRZ}>
                       {t("enums.rank.HARCMISTRZ")}
                     </SelectItem>
                   </SelectContent>
@@ -340,15 +344,27 @@ export const MemberDialog = ({
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="NONE">
+                    <SelectItem value={Degree.NONE}>
                       {t("enums.degree.NONE")}
                     </SelectItem>
-                    <SelectItem value="DH">{t("enums.degree.DH")}</SelectItem>
-                    <SelectItem value="ML">{t("enums.degree.ML")}</SelectItem>
-                    <SelectItem value="WYW">{t("enums.degree.WYW")}</SelectItem>
-                    <SelectItem value="CW">{t("enums.degree.CW")}</SelectItem>
-                    <SelectItem value="HO">{t("enums.degree.HO")}</SelectItem>
-                    <SelectItem value="HR">{t("enums.degree.HR")}</SelectItem>
+                    <SelectItem value={Degree.DH}>
+                      {t("enums.degree.DH")}
+                    </SelectItem>
+                    <SelectItem value={Degree.ML}>
+                      {t("enums.degree.ML")}
+                    </SelectItem>
+                    <SelectItem value={Degree.WYW}>
+                      {t("enums.degree.WYW")}
+                    </SelectItem>
+                    <SelectItem value={Degree.CW}>
+                      {t("enums.degree.CW")}
+                    </SelectItem>
+                    <SelectItem value={Degree.HO}>
+                      {t("enums.degree.HO")}
+                    </SelectItem>
+                    <SelectItem value={Degree.HR}>
+                      {t("enums.degree.HR")}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>

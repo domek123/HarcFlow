@@ -1,3 +1,4 @@
+import { Gender, Function, Rank, Degree } from "@harcapp/types";
 import * as z from "zod";
 
 type TranslateFn = (key: string) => string;
@@ -21,16 +22,10 @@ export const createAddMemberSchema = (t: TranslateFn) =>
       .optional()
       .or(z.literal("")),
     birthDate: z.string().optional(),
-    gender: z.enum(["MALE", "FEMALE"]),
-    function: z.enum([
-      "DRUZYNOWY",
-      "PRZYBOCZNY",
-      "ZASTEPOWY",
-      "PODZASTEPOWY",
-      "NONE",
-    ]),
-    rank: z.enum(["HARCMISTRZ", "PODHARCMISTRZ", "PRZEWODNIK", "NONE"]),
-    degree: z.enum(["HR", "HO", "CW", "WYW", "ML", "DH", "NONE"]),
+    gender: z.nativeEnum(Gender),
+    function: z.nativeEnum(Function),
+    rank: z.nativeEnum(Rank),
+    degree: z.nativeEnum(Degree),
     patrolId: z.string().optional(),
   });
 
@@ -44,9 +39,9 @@ export const addMemberDefaultValues: AddMemberFormValues = {
   email: "",
   phoneNumber: "",
   birthDate: undefined,
-  gender: "MALE",
-  function: "NONE",
-  rank: "NONE",
-  degree: "NONE",
+  gender: Gender.MALE,
+  function: Function.NONE,
+  rank: Rank.NONE,
+  degree: Degree.NONE,
   patrolId: undefined,
 };

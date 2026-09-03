@@ -1,31 +1,20 @@
+import { Degree, Function, Gender, Rank } from "@harcapp/types";
+
 export const PATROL_DAY_OPTIONS = [1, 2, 3, 4, 5, 6, 7] as const;
 
-export const genderOptions = [
-  { value: "MALE", labelKey: "enums.gender.MALE" },
-  { value: "FEMALE", labelKey: "enums.gender.FEMALE" },
-] as const;
+export function createEnumOptions<
+  T extends Record<string, string>,
+  K extends string,
+>(enumObj: T, prefix: K) {
+  return (Object.values(enumObj).reverse() as Array<T[keyof T]>).map(
+    (value) => ({
+      value,
+      labelKey: `${prefix}.${value}` as const,
+    }),
+  );
+}
 
-export const functionOptions = [
-  { value: "NONE", labelKey: "enums.function.NONE" },
-  { value: "PODZASTEPOWY", labelKey: "enums.function.PODZASTEPOWY" },
-  { value: "ZASTEPOWY", labelKey: "enums.function.ZASTEPOWY" },
-  { value: "PRZYBOCZNY", labelKey: "enums.function.PRZYBOCZNY" },
-  { value: "DRUZYNOWY", labelKey: "enums.function.DRUZYNOWY" },
-] as const;
-
-export const rankOptions = [
-  { value: "NONE", labelKey: "enums.rank.NONE" },
-  { value: "PRZEWODNIK", labelKey: "enums.rank.PRZEWODNIK" },
-  { value: "PODHARCMISTRZ", labelKey: "enums.rank.PODHARCMISTRZ" },
-  { value: "HARCMISTRZ", labelKey: "enums.rank.HARCMISTRZ" },
-] as const;
-
-export const degreeOptions = [
-  { value: "NONE", labelKey: "enums.degree.NONE" },
-  { value: "DH", labelKey: "enums.degree.DH" },
-  { value: "ML", labelKey: "enums.degree.ML" },
-  { value: "WYW", labelKey: "enums.degree.WYW" },
-  { value: "CW", labelKey: "enums.degree.CW" },
-  { value: "HO", labelKey: "enums.degree.HO" },
-  { value: "HR", labelKey: "enums.degree.HR" },
-] as const;
+export const genderOptions = createEnumOptions(Gender, "enums.gender");
+export const functionOptions = createEnumOptions(Function, "enums.function");
+export const rankOptions = createEnumOptions(Rank, "enums.rank");
+export const degreeOptions = createEnumOptions(Degree, "enums.degree");
