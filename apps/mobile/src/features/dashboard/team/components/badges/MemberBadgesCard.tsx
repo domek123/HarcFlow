@@ -128,7 +128,16 @@ export const MemberBadgesCard = memo(function MemberBadgesCard({
                         {renderStars(badgeDefinition?.level ?? null)}
                       </View>
                     </View>
-                    <Text style={styles.statusText}>
+                    <Text
+                      style={[
+                        styles.statusText,
+                        badge.status === BadgeStatus.PLANNED &&
+                          styles.statusPlanned,
+                        badge.status === BadgeStatus.COMPLETED &&
+                          styles.statusCompleted,
+                        badge.status === BadgeStatus.WON && styles.statusWon,
+                      ]}
+                    >
                       {t(`enums.badgeStatus.${badge.status}`)}
                     </Text>
                   </View>
@@ -245,6 +254,15 @@ const stylesheet = createStyleSheet((theme) => ({
     color: theme.colors.mutedForeground,
     fontSize: 11,
     fontWeight: "700",
+  },
+  statusPlanned: {
+    color: "#50C808",
+  },
+  statusCompleted: {
+    color: "#EB0B01",
+  },
+  statusWon: {
+    color: "#2563EB",
   },
   changeButton: {
     borderWidth: 1,
