@@ -5,6 +5,8 @@ import type {
   Rank,
   Degree,
   Function,
+  ScoutProfileWithBadgesDTO,
+  RawScoutProfileWithBadges,
 } from "@harcapp/types";
 
 export type ProfileQuery = { profileId?: string; userId?: string };

@@ -10,3 +10,4 @@ export * from "./parent/use-parents";
 export * from "./profileNotes/use-notes";
 export * from "./badge/use-badge";
 export * from "./troopInventory/use-troop-inventory";
+export * from "./memberBadge/use-member-badge";

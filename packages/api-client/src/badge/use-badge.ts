@@ -1,7 +1,7 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { getTroopBadgeInventory, updateBadgeQuantity } from "./badge.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { scoutBadgesKeys } from "../keys";
+import { badgesKeys } from "../keys";
 import { BadgeTroopInventory, UpdateBadgeQuantityInput } from "@harcapp/types";
 
 export const useFetchTroopBadgeInventory = (
@@ -9,7 +9,7 @@ export const useFetchTroopBadgeInventory = (
   troopId?: string,
 ) => {
   return useQuery({
-    queryKey: scoutBadgesKeys.list(troopId),
+    queryKey: badgesKeys.list(troopId),
     queryFn: () => getTroopBadgeInventory(supabase, troopId!),
     enabled: !!troopId,
   });
@@ -27,7 +27,7 @@ export const useUpdateBadgeQuantity = (supabase: SupabaseClient) => {
       return updateBadgeQuantity(supabase, troopId, badgeId, delta);
     },
     onMutate: async ({ troopId, badgeId, delta }) => {
-      const queryKey = scoutBadgesKeys.list(troopId);
+      const queryKey = badgesKeys.list(troopId);
 
       await queryClient.cancelQueries({ queryKey });
 
