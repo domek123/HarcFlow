@@ -34,3 +34,8 @@ export const scoutBadgesKeys = {
   all: ["scout-badges"] as const,
   list: (troopId?: string) => [...scoutBadgesKeys.all, troopId] as const,
 };
+
+export const scoutInventoryKeys = {
+  all: ["scout-inventory"] as const,
+  list: (troopId?: string) => [...scoutInventoryKeys.all, troopId] as const,
+};

@@ -7,3 +7,4 @@ export * from "./parent";
 export * from "./notes";
 
 export * from "./badges";
+export * from "./inventoryItem";
