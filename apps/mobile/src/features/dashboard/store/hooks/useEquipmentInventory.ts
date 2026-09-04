@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 
 import { useTranslation } from "react-i18next";
-import { useDebounce } from "use-debounce";
 
 import { supabase } from "@/lib/supabase";
 import { showToast } from "@/utils/toast";
@@ -35,7 +34,6 @@ export function useEquipmentInventory() {
     useDeleteInventoryItem(supabase, troopId ?? "");
 
   const [search, setSearch] = useState("");
-  const [debouncedSearch] = useDebounce(search, 250);
   const [category, setCategory] = useState<InventoryCategory>("ALL");
   const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
   const [deleteDialogItem, setDeleteDialogItem] =
@@ -45,14 +43,14 @@ export function useEquipmentInventory() {
   const items = useMemo(() => {
     if (!inventoryQuery.data) return [];
 
-    const query = debouncedSearch.trim().toLowerCase();
+    const query = search.trim().toLowerCase();
 
     return inventoryQuery.data.filter((item) => {
       const matchesSearch = !query || item.name.toLowerCase().includes(query);
       const matchesCategory = category === "ALL" || item.type === category;
       return matchesSearch && matchesCategory;
     });
-  }, [category, debouncedSearch, inventoryQuery.data]);
+  }, [category, search, inventoryQuery.data]);
 
   const openCreate = () => {
     setEditingItem(null);
