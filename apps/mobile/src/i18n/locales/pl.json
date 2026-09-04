@@ -1,5 +1,6 @@
 {
   "common": {
+    "close": "Zamknij",
     "saving": "Zapisywanie...",
     "loading": "Ładowanie...",
     "deleting": "Usuwanie...",
@@ -62,6 +63,18 @@
       "members": "Członkowie",
       "skills": "Sprawności",
       "skillsDescription": "Tutaj pojawią się sprawności członków drużyny.",
+      "badges": {
+        "title": "Sprawności członków",
+        "empty": "Brak członków drużyny.",
+        "choose": "Wybierz sprawność",
+        "badges": "sprawności",
+        "noBadges": "Brak przyznanych sprawności.",
+        "complete": "Zamknij",
+        "win": "Przyznaj",
+        "search": "Szukaj sprawności...",
+        "noMatch": "Brak pasujących sprawności.",
+        "assign": "Dodaj sprawność"
+      },
       "addPerson": "Dodaj osobę",
       "addPatrol": "Dodaj zastęp",
       "searchPlaceholder": "Szukaj członka...",
@@ -276,6 +289,11 @@
       "WYW": "Wywiadowca",
       "CW": "Ćwik",
       "DH": "Druh"
+    },
+    "badgeStatus": {
+      "WON": "Otrzymana",
+      "COMPLETED": "Zamknieta",
+      "PLANNED": "Planowana"
     }
   }
 }

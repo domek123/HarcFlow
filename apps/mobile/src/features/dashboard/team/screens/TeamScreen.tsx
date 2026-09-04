@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+import { SkillsManagementSegment } from "../components/badges/SkillsManagementSegment";
 import { useTeamScreen } from "../hooks/useTeamScreen";
 import { TroopMembersSegment } from "./TroopMembersSegment";
 
@@ -35,69 +36,68 @@ export function TeamScreen() {
 
   const isMembersTab = activeTab === "members";
 
+  const header = (
+    <View style={styles.headerCard}>
+      <View style={styles.headerTopRow}>
+        <View style={styles.headerTextWrap}>
+          <Text style={styles.title}>
+            {troop?.name ?? t("dashboard.team.defaultName")}
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.summaryRow}>
+        <View style={styles.summaryMiniCard}>
+          <Text style={styles.summaryLabel}>{t("dashboard.team.members")}</Text>
+          <Text style={styles.summaryValue}>{totalMembers}</Text>
+        </View>
+      </View>
+      <View style={styles.segmentedWrap}>
+        {tabOptions.map((option) => {
+          const selected = activeTab === option.key;
+
+          return (
+            <Pressable
+              key={option.key}
+              style={[
+                styles.segmentButton,
+                selected && styles.segmentButtonActive,
+              ]}
+              onPress={() => setActiveTab(option.key as TeamTab)}
+            >
+              <Text
+                style={[
+                  styles.segmentText,
+                  selected && styles.segmentTextActive,
+                ]}
+              >
+                {option.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        contentContainerStyle={styles.content}
-        refreshControl={
-          <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
-        }
-      >
-        <View style={styles.headerCard}>
-          <View style={styles.headerTopRow}>
-            <View style={styles.headerTextWrap}>
-              <Text style={styles.title}>
-                {troop?.name ?? t("dashboard.team.defaultName")}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.summaryRow}>
-            <View style={styles.summaryMiniCard}>
-              <Text style={styles.summaryLabel}>
-                {t("dashboard.team.members")}
-              </Text>
-              <Text style={styles.summaryValue}>{totalMembers}</Text>
-            </View>
-          </View>
-          <View style={styles.segmentedWrap}>
-            {tabOptions.map((option) => {
-              const selected = activeTab === option.key;
-
-              return (
-                <Pressable
-                  key={option.key}
-                  style={[
-                    styles.segmentButton,
-                    selected && styles.segmentButtonActive,
-                  ]}
-                  onPress={() => setActiveTab(option.key as TeamTab)}
-                >
-                  <Text
-                    style={[
-                      styles.segmentText,
-                      selected && styles.segmentTextActive,
-                    ]}
-                  >
-                    {option.label}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
-        </View>
-
-        {isMembersTab ? (
+      {isMembersTab ? (
+        <ScrollView
+          contentContainerStyle={styles.content}
+          refreshControl={
+            <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+          }
+        >
+          {header}
           <TroopMembersSegment {...teamData} />
-        ) : (
-          <View style={styles.skillsCard}>
-            <Text style={styles.skillsTitle}>{t("dashboard.team.skills")}</Text>
-            <Text style={styles.skillsText}>
-              {t("dashboard.team.skillsDescription")}
-            </Text>
-          </View>
-        )}
-      </ScrollView>
+        </ScrollView>
+      ) : (
+        <View style={styles.skillsScreen}>
+          {header}
+          <SkillsManagementSegment />
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -110,6 +110,11 @@ const stylesheet = createStyleSheet((theme) => ({
   content: {
     padding: 20,
     paddingBottom: 40,
+    gap: 16,
+  },
+  skillsScreen: {
+    flex: 1,
+    padding: 20,
     gap: 16,
   },
   headerCard: {
