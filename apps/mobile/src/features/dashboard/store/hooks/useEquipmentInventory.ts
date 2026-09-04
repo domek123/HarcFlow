@@ -6,12 +6,12 @@ import { useDebounce } from "use-debounce";
 import { supabase } from "@/lib/supabase";
 import { showToast } from "@/utils/toast";
 import {
-  useCreateInventoryItem,
-  useDeleteInventoryItem,
   useFetchCurrentScoutProfile,
-  useIncrementInventoryAmount,
-  FetchTroopInventory,
+  useCreateInventoryItem,
   useUpdateInventoryItem,
+  useIncrementInventoryAmount,
+  useDeleteInventoryItem,
+  useFetchTroopInventory,
 } from "@harcapp/api-client";
 import { InventoryItem, InventoryItemType } from "@harcapp/types";
 import { InventoryItemFormValues } from "@harcapp/validators";
@@ -22,7 +22,7 @@ export function useEquipmentInventory() {
   const { data: profile } = useFetchCurrentScoutProfile(supabase);
   const troopId = profile?.troopId;
 
-  const inventoryQuery = FetchTroopInventory(supabase, troopId);
+  const inventoryQuery = useFetchTroopInventory(supabase, troopId);
   const { mutate: createMutation, isPending: isCreatePending } =
     useCreateInventoryItem(supabase, troopId ?? "");
   const { mutate: updateMutation, isPending: isUpdatePending } =

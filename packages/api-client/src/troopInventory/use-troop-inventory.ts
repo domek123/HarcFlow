@@ -14,7 +14,7 @@ import {
   UpdateInventoryItemInput,
 } from "@harcapp/types";
 
-export const FetchTroopInventory = (
+export const useFetchTroopInventory = (
   supabase: SupabaseClient,
   troopId?: string,
 ) => {
