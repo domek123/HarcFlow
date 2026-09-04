@@ -121,9 +121,9 @@ model InventoryItem {
 }
 
 enum BadgeStatus {
-  PLANNED     // Planowana
-  IN_PROGRESS // Otwarta / W trakcie zdobywania
-  COMPLETED   // Zdobyta (zaliczone wonAt)
+  PLANNED
+  COMPLETED
+  WON
 }
 
 enum Gender {
