@@ -12,6 +12,7 @@ export function SkillsManagementSegment() {
   const { styles } = useStyles(stylesheet);
 
   const {
+    troopId,
     members,
     isLoading,
     assigningMember,
@@ -37,6 +38,7 @@ export function SkillsManagementSegment() {
               member={item}
               onAdd={openAssign}
               onStatusChange={changeStatus}
+              troopId={troopId}
             />
           )}
           ListEmptyComponent={

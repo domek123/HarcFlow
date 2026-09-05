@@ -48,7 +48,8 @@ export const useBadgeInventory = () => {
         delta,
       });
     },
-    [currentScoutProfile?.troopId, updateBadgeQuantity],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [currentScoutProfile?.troopId],
   );
 
   const visibleBadges = useMemo(() => {
@@ -100,5 +101,6 @@ export const useBadgeInventory = () => {
     flattenedData,
     handleBadgeCountChange,
     handleBadgeQuantitySet,
+    troopId: currentScoutProfile?.troopId,
   };
 };

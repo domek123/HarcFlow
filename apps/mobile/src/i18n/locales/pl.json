@@ -158,6 +158,9 @@
       "searchPlaceholder": "Szukaj sprawności...",
       "noBadges": "Brak sprawności w magazynie.",
       "noBadgesMatch": "Brak sprawności pasujących do wyszukiwania.",
+      "toBuyTitle": "Sprawności do kupienia",
+      "toBuyQuantity": "{{count}} szt.",
+      "toBuyLoadError": "Nie udało się pobrać listy do kupienia.",
       "quantityModal": {
         "title": "Edytuj ilość",
         "placeholder": "0"

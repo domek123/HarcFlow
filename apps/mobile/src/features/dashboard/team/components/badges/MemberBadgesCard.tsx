@@ -5,6 +5,8 @@ import { ChevronDown, ChevronRight, Plus } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+import { supabase } from "@/lib/supabase";
+import { useBadgeInventoryMap } from "@harcapp/api-client";
 import {
   BadgeStatus,
   getBadgeById,
@@ -19,7 +21,9 @@ interface MemberBadgesCardProps {
     badgeId: string,
     status: BadgeStatus,
   ) => void;
+  troopId?: string;
 }
+
 const statusOrder: Record<string, number> = {
   WON: 0,
   COMPLETED: 1,
@@ -30,9 +34,12 @@ export const MemberBadgesCard = memo(function MemberBadgesCard({
   member,
   onAdd,
   onStatusChange,
+  troopId,
 }: MemberBadgesCardProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
+
+  const { data: stockMap } = useBadgeInventoryMap(supabase, troopId);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -46,12 +53,15 @@ export const MemberBadgesCard = memo(function MemberBadgesCard({
 
   const toggle = useCallback(() => setExpanded((value) => !value), []);
 
-  const handleStatusChange = (badgeId: string, currentStatus: BadgeStatus) => {
-    if (currentStatus === BadgeStatus.PLANNED)
-      return onStatusChange(member.id, badgeId, BadgeStatus.COMPLETED);
-
-    return onStatusChange(member.id, badgeId, BadgeStatus.WON);
-  };
+  const handleStatusChange = useCallback(
+    (badgeId: string, currentStatus: BadgeStatus) => {
+      if (currentStatus === BadgeStatus.PLANNED) {
+        return onStatusChange(member.id, badgeId, BadgeStatus.COMPLETED);
+      }
+      return onStatusChange(member.id, badgeId, BadgeStatus.WON);
+    },
+    [member.id, onStatusChange],
+  );
 
   const renderStars = (level: number | null) => {
     if (level === null) {
@@ -110,6 +120,10 @@ export const MemberBadgesCard = memo(function MemberBadgesCard({
           ) : (
             sortedBadges.map((badge, index) => {
               const badgeDefinition = getBadgeById(badge.badgeId);
+              const stock = stockMap?.[badge.badgeId] ?? 0;
+
+              const isTargetCompleted = badge.status === BadgeStatus.COMPLETED;
+              const isOutOfStock = isTargetCompleted && stock <= 0;
 
               return (
                 <View
@@ -128,28 +142,45 @@ export const MemberBadgesCard = memo(function MemberBadgesCard({
                         {renderStars(badgeDefinition?.level ?? null)}
                       </View>
                     </View>
-                    <Text
-                      style={[
-                        styles.statusText,
-                        badge.status === BadgeStatus.PLANNED &&
-                          styles.statusPlanned,
-                        badge.status === BadgeStatus.COMPLETED &&
-                          styles.statusCompleted,
-                        badge.status === BadgeStatus.WON && styles.statusWon,
-                      ]}
-                    >
-                      {t(`enums.badgeStatus.${badge.status}`)}
-                    </Text>
+                    <View style={styles.statusRow}>
+                      <Text
+                        style={[
+                          styles.statusText,
+                          badge.status === BadgeStatus.PLANNED &&
+                            styles.statusPlanned,
+                          badge.status === BadgeStatus.COMPLETED &&
+                            styles.statusCompleted,
+                          badge.status === BadgeStatus.WON && styles.statusWon,
+                        ]}
+                      >
+                        {t(`enums.badgeStatus.${badge.status}`)}
+                      </Text>
+                      {isOutOfStock && (
+                        <Text style={styles.outOfStockText}>
+                          ({t("dashboard.inventory.outOfStock")})
+                        </Text>
+                      )}
+                    </View>
                   </View>
                   {badge.status !== BadgeStatus.WON && (
                     <Pressable
                       onPress={() =>
                         handleStatusChange(badge.badgeId, badge.status)
                       }
-                      style={styles.changeButton}
+                      disabled={isOutOfStock}
+                      style={({ pressed }) => [
+                        styles.changeButton,
+                        isOutOfStock && styles.changeButtonDisabled,
+                        pressed && !isOutOfStock && styles.changeButtonPressed,
+                      ]}
                     >
-                      <Text style={styles.changeButtonText}>
-                        {badge.status == BadgeStatus.PLANNED
+                      <Text
+                        style={[
+                          styles.changeButtonText,
+                          isOutOfStock && styles.changeButtonTextDisabled,
+                        ]}
+                      >
+                        {badge.status === BadgeStatus.PLANNED
                           ? t("dashboard.team.badges.complete")
                           : t("dashboard.team.badges.win")}
                       </Text>
@@ -250,6 +281,11 @@ const stylesheet = createStyleSheet((theme) => ({
     fontSize: 12,
     fontWeight: "600",
   },
+  statusRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
   statusText: {
     color: theme.colors.mutedForeground,
     fontSize: 11,
@@ -264,6 +300,11 @@ const stylesheet = createStyleSheet((theme) => ({
   statusWon: {
     color: "#2563EB",
   },
+  outOfStockText: {
+    color: theme.colors.destructive,
+    fontSize: 10,
+    fontWeight: "600",
+  },
   changeButton: {
     borderWidth: 1,
     borderColor: theme.colors.border,
@@ -271,10 +312,21 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingHorizontal: 10,
     paddingVertical: 7,
   },
+  changeButtonPressed: {
+    opacity: 0.7,
+  },
+  changeButtonDisabled: {
+    backgroundColor: theme.colors.muted,
+    borderColor: theme.colors.border,
+    opacity: 0.5,
+  },
   changeButtonText: {
     color: theme.colors.primary,
     fontSize: 11,
     fontWeight: "700",
+  },
+  changeButtonTextDisabled: {
+    color: theme.colors.mutedForeground,
   },
   empty: {
     color: theme.colors.mutedForeground,

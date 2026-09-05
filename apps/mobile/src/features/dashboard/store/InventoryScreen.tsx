@@ -9,6 +9,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { getBadgeById } from "@harcapp/types";
 
 import { BadgeRow } from "./components/badges/BadgeRow";
+import { BadgesToBuyList } from "./components/badges/BadgesToBuyList";
 import { EquipmentPanel } from "./components/equipment/EquipmentPanel";
 import { InventoryTab, InventoryTabs } from "./components/InventoryTabs";
 import { QuantityInputModal } from "./components/modals/QuantityInputModal";
@@ -24,6 +25,7 @@ export function InventoryScreen() {
     flattenedData,
     handleBadgeCountChange,
     handleBadgeQuantitySet,
+    troopId,
   } = useBadgeInventory();
 
   const [activeTab, setActiveTab] = useState<InventoryTab>("skills");
@@ -87,6 +89,7 @@ export function InventoryScreen() {
 
         {activeTab === "skills" ? (
           <View style={styles.listContainer}>
+            <BadgesToBuyList troopId={troopId} />
             <View style={styles.searchWrap}>
               <TextInput
                 value={searchQuery}
@@ -98,7 +101,6 @@ export function InventoryScreen() {
                 style={styles.searchInput}
               />
             </View>
-
             <FlashList
               data={flattenedData}
               renderItem={renderItem}
