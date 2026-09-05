@@ -63,7 +63,6 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
   }, [isOpen, reset, troop]);
 
   const onSubmit = (data: UpdateTroopFormValues) => {
-    console.log(data);
     toast.promise(updateTroop({ id: troop.id, dto: data }), {
       loading: t("common.saving"),
       success: () => {
