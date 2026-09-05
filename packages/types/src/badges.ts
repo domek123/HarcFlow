@@ -25,6 +25,15 @@ export interface UpdateBadgeQuantityInput {
   delta: number;
 }
 
+export interface BadgeToBuyDTO {
+  id: string;
+  troopId: string;
+  badgeId: string;
+  neededCount: number;
+  inStock: number;
+  toBuyCount: number;
+}
+
 export const SCOUT_BADGES: Badge[] = [
   // ==========================================
   // 1. OBOZOWNICTWO I PRZYRODA

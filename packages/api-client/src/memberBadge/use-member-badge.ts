@@ -10,7 +10,7 @@ import {
   fetchTroopMembersWithBadges,
   updateBadgeStatus,
 } from "./member-badge.api";
-import { scoutBadgeKeys } from "../keys";
+import { badgesKeys, badgeToBuyKeys, scoutBadgeKeys } from "../keys";
 
 export const useFetchTroopMembersWithBadges = (
   supabase: SupabaseClient,
@@ -33,6 +33,9 @@ export const useAssignBadge = (supabase: SupabaseClient, troopId?: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: scoutBadgeKeys.list(troopId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: badgeToBuyKeys.list(troopId),
       });
     },
   });
@@ -85,9 +88,20 @@ export const useUpdateBadgeStatus = (
       }
     },
 
-    onSettled: () => {
+    onSettled: (_data, _error, _variables) => {
+      // invalidate member badge
       queryClient.invalidateQueries({
-        queryKey: scoutBadgeKeys.list(troopId),
+        queryKey: scoutBadgeKeys.list(_variables.profileId),
+      });
+
+      //invalidate troop badges
+      queryClient.invalidateQueries({
+        queryKey: badgesKeys.list(troopId),
+      });
+
+      //invalidate badges to buy
+      queryClient.invalidateQueries({
+        queryKey: badgeToBuyKeys.list(troopId),
       });
     },
   });

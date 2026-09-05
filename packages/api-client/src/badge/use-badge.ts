@@ -1,7 +1,11 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { getTroopBadgeInventory, updateBadgeQuantity } from "./badge.api";
+import {
+  getBadgesToBuy,
+  getTroopBadgeInventory,
+  updateBadgeQuantity,
+} from "./badge.api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { badgesKeys } from "../keys";
+import { badgesKeys, badgeToBuyKeys, scoutBadgeKeys } from "../keys";
 import { BadgeTroopInventory, UpdateBadgeQuantityInput } from "@harcapp/types";
 
 export const useFetchTroopBadgeInventory = (
@@ -15,9 +19,34 @@ export const useFetchTroopBadgeInventory = (
   });
 };
 
+export function useBadgesToBuy(supabase: SupabaseClient, troopId?: string) {
+  return useQuery({
+    queryKey: badgeToBuyKeys.list(troopId),
+    queryFn: () => getBadgesToBuy(supabase, troopId!),
+    enabled: !!troopId,
+  });
+}
+
+export function useBadgeInventoryMap(
+  supabase: SupabaseClient,
+  troopId?: string,
+) {
+  return useQuery({
+    queryKey: ["troopBadgeInventoryMap", troopId],
+    queryFn: async () => {
+      const inventory = await getTroopBadgeInventory(supabase, troopId!);
+
+      return inventory.reduce<Record<string, number>>((acc, item) => {
+        acc[item.id] = item.quantity;
+        return acc;
+      }, {});
+    },
+    enabled: !!troopId,
+  });
+}
+
 export const useUpdateBadgeQuantity = (supabase: SupabaseClient) => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: async ({
       troopId,
@@ -56,9 +85,19 @@ export const useUpdateBadgeQuantity = (supabase: SupabaseClient) => {
       }
     },
     onSettled: (_data, _error, _variables, context) => {
-      if (context?.queryKey) {
-        queryClient.invalidateQueries({ queryKey: context.queryKey });
-      }
+      queryClient.invalidateQueries({
+        queryKey: badgesKeys.list(_variables.troopId),
+      });
+
+      //update badges to buy list
+      queryClient.invalidateQueries({
+        queryKey: badgeToBuyKeys.list(_variables.troopId),
+      });
+
+      //update all scout badges
+      queryClient.invalidateQueries({
+        queryKey: scoutBadgeKeys.all,
+      });
     },
   });
 };

@@ -1,4 +1,8 @@
-import { BadgeTroopInventory, SCOUT_BADGES } from "@harcapp/types";
+import {
+  BadgeToBuyDTO,
+  BadgeTroopInventory,
+  SCOUT_BADGES,
+} from "@harcapp/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function getTroopBadgeInventory(
@@ -23,6 +27,23 @@ export async function getTroopBadgeInventory(
     ...badge,
     quantity: inventoryMap.get(badge.id) ?? 0,
   }));
+}
+
+export async function getBadgesToBuy(
+  supabase: SupabaseClient,
+  troopId: string,
+): Promise<BadgeToBuyDTO[]> {
+  const { data, error } = await supabase
+    .from("BadgeToBuyView")
+    .select("*")
+    .eq("troopId", troopId);
+
+  if (error) {
+    console.error("[getBadgesToBuy] Błąd pobierania listy do kupienia:", error);
+    throw error;
+  }
+
+  return data ?? [];
 }
 
 export async function updateBadgeQuantity(

@@ -7,7 +7,7 @@ import {
   updateInventoryItem,
 } from "./troop-inventory.api";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { scoutInventoryKeys } from "../keys";
+import { troopInventoryKeys } from "../keys";
 import {
   CreateInventoryItemInput,
   InventoryItem,
@@ -19,7 +19,7 @@ export const useFetchTroopInventory = (
   troopId?: string,
 ) => {
   return useQuery({
-    queryKey: scoutInventoryKeys.list(troopId),
+    queryKey: troopInventoryKeys.list(troopId),
     queryFn: () => fetchTroopInventory(supabase, troopId!),
     enabled: !!troopId,
   });
@@ -36,7 +36,7 @@ export const useCreateInventoryItem = (
       createInventoryItem(supabase, input),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: scoutInventoryKeys.list(troopId),
+        queryKey: troopInventoryKeys.list(troopId),
       });
     },
   });
@@ -58,7 +58,7 @@ export const useUpdateInventoryItem = (
     }) => updateInventoryItem(supabase, id, input),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: scoutInventoryKeys.list(troopId),
+        queryKey: troopInventoryKeys.list(troopId),
       });
     },
   });
@@ -76,16 +76,16 @@ export const useIncrementInventoryAmount = (
 
     onMutate: async ({ itemId, delta }) => {
       await queryClient.cancelQueries({
-        queryKey: scoutInventoryKeys.list(troopId),
+        queryKey: troopInventoryKeys.list(troopId),
       });
 
       const previousItems = queryClient.getQueryData<InventoryItem[]>(
-        scoutInventoryKeys.list(troopId),
+        troopInventoryKeys.list(troopId),
       );
 
       if (previousItems) {
         queryClient.setQueryData<InventoryItem[]>(
-          scoutInventoryKeys.list(troopId),
+          troopInventoryKeys.list(troopId),
           previousItems.map((item) => {
             if (item.id === itemId) {
               const newAmount = item.amount + delta;
@@ -105,7 +105,7 @@ export const useIncrementInventoryAmount = (
     onError: (_err, _variables, context) => {
       if (context?.previousItems) {
         queryClient.setQueryData(
-          scoutInventoryKeys.list(troopId),
+          troopInventoryKeys.list(troopId),
           context.previousItems,
         );
       }
@@ -113,7 +113,7 @@ export const useIncrementInventoryAmount = (
 
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: scoutInventoryKeys.list(troopId),
+        queryKey: troopInventoryKeys.list(troopId),
       });
     },
   });
@@ -130,16 +130,16 @@ export const useDeleteInventoryItem = (
 
     onMutate: async (itemId) => {
       await queryClient.cancelQueries({
-        queryKey: scoutInventoryKeys.list(troopId),
+        queryKey: troopInventoryKeys.list(troopId),
       });
 
       const previousItems = queryClient.getQueryData<InventoryItem[]>(
-        scoutInventoryKeys.list(troopId),
+        troopInventoryKeys.list(troopId),
       );
 
       if (previousItems) {
         queryClient.setQueryData<InventoryItem[]>(
-          scoutInventoryKeys.list(troopId),
+          troopInventoryKeys.list(troopId),
           previousItems.filter((item) => item.id !== itemId),
         );
       }
@@ -150,7 +150,7 @@ export const useDeleteInventoryItem = (
     onError: (_err, _variables, context) => {
       if (context?.previousItems) {
         queryClient.setQueryData(
-          scoutInventoryKeys.list(troopId),
+          troopInventoryKeys.list(troopId),
           context.previousItems,
         );
       }
@@ -158,7 +158,7 @@ export const useDeleteInventoryItem = (
 
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: scoutInventoryKeys.list(troopId),
+        queryKey: troopInventoryKeys.list(troopId),
       });
     },
   });

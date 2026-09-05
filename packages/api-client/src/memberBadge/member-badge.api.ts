@@ -74,15 +74,27 @@ export async function updateBadgeStatus(
   badgeId: string,
   newStatus: BadgeStatus,
 ) {
-  const { data, error } = await supabase
-    .from("UserBadge")
-    .update({ status: newStatus })
-    .match({ profileId, badgeId })
-    .select()
-    .single();
+  const { data, error } = await supabase.rpc("update_badge_status", {
+    p_profile_id: profileId,
+    p_badge_id: badgeId,
+    p_target_status: newStatus,
+  });
 
   if (error) {
-    console.error("[updateBadgeStatus] Błąd aktualizacji statusu:", error);
+    console.error("[updateBadgeStatus] Błąd aktualizacji statusu RPC:", error);
+
+    if (error.message.includes("INSUFFICIENT_STOCK")) {
+      throw new Error(
+        "Brak sprawności w magazynie. Wybierz inny status lub uzupełnij stan.",
+      );
+    }
+
+    if (error.message.includes("STATUS_LOCKED")) {
+      throw new Error(
+        "Sprawność została już przyznana (WON) i jej status jest zablokowany.",
+      );
+    }
+
     throw new Error(
       `Nie udało się zaktualizować statusu sprawności: ${error.message}`,
     );
