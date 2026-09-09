@@ -13,7 +13,7 @@ import {
   ScoutProfileWithBadgesDTO,
 } from "@harcapp/types";
 
-export const useManageMemberBadges = () => {
+export function useManageMemberBadges() {
   const { data: profile } = useFetchCurrentScoutProfile(supabase);
   const troopId = profile?.troopId;
 
@@ -65,4 +65,4 @@ export const useManageMemberBadges = () => {
     assignBadge,
     setAssigningMember,
   };
-};
+}

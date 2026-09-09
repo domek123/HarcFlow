@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { supabase } from "@/lib/supabase";
 
-export const useLogout = () => {
+export function useLogout() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -34,4 +34,4 @@ export const useLogout = () => {
   };
 
   return { handleLogout, isLoggingOut, logoutError };
-};
+}

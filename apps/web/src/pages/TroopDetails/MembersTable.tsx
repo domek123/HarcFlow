@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Calendar, Mail, Phone, Trash2, Pencil } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -32,7 +32,7 @@ interface MembersTableProps {
   members: ScoutProfileDTO[];
 }
 
-export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
+export function MembersTable({ members }: MembersTableProps) {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
 
@@ -158,4 +158,4 @@ export const MembersTable: React.FC<MembersTableProps> = ({ members }) => {
       />
     </div>
   );
-};
+}

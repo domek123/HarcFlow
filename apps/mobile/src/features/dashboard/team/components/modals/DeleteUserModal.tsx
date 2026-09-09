@@ -10,12 +10,12 @@ type DeleteUserModalProps = {
   onDelete: () => void;
 };
 
-export const DeleteUserModal = ({
+export function DeleteUserModal({
   isOpen,
   text,
   onClose,
   onDelete,
-}: DeleteUserModalProps) => {
+}: DeleteUserModalProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
@@ -46,7 +46,7 @@ export const DeleteUserModal = ({
       </View>
     </Modal>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   overlay: {

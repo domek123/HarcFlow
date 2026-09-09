@@ -25,7 +25,7 @@ import {
   defaultValues,
 } from "@harcapp/validators";
 
-export const AddTroopModal = () => {
+export function AddTroopModal() {
   const { t } = useTranslation();
 
   const { mutate, isError, error, isPending } = useCreateTroop(supabase);
@@ -130,4 +130,4 @@ export const AddTroopModal = () => {
       </DialogContent>
     </Dialog>
   );
-};
+}

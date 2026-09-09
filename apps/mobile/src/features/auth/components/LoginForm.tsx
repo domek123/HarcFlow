@@ -21,9 +21,7 @@ interface LoginFormProps {
   onNavigateToRegister?: () => void;
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({
-  onNavigateToRegister,
-}) => {
+export function LoginForm({ onNavigateToRegister }: LoginFormProps) {
   const { t } = useTranslation();
   const { styles, theme } = useStyles(stylesheet);
 
@@ -155,7 +153,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   safeArea: {

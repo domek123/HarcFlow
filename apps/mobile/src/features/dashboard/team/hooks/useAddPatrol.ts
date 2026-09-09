@@ -9,7 +9,7 @@ import {
   useFetchCurrentScoutProfile,
 } from "@harcapp/api-client";
 
-export const useAddPatrol = () => {
+export function useAddPatrol() {
   const { t } = useTranslation();
 
   const { mutateAsync: addPatrol, isPending: isAddingPatrol } =
@@ -31,7 +31,7 @@ export const useAddPatrol = () => {
       showToast.success(t("dashboard.team.addPatrolSuccess"));
       closeModal();
       setPatrolName("");
-    } catch (error) {
+    } catch {
       showToast.error(t("dashboard.team.addPatrolError"));
     }
   };
@@ -42,4 +42,4 @@ export const useAddPatrol = () => {
     handleAddPatrol,
     isAddingPatrol,
   };
-};
+}

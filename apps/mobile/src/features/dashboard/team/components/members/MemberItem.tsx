@@ -12,7 +12,7 @@ type MemberItemProps = {
   member: TroopMemberSectionDTO;
 };
 
-export const MemberItem = ({ member }: MemberItemProps) => {
+export function MemberItem({ member }: MemberItemProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
@@ -46,7 +46,7 @@ export const MemberItem = ({ member }: MemberItemProps) => {
       </View>
     </Pressable>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   memberCard: {

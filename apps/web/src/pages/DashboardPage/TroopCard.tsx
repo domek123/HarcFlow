@@ -15,7 +15,7 @@ import {
 import { DeleteTroopModal } from "@/pages/DashboardPage/DeleteTroopModal.tsx";
 import type { TroopDTO } from "@harcapp/types";
 
-export const TroopCard = ({ troop }: { troop: TroopDTO }) => {
+export function TroopCard({ troop }: { troop: TroopDTO }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -79,4 +79,4 @@ export const TroopCard = ({ troop }: { troop: TroopDTO }) => {
       <DeleteTroopModal troop={troop} isOpen={isOpen} setIsOpen={setIsOpen} />
     </Card>
   );
-};
+}

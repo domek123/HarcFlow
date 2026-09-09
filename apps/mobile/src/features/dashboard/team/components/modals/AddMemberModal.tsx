@@ -48,11 +48,11 @@ type AddMemberModalProps = {
   memberToEdit?: ScoutProfileDTO | null;
 };
 
-export const AddMemberModal = ({
+export function AddMemberModal({
   isOpen,
   onClose,
   memberToEdit,
-}: AddMemberModalProps) => {
+}: AddMemberModalProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
@@ -374,7 +374,7 @@ export const AddMemberModal = ({
       </View>
     </Modal>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   modalOverlay: {

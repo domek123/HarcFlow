@@ -18,7 +18,7 @@ export interface PatrolGroup {
   members: TroopMemberSectionDTO[];
 }
 
-export const useTeamScreen = () => {
+export function useTeamScreen() {
   const { data: profile, isLoading: profileLoading } =
     useFetchCurrentScoutProfile(supabase);
 
@@ -131,4 +131,4 @@ export const useTeamScreen = () => {
     refreshing: isRefetching,
     onRefresh,
   };
-};
+}

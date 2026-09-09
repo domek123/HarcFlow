@@ -11,13 +11,13 @@ type SelectFieldProps = {
   error?: string;
 };
 
-export const SelectField = ({
+export function SelectField({
   label,
   value,
   options,
   onChange,
   error,
-}: SelectFieldProps) => {
+}: SelectFieldProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
@@ -56,7 +56,7 @@ export const SelectField = ({
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   fieldGroup: {

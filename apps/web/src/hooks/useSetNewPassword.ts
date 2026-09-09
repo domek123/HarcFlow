@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { supabase } from "../lib/supabase";
 
-export const useSetNewPassword = () => {
+export function useSetNewPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [hasRecoverySession, setHasRecoverySession] = useState(false);
@@ -52,4 +52,4 @@ export const useSetNewPassword = () => {
     success,
     loading,
   };
-};
+}

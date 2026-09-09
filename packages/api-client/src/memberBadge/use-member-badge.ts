@@ -1,8 +1,4 @@
-import {
-  AssignBadgeInput,
-  BadgeStatus,
-  ScoutProfileWithBadgesDTO,
-} from "@harcapp/types";
+import { AssignBadgeInput, ScoutProfileWithBadgesDTO } from "@harcapp/types";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import {

@@ -29,12 +29,12 @@ type AddEditParentModalProps = {
   userId: string;
 };
 
-export const AddEditParentModal = ({
+export function AddEditParentModal({
   isOpen,
   onClose,
   parent,
   userId,
-}: AddEditParentModalProps) => {
+}: AddEditParentModalProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
@@ -148,7 +148,7 @@ export const AddEditParentModal = ({
       </View>
     </Modal>
   );
-};
+}
 
 function ParentInput({
   control,

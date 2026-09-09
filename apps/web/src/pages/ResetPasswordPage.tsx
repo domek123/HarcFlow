@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useResetPassword } from "@/hooks/useResetPassword";
 
-export const ResetPasswordPage = () => {
+export function ResetPasswordPage() {
   const { t } = useTranslation();
   const { email, setEmail, handleResetPassword, error, success, loading } =
     useResetPassword();
@@ -70,4 +70,4 @@ export const ResetPasswordPage = () => {
       </Card>
     </div>
   );
-};
+}

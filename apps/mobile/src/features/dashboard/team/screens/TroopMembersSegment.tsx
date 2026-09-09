@@ -12,7 +12,7 @@ import { useTeamScreen } from "../hooks/useTeamScreen";
 
 type TroopMembersSegmentProps = ReturnType<typeof useTeamScreen>;
 
-export const TroopMembersSegment = ({
+export function TroopMembersSegment({
   profileLoading,
   troopLoading,
   membersLoading,
@@ -21,7 +21,7 @@ export const TroopMembersSegment = ({
   unassignedMembers,
   search,
   setSearch,
-}: TroopMembersSegmentProps) => {
+}: TroopMembersSegmentProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
@@ -103,7 +103,7 @@ export const TroopMembersSegment = ({
       />
     </>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   safeArea: {

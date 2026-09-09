@@ -9,7 +9,7 @@ import { TroopCard } from "@/pages/DashboardPage/TroopCard.tsx";
 import { useTroops } from "@harcapp/api-client";
 import type { TroopDTO } from "@harcapp/types";
 
-export const DashboardPage = () => {
+export function DashboardPage() {
   const { t } = useTranslation();
 
   const { data: troops, isLoading, isError, error } = useTroops(supabase);
@@ -82,4 +82,4 @@ export const DashboardPage = () => {
       </div>
     </div>
   );
-};
+}

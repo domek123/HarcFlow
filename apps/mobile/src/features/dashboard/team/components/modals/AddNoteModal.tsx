@@ -17,11 +17,11 @@ type AddNoteModalProps = {
   profileId: string;
 };
 
-export const AddNoteModal = ({
+export function AddNoteModal({
   isOpen,
   onClose,
   profileId,
-}: AddNoteModalProps) => {
+}: AddNoteModalProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
   const [content, setContent] = useState("");
@@ -98,7 +98,7 @@ export const AddNoteModal = ({
       </View>
     </Modal>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   overlay: {

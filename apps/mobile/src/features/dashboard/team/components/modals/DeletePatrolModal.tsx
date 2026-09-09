@@ -17,11 +17,11 @@ type DeletePatrolModalProps = {
   patrol: Pick<PatrolDTO, "id" | "name"> | null;
 };
 
-export const DeletePatrolModal = ({
+export function DeletePatrolModal({
   patrol,
   isDeletePatrolModalOpen,
   closeModal,
-}: DeletePatrolModalProps) => {
+}: DeletePatrolModalProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
@@ -86,7 +86,7 @@ export const DeletePatrolModal = ({
       </View>
     </Modal>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   modalOverlay: {

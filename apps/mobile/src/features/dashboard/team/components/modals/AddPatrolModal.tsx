@@ -10,10 +10,10 @@ type AddPatrolModalProps = {
   closePatrolModal: () => void;
 };
 
-export const AddPatrolModal = ({
+export function AddPatrolModal({
   isPatrolModalVisible,
   closePatrolModal,
-}: AddPatrolModalProps) => {
+}: AddPatrolModalProps) {
   const { styles } = useStyles(stylesheet);
 
   const { patrolName, setPatrolName, handleAddPatrol, isAddingPatrol } =
@@ -73,7 +73,7 @@ export const AddPatrolModal = ({
       </View>
     </Modal>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   modalOverlay: {

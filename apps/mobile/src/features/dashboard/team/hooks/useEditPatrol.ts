@@ -12,7 +12,7 @@ import {
   updatePatrolSchema,
 } from "@harcapp/validators";
 
-export const useEditPatrol = () => {
+export function useEditPatrol() {
   const { t } = useTranslation();
 
   const { data: currentScout } = useFetchCurrentScoutProfile(supabase);
@@ -55,4 +55,4 @@ export const useEditPatrol = () => {
     isUpdatingPatrol,
     submitPatrolUpdate,
   };
-};
+}

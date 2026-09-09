@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLogin } from "@/hooks/useLogin";
 
-export const LoginPage = () => {
+export function LoginPage() {
   const { t } = useTranslation();
 
   const {
@@ -77,4 +77,4 @@ export const LoginPage = () => {
       </Card>
     </div>
   );
-};
+}

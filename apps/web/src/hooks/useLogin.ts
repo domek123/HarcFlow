@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { supabase } from "@/lib/supabase.ts";
 
-export const useLogin = () => {
+export function useLogin() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -38,4 +38,4 @@ export const useLogin = () => {
     error,
     loading,
   };
-};
+}

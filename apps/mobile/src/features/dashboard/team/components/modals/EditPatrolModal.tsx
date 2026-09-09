@@ -25,11 +25,11 @@ type EditPatrolModalProps = {
   patrol: Omit<PatrolGroup, "members"> | null;
 };
 
-export const EditPatrolModal = ({
+export function EditPatrolModal({
   isEditPatrolModalOpen,
   closeModal,
   patrol,
-}: EditPatrolModalProps) => {
+}: EditPatrolModalProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
   const { isUpdatingPatrol, submitPatrolUpdate } = useEditPatrol();
@@ -218,7 +218,7 @@ export const EditPatrolModal = ({
       </View>
     </Modal>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   modalOverlay: {

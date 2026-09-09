@@ -9,7 +9,7 @@ type FieldProps = {
   children: ReactNode;
 };
 
-export const Field = ({ label, error, children }: FieldProps) => {
+export function Field({ label, error, children }: FieldProps) {
   const { styles } = useStyles(stylesheet);
 
   return (
@@ -19,7 +19,7 @@ export const Field = ({ label, error, children }: FieldProps) => {
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   fieldGroup: {

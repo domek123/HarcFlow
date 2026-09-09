@@ -13,7 +13,7 @@ type BadgesToBuyListProps = {
   troopId?: string;
 };
 
-export const BadgesToBuyList = ({ troopId }: BadgesToBuyListProps) => {
+export function BadgesToBuyList({ troopId }: BadgesToBuyListProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
   const [expanded, setExpanded] = useState(false);
@@ -94,7 +94,7 @@ export const BadgesToBuyList = ({ troopId }: BadgesToBuyListProps) => {
       )}
     </View>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   container: {

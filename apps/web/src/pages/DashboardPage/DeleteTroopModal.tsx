@@ -20,11 +20,11 @@ type DeleteTroopModalProps = {
   troop: Pick<TroopDTO, "id" | "name">;
 };
 
-export const DeleteTroopModal = ({
+export function DeleteTroopModal({
   isOpen,
   troop,
   setIsOpen,
-}: DeleteTroopModalProps) => {
+}: DeleteTroopModalProps) {
   const { t } = useTranslation();
 
   const { mutateAsync, isPending } = useDeleteTroop(supabase);
@@ -68,4 +68,4 @@ export const DeleteTroopModal = ({
       </DialogContent>
     </Dialog>
   );
-};
+}

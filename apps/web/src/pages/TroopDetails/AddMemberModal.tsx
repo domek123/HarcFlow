@@ -45,11 +45,11 @@ interface MemberDialogProps {
   memberToEdit?: ScoutProfileDTO | null;
 }
 
-export const MemberDialog = ({
+export function MemberDialog({
   isOpen,
   onOpenChange,
   memberToEdit,
-}: MemberDialogProps) => {
+}: MemberDialogProps) {
   const { t } = useTranslation();
   const { id: troopId } = useParams<{ id: string }>();
 
@@ -389,4 +389,4 @@ export const MemberDialog = ({
       </DialogContent>
     </Dialog>
   );
-};
+}

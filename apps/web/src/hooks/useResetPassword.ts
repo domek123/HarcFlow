@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { supabase } from "@/lib/supabase";
 
-export const useResetPassword = () => {
+export function useResetPassword() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -34,4 +34,4 @@ export const useResetPassword = () => {
     success,
     loading,
   };
-};
+}

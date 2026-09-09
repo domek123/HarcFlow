@@ -30,11 +30,11 @@ interface EditTroopModalProps {
   troop: Omit<TroopDTO, "memberCount">;
 }
 
-export const EditTroopModal: React.FC<EditTroopModalProps> = ({
+export function EditTroopModal({
   isOpen,
   onOpenChange,
   troop,
-}) => {
+}: EditTroopModalProps) {
   const { t } = useTranslation();
   const { mutateAsync: updateTroop, isPending } = useUpdateTroop(supabase);
 
@@ -153,4 +153,4 @@ export const EditTroopModal: React.FC<EditTroopModalProps> = ({
       </DialogContent>
     </Dialog>
   );
-};
+}

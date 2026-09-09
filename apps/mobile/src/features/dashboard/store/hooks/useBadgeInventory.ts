@@ -12,7 +12,7 @@ export type ListItem =
   | { type: "header"; id: string; title: string }
   | { type: "badge"; id: string; data: BadgeTroopInventory };
 
-export const useBadgeInventory = () => {
+export function useBadgeInventory() {
   const { data: currentScoutProfile } = useFetchCurrentScoutProfile(supabase);
   const { data: badges } = useFetchTroopBadgeInventory(
     supabase,
@@ -103,4 +103,4 @@ export const useBadgeInventory = () => {
     handleBadgeQuantitySet,
     troopId: currentScoutProfile?.troopId,
   };
-};
+}

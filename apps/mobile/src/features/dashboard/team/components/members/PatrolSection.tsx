@@ -13,11 +13,11 @@ import { DeletePatrolModal } from "../modals/DeletePatrolModal";
 import { EditPatrolModal } from "../modals/EditPatrolModal";
 import { MemberItem } from "./MemberItem";
 
-export const PatrolSection = ({
+export function PatrolSection({
   patrolGroups,
 }: {
   patrolGroups: PatrolGroup[];
-}) => {
+}) {
   const { styles } = useStyles(stylesheet);
 
   const [patrolToEdit, setPatrolToEdit] = useState<Omit<
@@ -111,7 +111,7 @@ export const PatrolSection = ({
       />
     </>
   );
-};
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   section: {

@@ -8,16 +8,16 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { badgesKeys, badgeToBuyKeys, scoutBadgeKeys } from "../keys";
 import { BadgeTroopInventory, UpdateBadgeQuantityInput } from "@harcapp/types";
 
-export const useFetchTroopBadgeInventory = (
+export function useFetchTroopBadgeInventory(
   supabase: SupabaseClient,
   troopId?: string,
-) => {
+) {
   return useQuery({
     queryKey: badgesKeys.list(troopId),
     queryFn: () => getTroopBadgeInventory(supabase, troopId!),
     enabled: !!troopId,
   });
-};
+}
 
 export function useBadgesToBuy(supabase: SupabaseClient, troopId?: string) {
   return useQuery({

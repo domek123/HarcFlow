@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Input, Button } from "@base-ui/react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
@@ -15,7 +13,7 @@ import {
 import { Label } from "../components/ui/label";
 import { useSetNewPassword } from "../hooks";
 
-export const SetNewPasswordPage = () => {
+export function SetNewPasswordPage() {
   const { t } = useTranslation();
   const {
     password,
@@ -107,4 +105,4 @@ export const SetNewPasswordPage = () => {
       </Card>
     </div>
   );
-};
+}

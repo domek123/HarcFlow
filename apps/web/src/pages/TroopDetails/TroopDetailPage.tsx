@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { ArrowLeft, Pencil, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -29,7 +29,7 @@ import { useTroopDetails } from "@harcapp/api-client";
 
 import { EditTroopModal } from "./EditTroopModal";
 
-export const TroopDetailsPage: React.FC = () => {
+export function TroopDetailsPage() {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
 
@@ -159,4 +159,4 @@ export const TroopDetailsPage: React.FC = () => {
       </Card>
     </div>
   );
-};
+}
