@@ -46,6 +46,7 @@ model ScoutProfile {
   troops         ScoutTroop   @relation(fields: [troopId], references: [id])
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   badges         UserBadge[]
+  attendances Attendance[]
 
   @@index([troopId])
   @@index([patrolId])
@@ -85,6 +86,7 @@ model ScoutTroop {
   troopInventory InventoryItem[]
   patrols        ScoutPatrol[]
   members        ScoutProfile[]
+  events Event[]
 }
 
 model ScoutPatrol {
@@ -118,6 +120,39 @@ model InventoryItem {
   troopId String            @db.Uuid
   type    InventoryItemType
   troop   ScoutTroop        @relation(fields: [troopId], references: [id])
+}
+
+model Event {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  troopId        String       @db.Uuid
+  title          String
+  description    String?
+  startDate      DateTime     @db.Timestamptz
+  endDate        DateTime     @db.Timestamptz
+  location       String?
+  createdAt      DateTime?    @default(now()) @db.Timestamptz
+
+  troop        ScoutTroop        @relation(fields: [troopId], references: [id], onDelete: Cascade)
+  attendances  Attendance[]
+}
+
+model Attendance {
+  id        String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  eventId   String           @db.Uuid
+  scoutId  String           @db.Uuid
+  status    AttendanceStatus
+  updatedAt DateTime?        @default(now()) @updatedAt @db.Timestamptz
+
+  event  Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  scout ScoutProfile @relation(fields: [scoutId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, scoutId])
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  EXCUSED
 }
 
 enum BadgeStatus {
