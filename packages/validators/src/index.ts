@@ -3,3 +3,4 @@ export * from "./troopMember";
 export * from "./patrol";
 export * from "./parent";
 export * from "./inventory";
+export * from "./event";

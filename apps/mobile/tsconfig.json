@@ -12,7 +12,8 @@
       "@assets/*": ["./assets/*"],
       "@lib/*": ["./src/lib/*"],
       "@styles/*": ["./src/styles/*"],
-      "@utils/*": ["./src/utils"]
+      "@utils/*": ["./src/utils"],
+      "@hooks/*": ["./src/hooks"]
     }
   }
 }

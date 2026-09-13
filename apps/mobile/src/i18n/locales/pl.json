@@ -147,7 +147,39 @@
     },
     "meetups": {
       "title": "Zbiórki",
-      "subtitle": "Kalendarz, planowanie zbiórek i frekwencja"
+      "subtitle": "Planuj wydarzenia i kontroluj terminy",
+      "calendarTitle": "Kalendarz wydarzeń",
+      "collapseCalendar": "Zwiń kalendarz",
+      "expandCalendar": "Rozwiń kalendarz",
+      "showAll": "Wszystkie",
+      "selectedDate": "Wydarzenia: {{date}}",
+      "longPressHint": "Przytrzymaj dzień, aby dodać wydarzenie",
+      "addTitle": "Dodaj wydarzenie",
+      "editTitle": "Edytuj wydarzenie",
+      "empty": "Brak wydarzeń do wyświetlenia.",
+      "loadMore": "Przewiń, aby pobrać starsze wydarzenia",
+      "deleteTitle": "Usuń wydarzenie",
+      "deleteMessage": "Czy na pewno usunąć wydarzenie „{{title}}”?",
+      "errors": {
+        "calendar": "Nie udało się zsynchronizować wydarzenia z kalendarzem urządzenia. Zmiany zapisano lokalnie."
+      },
+      "validation": {
+        "title": "Tytuł musi mieć co najmniej 2 znaki.",
+        "invalidDate": "Wybierz poprawną datę.",
+        "endAfterStart": "Koniec wydarzenia musi być później niż jego początek."
+      },
+      "form": {
+        "title": "Tytuł",
+        "titlePlaceholder": "np. Zbiórka drużyny",
+        "description": "Opis",
+        "descriptionPlaceholder": "Dodaj najważniejsze informacje...",
+        "location": "Miejsce",
+        "locationPlaceholder": "np. Harcówka",
+        "startDate": "Początek",
+        "endDate": "Koniec",
+        "deviceCalendar": "Kalendarz urządzenia",
+        "deviceCalendarHint": "Dodawaj, aktualizuj i usuwaj wydarzenie również w kalendarzu telefonu."
+      }
     },
     "inventory": {
       "title": "Magazyn",
