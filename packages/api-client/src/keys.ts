@@ -69,3 +69,10 @@ export const badgeToBuyKeys = {
   // list of troop badges to buy
   list: (troopId?: string) => [...badgeToBuyKeys.all, troopId] as const,
 };
+
+// Keys to invalidate troop events
+export const eventKeys = {
+  all: ["events"] as const,
+  // list of troop events
+  list: (troopId?: string) => [...eventKeys.all, "list", troopId] as const,
+};

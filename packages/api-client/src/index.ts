@@ -11,3 +11,4 @@ export * from "./profileNotes/use-notes";
 export * from "./badge/use-badge";
 export * from "./troopInventory/use-troop-inventory";
 export * from "./memberBadge/use-member-badge";
+export * from "./events/use-event";
