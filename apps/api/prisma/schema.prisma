@@ -127,6 +127,7 @@ model Event {
   troopId        String       @db.Uuid
   title          String
   description    String?
+  calendarEventId        String?
   startDate      DateTime     @db.Timestamptz
   endDate        DateTime     @db.Timestamptz
   location       String?

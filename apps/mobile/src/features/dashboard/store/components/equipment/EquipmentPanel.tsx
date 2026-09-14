@@ -13,8 +13,9 @@ import { Search, X, PackageOpen, Plus, RotateCcw } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+import { DeleteModal } from "@/components";
+
 import { useEquipmentInventory } from "../../hooks/useEquipmentInventory";
-import { DeleteInventoryDialog } from "../modals/DeleteInventoryDialog";
 import { InventoryFormModal } from "../modals/InventoryFormModal";
 import { CategoryFilter } from "./CategoryFilter";
 import { InventoryCard } from "./InventoryCard";
@@ -137,8 +138,16 @@ export function EquipmentPanel() {
         onClose={inventory.closeForm}
         onSubmit={inventory.submitForm}
       />
-      <DeleteInventoryDialog
-        item={inventory.deleteDialogItem}
+      <DeleteModal
+        titleMessage={t("dashboard.inventory.deleteTitle")}
+        contentMessage={
+          inventory.deleteDialogItem
+            ? t("dashboard.inventory.deleteMessage", {
+                name: inventory.deleteDialogItem.name,
+              })
+            : null
+        }
+        isOpen={inventory.deleteDialogItem !== null}
         isPending={inventory.isDeletePending}
         onCancel={inventory.closeDeleteDialog}
         onConfirm={inventory.confirmDelete}

@@ -19,6 +19,7 @@ interface EventFormModalProps {
   visible: boolean;
   event: EventItem | null;
   initialDate?: string | null;
+  isSubmitting: boolean;
   onClose: () => void;
   onSubmit: (values: EventFormValues) => void;
 }
@@ -56,6 +57,7 @@ export function EventFormModal({
   initialDate,
   onClose,
   onSubmit,
+  isSubmitting,
 }: EventFormModalProps) {
   const { t } = useTranslation();
   const { styles, theme } = useStyles(stylesheet);
@@ -64,7 +66,7 @@ export function EventFormModal({
     control,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<EventFormValues>({
     resolver: zodResolver(eventFormSchema),
     defaultValues: eventFormDefaultValues,
@@ -171,11 +173,13 @@ export function EventFormModal({
                 <Text style={styles.cancelText}>{t("common.cancel")}</Text>
               </Pressable>
               <Pressable
-                style={styles.save}
+                style={styles.save(isSubmitting)}
                 disabled={isSubmitting}
                 onPress={handleSubmit(onSubmit)}
               >
-                <Text style={styles.saveText}>{t("common.save")}</Text>
+                <Text style={styles.saveText}>
+                  {isSubmitting ? t("common.saving") : t("common.save")}
+                </Text>
               </Pressable>
             </View>
           </ScrollView>
@@ -226,12 +230,14 @@ const stylesheet = createStyleSheet((theme) => ({
     borderColor: theme.colors.border,
   },
   cancelText: { color: theme.colors.foreground, fontWeight: "700" },
-  save: {
+  save: (isSubmitting: boolean) => ({
     flex: 1,
     alignItems: "center",
     padding: 13,
     borderRadius: 11,
-    backgroundColor: theme.colors.primary,
-  },
+    backgroundColor: isSubmitting
+      ? `${theme.colors.primary}70`
+      : theme.colors.primary,
+  }),
   saveText: { color: theme.colors.primaryForeground, fontWeight: "700" },
 }));

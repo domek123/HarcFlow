@@ -160,6 +160,12 @@
       "loadMore": "Przewiń, aby pobrać starsze wydarzenia",
       "deleteTitle": "Usuń wydarzenie",
       "deleteMessage": "Czy na pewno usunąć wydarzenie „{{title}}”?",
+      "createSuccess": "Dodano wydarzenie",
+      "createError": "Nie udało się dodać wydarzenia",
+      "updateSuccess": "Zaktualizowano wydarzenie",
+      "updateError": "Nie udało się zaktualizować wydarzenia",
+      "deleteSuccess": "Usunięto wydarzenie",
+      "deleteError": "Nie udało się usunąć wydarzenia",
       "errors": {
         "calendar": "Nie udało się zsynchronizować wydarzenia z kalendarzem urządzenia. Zmiany zapisano lokalnie."
       },

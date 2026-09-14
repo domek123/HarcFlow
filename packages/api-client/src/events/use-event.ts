@@ -13,6 +13,7 @@ import {
 } from "./events.api";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { eventKeys } from "../keys";
+import { CreateEventInput } from "packages/types/src/event";
 
 export function useEvents(
   supabase: SupabaseClient,
@@ -34,7 +35,7 @@ export function useCreateEvent(supabase: SupabaseClient, troopId?: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (values: EventFormValues) =>
+    mutationFn: (values: CreateEventInput) =>
       createEvent(supabase, troopId!, values),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -53,7 +54,7 @@ export function useUpdateEvent(supabase: SupabaseClient, troopId?: string) {
       values,
     }: {
       eventId: string;
-      values: EventFormValues;
+      values: CreateEventInput;
     }) => updateEvent(supabase, eventId, values),
     onSuccess: () => {
       queryClient.invalidateQueries({

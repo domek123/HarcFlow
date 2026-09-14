@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from "react";
-import { Alert } from "react-native";
 
 import { useTranslation } from "react-i18next";
 
 import { useCurrentTroopId } from "@/hooks";
 import { supabase } from "@/lib/supabase";
+import { showToast } from "@/utils/toast";
 import {
   useCreateEvent,
   useDeleteEvent,
@@ -27,11 +27,10 @@ export function useMeetups() {
 
   const [editingEvent, setEditingEvent] = useState<EventItem | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [deleteItem, setDeleteItem] = useState<EventItem | null>(null);
+
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [newEventDate, setNewEventDate] = useState<string | null>(null);
-  const [calendarEventIds, setCalendarEventIds] = useState<
-    Record<string, string>
-  >({});
 
   const {
     data,
@@ -46,6 +45,7 @@ export function useMeetups() {
   const updateEventMutation = useUpdateEvent(supabase, troopId);
   const deleteEventMutation = useDeleteEvent(supabase, troopId);
 
+  // --- Dane ---
   const events = useMemo(
     () => data?.pages.flatMap((page) => page.items) ?? [],
     [data],
@@ -79,88 +79,114 @@ export function useMeetups() {
     setNewEventDate(null);
   }, []);
 
+  const openDeleteModal = useCallback((event: EventItem) => {
+    setDeleteItem(event);
+  }, []);
+
+  const closeDeleteModal = useCallback(() => {
+    setDeleteItem(null);
+  }, []);
+
   const handleSubmit = useCallback(
     async (values: EventFormValues) => {
       try {
         if (editingEvent) {
-          await updateEventMutation.mutateAsync({
-            eventId: editingEvent.id,
+          const updatedCalendarEventId = await updateDeviceCalendarEvent(
+            editingEvent.calendarEventId ?? undefined,
             values,
-          });
+          );
 
-          const calendarId = calendarEventIds[editingEvent.id];
-          if (calendarId) await updateDeviceCalendarEvent(calendarId, values);
+          try {
+            await updateEventMutation.mutateAsync({
+              eventId: editingEvent.id,
+              values: {
+                ...values,
+                calendarEventId: updatedCalendarEventId,
+              },
+            });
+
+            showToast.success(t("dashboard.meetups.updateSuccess"));
+            closeModal();
+          } catch (supabaseError) {
+            if (updatedCalendarEventId && !editingEvent.calendarEventId) {
+              await deleteDeviceCalendarEvent(updatedCalendarEventId);
+            }
+            throw supabaseError;
+          }
         } else {
-          const newEvent = await createEventMutation.mutateAsync(values);
-          const calendarId = await createDeviceCalendarEvent(values);
-          if (calendarId) {
-            setCalendarEventIds((prev) => ({
-              ...prev,
-              [newEvent.id]: calendarId,
-            }));
+          const calendarEventId = await createDeviceCalendarEvent(values);
+
+          try {
+            await createEventMutation.mutateAsync({
+              ...values,
+              calendarEventId,
+            });
+
+            showToast.success(t("dashboard.meetups.createSuccess"));
+            closeModal();
+          } catch (supabaseError) {
+            if (calendarEventId) {
+              await deleteDeviceCalendarEvent(calendarEventId);
+            }
+            throw supabaseError;
           }
         }
-
-        closeModal();
-      } catch {
-        Alert.alert(t("dashboard.meetups.errors.calendar"));
+      } catch (error) {
+        console.error("Błąd zapisywania wydarzenia:", error);
+        showToast.error(
+          editingEvent
+            ? t("dashboard.meetups.updateError")
+            : t("dashboard.meetups.createError"),
+        );
       }
     },
-    [
-      calendarEventIds,
-      closeModal,
-      createEventMutation,
-      editingEvent,
-      t,
-      updateEventMutation,
-    ],
+    [editingEvent, updateEventMutation, createEventMutation, closeModal, t],
   );
 
-  const handleDelete = useCallback(
-    (event: EventItem) => {
-      Alert.alert(
-        t("dashboard.meetups.deleteTitle"),
-        t("dashboard.meetups.deleteMessage", { title: event.title }),
-        [
-          { text: t("common.cancel"), style: "cancel" },
-          {
-            text: t("common.delete"),
-            style: "destructive",
-            onPress: () => {
-              void (async () => {
-                try {
-                  await deleteEventMutation.mutateAsync(event.id);
+  const handleDeleteEvent = useCallback(async () => {
+    if (!deleteItem) return;
 
-                  const calendarId = calendarEventIds[event.id];
-                  if (calendarId) await deleteDeviceCalendarEvent(calendarId);
-                } catch {
-                  Alert.alert(t("dashboard.meetups.errors.calendar"));
-                }
-              })();
-            },
-          },
-        ],
-      );
-    },
-    [calendarEventIds, deleteEventMutation, t],
-  );
+    try {
+      if (deleteItem.calendarEventId) {
+        await deleteDeviceCalendarEvent(deleteItem.calendarEventId);
+      }
+
+      await deleteEventMutation.mutateAsync(deleteItem.id);
+
+      showToast.success(t("dashboard.meetups.deleteSuccess"));
+      closeDeleteModal();
+    } catch (error) {
+      console.error("Błąd usuwania wydarzenia:", error);
+      showToast.error(t("dashboard.meetups.deleteError"));
+    }
+  }, [deleteItem, deleteEventMutation, closeDeleteModal, t]);
 
   return {
-    closeModal,
-    editingEvent,
     events,
-    hasNextPage,
-    handleDelete,
-    handleSubmit,
-    isLoading: isLoading || isFetchingNextPage,
-    isModalVisible,
-    newEventDate,
-    openCreateModal,
-    openEditModal,
-    refetch,
+    visibleEvents,
     selectedDate,
     setSelectedDate,
-    visibleEvents,
+    editingEvent,
+    deleteItem,
+    newEventDate,
+
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    isDeleting: deleteEventMutation.isPending,
+    isSubmitting:
+      createEventMutation.isPending || updateEventMutation.isPending,
+
+    isModalVisible,
+    openCreateModal,
+    openEditModal,
+    closeModal,
+    openDeleteModal,
+    closeDeleteModal,
+
+    handleSubmit,
+    handleDeleteEvent,
     fetchNextPage,
+    refetch,
   };
 }

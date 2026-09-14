@@ -1,4 +1,4 @@
-import { EventItem } from "@harcapp/types";
+import { CreateEventInput, EventItem } from "@harcapp/types";
 import { EventFormValues } from "@harcapp/validators";
 import { SupabaseClient } from "@supabase/supabase-js";
 
@@ -33,6 +33,7 @@ export async function fetchEventsPage(
     startDate: row.startDate,
     endDate: row.endDate,
     createdAt: row.createdAt,
+    calendarEventId: row.calendarEventId,
   }));
 
   return {
@@ -45,7 +46,7 @@ export async function fetchEventsPage(
 export async function createEvent(
   supabase: SupabaseClient,
   troopId: string,
-  values: EventFormValues,
+  values: CreateEventInput,
 ): Promise<EventItem> {
   const { data, error } = await supabase
     .from("Event")
@@ -56,6 +57,7 @@ export async function createEvent(
       location: values.location?.trim() || null,
       startDate: values.startDate,
       endDate: values.endDate,
+      calendarEventId: values.calendarEventId || null,
     })
     .select()
     .single();
@@ -81,7 +83,7 @@ export async function createEvent(
 export async function updateEvent(
   supabase: SupabaseClient,
   eventId: string,
-  values: EventFormValues,
+  values: CreateEventInput,
 ): Promise<EventItem> {
   const { data, error } = await supabase
     .from("Event")
@@ -91,6 +93,7 @@ export async function updateEvent(
       location: values.location?.trim() || null,
       startDate: values.startDate,
       endDate: values.endDate,
+      calendarEventId: values.calendarEventId || null,
     })
     .eq("id", eventId)
     .select()
@@ -110,6 +113,7 @@ export async function updateEvent(
     startDate: data.startDate,
     endDate: data.endDate,
     createdAt: data.createdAt,
+    calendarEventId: data.calendarEventId || undefined,
   };
 }
 

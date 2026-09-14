@@ -4,6 +4,8 @@ import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+import { DeleteModal } from "@/components";
+
 import { EventFormModal } from "./components/EventFormModal";
 import { EventList } from "./components/EventList";
 import { MeetupsCalendar } from "./components/MeetupsCalendar";
@@ -14,22 +16,30 @@ export function MeetupsScreen() {
   const { styles } = useStyles(stylesheet);
 
   const {
-    closeModal,
-    editingEvent,
     events,
-    hasNextPage,
-    handleDelete,
-    handleSubmit,
-    isLoading,
-    isModalVisible,
+    visibleEvents,
+    selectedDate,
+    editingEvent,
     newEventDate,
+    deleteItem,
+
+    isLoading,
+    hasNextPage,
+    isDeleting,
+    isSubmitting,
+
+    isModalVisible,
+    setSelectedDate,
     openCreateModal,
     openEditModal,
-    refetch,
-    selectedDate,
-    setSelectedDate,
-    visibleEvents,
+    closeModal,
+    openDeleteModal,
+    closeDeleteModal,
+
+    handleSubmit,
+    handleDeleteEvent,
     fetchNextPage,
+    refetch,
   } = useMeetups();
 
   return (
@@ -69,16 +79,33 @@ export function MeetupsScreen() {
           onEdit={(event) => {
             openEditModal(event);
           }}
-          onDelete={handleDelete}
+          onDelete={openDeleteModal}
         />
         <EventFormModal
           visible={isModalVisible}
           event={editingEvent}
+          isSubmitting={isSubmitting}
           initialDate={newEventDate}
           onClose={closeModal}
           onSubmit={handleSubmit}
         />
       </View>
+      {deleteItem && (
+        <DeleteModal
+          titleMessage={t("dashboard.meetups.deleteTitle")}
+          contentMessage={
+            deleteItem
+              ? t("dashboard.meetups.deleteMessage", {
+                  title: deleteItem.title,
+                })
+              : null
+          }
+          isOpen={deleteItem !== null}
+          isPending={isDeleting}
+          onCancel={closeDeleteModal}
+          onConfirm={handleDeleteEvent}
+        />
+      )}
     </SafeAreaView>
   );
 }
@@ -123,8 +150,5 @@ const stylesheet = createStyleSheet((theme) => ({
     fontSize: 28,
     fontWeight: "400",
     lineHeight: 30,
-  },
-  list: {
-    flex: 1,
   },
 }));

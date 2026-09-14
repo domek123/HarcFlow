@@ -60,10 +60,8 @@ export async function updateDeviceCalendarEvent(
 
   if (calendarEventId) {
     await Calendar.updateEventAsync(calendarEventId, toCalendarEvent(values));
-
     return calendarEventId;
   }
-
   return createDeviceCalendarEvent(values);
 }
 
@@ -74,5 +72,12 @@ export async function deleteDeviceCalendarEvent(
     return;
   }
 
-  await Calendar.deleteEventAsync(calendarEventId);
+  try {
+    await Calendar.deleteEventAsync(calendarEventId);
+  } catch (error) {
+    console.warn(
+      `Nie znaleziono wydarzenia o id ${calendarEventId} w kalendarzu urządzenia (mogło zostać usunięte ręcznie).`,
+      error,
+    );
+  }
 }
