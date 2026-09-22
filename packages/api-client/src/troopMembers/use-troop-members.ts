@@ -8,7 +8,7 @@ import {
   getTroopMembersSection,
 } from "./troop-members.api";
 import type { AddMemberPayload, UpdateMemberPayload } from "./types";
-import { troopMembersKeys } from "../keys";
+import { attendanceKeys, troopMembersKeys } from "../keys";
 
 export function useTroopMembersList(
   supabase: SupabaseClient,

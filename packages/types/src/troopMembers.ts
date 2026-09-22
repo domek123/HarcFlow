@@ -1,6 +1,29 @@
-import type { Rank, Degree, Function, Gender } from "@prisma/client";
+import type {
+  Rank,
+  Degree,
+  Function,
+  Gender,
+  AttendanceStatus,
+} from "@prisma/client";
 import { PatrolDTO } from "./patrol";
 
+export interface RawTroopMemberAttendance {
+  id: string;
+  user: {
+    firstName: string;
+    lastName: string;
+  };
+  attendance: {
+    status: AttendanceStatus;
+  }[];
+}
+
+export interface TroopMemberAttendanceDTO {
+  id: string;
+  firstName: string;
+  lastName: string;
+  status: AttendanceStatus | null;
+}
 export interface TroopMemberSectionDTO {
   id: string;
   firstName: string;

@@ -17,3 +17,4 @@ export * from "./badges";
 export * from "./inventoryItem";
 export * from "./memberBadge";
 export * from "./event";
+export * from "./attendance";

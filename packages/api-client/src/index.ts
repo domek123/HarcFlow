@@ -12,3 +12,4 @@ export * from "./badge/use-badge";
 export * from "./troopInventory/use-troop-inventory";
 export * from "./memberBadge/use-member-badge";
 export * from "./events/use-event";
+export * from "./attendance/use-attendance.api";
