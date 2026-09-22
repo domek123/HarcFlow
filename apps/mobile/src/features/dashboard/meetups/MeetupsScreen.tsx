@@ -1,5 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 
+import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
@@ -76,6 +77,9 @@ export function MeetupsScreen() {
           hasNextPage={hasNextPage}
           onLoadMore={() => void fetchNextPage()}
           onRefresh={() => void refetch()}
+          onPress={(event) => {
+            router.push(`/(main)/attendance/${event.id}`);
+          }}
           onEdit={(event) => {
             openEditModal(event);
           }}

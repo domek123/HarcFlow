@@ -166,6 +166,28 @@
       "updateError": "Nie udało się zaktualizować wydarzenia",
       "deleteSuccess": "Usunięto wydarzenie",
       "deleteError": "Nie udało się usunąć wydarzenia",
+      "attendance": {
+        "title": "Lista obecności",
+        "editTitle": "Edytuj listę obecności",
+        "back": "Wróć",
+        "edit": "Edytuj frekwencję",
+        "statusPresent": "Obecny",
+        "statusAbsent": "Nieobecny",
+        "statusExcused": "Usprawiedliwiony",
+        "saveSuccess": "Zapisano listę obecności",
+        "saveError": "Nie udało się zapisać listy obecności",
+        "save": "Zapisz obecność ({{count}})",
+        "noDataHint": "Brak zapisanych statusów. Użyj ołówka, aby rozpocząć edycję.",
+        "summary": "Obecnych: {{present}} z {{total}}",
+        "presentCount": "Obecni: {{count}}",
+        "excusedCount": "Usprawiedliwieni: {{count}}",
+        "absentCount": "Nieobecni: {{count}}",
+        "markAllPresent": "Wszyscy obecni",
+        "markAllAbsent": "Wszyscy nieobecni",
+        "loadError": "Nie udało się pobrać uczestników.",
+        "empty": "Brak uczestników drużyny.",
+        "loading": "Ładowanie uczestników drużyny..."
+      },
       "errors": {
         "calendar": "Nie udało się zsynchronizować wydarzenia z kalendarzem urządzenia. Zmiany zapisano lokalnie."
       },

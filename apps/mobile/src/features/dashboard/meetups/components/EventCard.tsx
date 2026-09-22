@@ -17,16 +17,22 @@ import { formatTime } from "../utils/formatTime";
 
 interface EventCardProps {
   event: EventItem;
+  onPress: (event: EventItem) => void;
   onEdit: (event: EventItem) => void;
   onDelete: (event: EventItem) => void;
 }
 
-export function EventCard({ event, onEdit, onDelete }: EventCardProps) {
+export function EventCard({
+  event,
+  onPress,
+  onEdit,
+  onDelete,
+}: EventCardProps) {
   const { t } = useTranslation();
   const { styles, theme } = useStyles(stylesheet);
 
   return (
-    <View style={styles.card}>
+    <Pressable style={styles.card} onPress={() => onPress(event)}>
       <View style={styles.header}>
         <Text style={styles.title}>{event.title}</Text>
         <View style={styles.actions}>
@@ -65,7 +71,7 @@ export function EventCard({ event, onEdit, onDelete }: EventCardProps) {
       {event.description ? (
         <Text style={styles.description}>{event.description}</Text>
       ) : null}
-    </View>
+    </Pressable>
   );
 }
 

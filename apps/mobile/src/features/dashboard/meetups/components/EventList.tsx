@@ -14,6 +14,7 @@ interface EventListProps {
   hasNextPage: boolean;
   onLoadMore: () => void;
   onRefresh: () => void;
+  onPress: (event: EventItem) => void;
   onEdit: (event: EventItem) => void;
   onDelete: (event: EventItem) => void;
 }
@@ -24,6 +25,7 @@ export function EventList({
   hasNextPage,
   onLoadMore,
   onRefresh,
+  onPress,
   onEdit,
   onDelete,
 }: EventListProps) {
@@ -34,7 +36,12 @@ export function EventList({
       data={events}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <EventCard event={item} onEdit={onEdit} onDelete={onDelete} />
+        <EventCard
+          event={item}
+          onPress={onPress}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       )}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       contentContainerStyle={styles.content}
