@@ -11,9 +11,9 @@ import {
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+import { formatDate } from "@/utils/formatDate";
+import { formatTime } from "@/utils/formatTime";
 import { EventItem } from "@harcapp/types";
-import { formatDate } from "../../utils/formatDate";
-import { formatTime } from "../../utils/formatTime";
 
 interface EventCardProps {
   event: EventItem;

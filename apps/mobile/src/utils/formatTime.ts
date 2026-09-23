@@ -1,4 +1,4 @@
-import { getSafeDate } from "./getSafeDate";
+import { getSafeDate } from "../features/dashboard/meetups/utils/getSafeDate";
 
 export function formatTime(value: string): string {
   return new Intl.DateTimeFormat("pl-PL", {

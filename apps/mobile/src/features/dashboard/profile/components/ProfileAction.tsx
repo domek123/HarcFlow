@@ -14,12 +14,14 @@ export function ProfileAction({
   icon,
   label,
   danger = false,
+  onPress,
 }: ProfileActionProps) {
   const { styles } = useStyles(stylesheet);
 
   return (
     <Pressable
-      accessibilityState={{ disabled: true }}
+      accessibilityRole="button"
+      onPress={onPress}
       style={[styles.action, danger && styles.dangerAction]}
     >
       <Ionicons

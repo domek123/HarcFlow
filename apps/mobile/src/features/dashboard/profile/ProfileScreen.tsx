@@ -1,6 +1,7 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { supabase } from "@lib/supabase";
+import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
@@ -12,6 +13,7 @@ import { ProfileAction } from "./components/ProfileAction";
 
 export function ProfileScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { styles } = useStyles(stylesheet);
   const {
     data: profile,
@@ -96,6 +98,7 @@ export function ProfileScreen() {
           <ProfileAction
             icon="person-outline"
             label={t("dashboard.profile.myData")}
+            onPress={() => router.push("/my-data")}
           />
           <ProfileAction
             icon="notifications-outline"

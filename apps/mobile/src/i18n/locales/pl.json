@@ -304,6 +304,24 @@
       "logout": "Wyloguj",
       "loadError": "Nie udało się pobrać profilu."
     },
+    "myData": {
+      "title": "Moje dane",
+      "back": "Wróć",
+      "personalData": "Dane osobowe",
+      "contact": "Kontakt",
+      "scoutData": "Dane harcerskie",
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "birthDate": "Data urodzenia",
+      "gender": "Płeć",
+      "email": "Email",
+      "phoneNumber": "Numer telefonu",
+      "troop": "Drużyna",
+      "patrol": "Zastęp",
+      "function": "Funkcja",
+      "degree": "Stopień",
+      "shoulderPatch": "Naramiennik"
+    },
     "memberDetails": {
       "title": "Szczegóły członka",
       "back": "Wróć",
