@@ -113,18 +113,23 @@ export function AddEditParentModal({
             control={control}
             name="firstName"
             label={t("dashboard.memberDetails.firstName")}
+            placeholder={t(
+              "dashboard.memberDetails.parentFirstNamePlaceholder",
+            )}
             error={errors.firstName?.message}
           />
           <ParentInput
             control={control}
             name="lastName"
             label={t("dashboard.memberDetails.lastName")}
+            placeholder={t("dashboard.memberDetails.parentLastNamePlaceholder")}
             error={errors.lastName?.message}
           />
           <ParentInput
             control={control}
             name="phoneNumber"
             label={t("dashboard.memberDetails.phone")}
+            placeholder={t("dashboard.memberDetails.parentEmailPlaceholder")}
             error={errors.phoneNumber?.message}
             keyboardType="phone-pad"
           />
@@ -132,6 +137,7 @@ export function AddEditParentModal({
             control={control}
             name="email"
             label={t("dashboard.memberDetails.email")}
+            placeholder={t("dashboard.memberDetails.parentPhonePlaceholder")}
             error={errors.email?.message}
             keyboardType="email-address"
           />
@@ -155,12 +161,14 @@ function ParentInput({
   name,
   label,
   error,
+  placeholder,
   keyboardType,
 }: {
   control: ReturnType<typeof useForm<ParentFormData>>["control"];
   name: keyof ParentFormData;
   label: string;
   error?: string;
+  placeholder: string;
   keyboardType?: "phone-pad" | "email-address";
 }) {
   const { styles } = useStyles(stylesheet);
@@ -176,6 +184,8 @@ function ParentInput({
             onBlur={field.onBlur}
             keyboardType={keyboardType}
             style={styles.input}
+            placeholder={placeholder}
+            placeholderTextColor={styles.placeholder.color}
           />
         )}
       />
@@ -240,5 +250,8 @@ const stylesheet = createStyleSheet((theme) => ({
     color: theme.colors.primaryForeground,
     fontSize: 14,
     fontWeight: "700",
+  },
+  placeholder: {
+    color: theme.colors.mutedForeground,
   },
 }));

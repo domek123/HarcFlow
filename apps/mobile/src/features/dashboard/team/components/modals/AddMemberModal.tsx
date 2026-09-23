@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Modal,
   Pressable,
@@ -9,16 +9,17 @@ import {
 } from "react-native";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { Field, SelectField } from "@/components";
+import { useCurrentTroopId } from "@/hooks";
 import { supabase } from "@/lib/supabase";
 import { showToast } from "@/utils/toast";
 import {
   useAddMember,
-  useFetchCurrentScoutProfile,
   useFetchPatrols,
   useUpdateTroopMember,
 } from "@harcapp/api-client";
@@ -56,15 +57,15 @@ export function AddMemberModal({
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
-  const { data: currentScout } = useFetchCurrentScoutProfile(supabase);
-  const { mutate: addMember, isPending: isAddPending } = useAddMember(
-    currentScout?.troopId,
-  );
+  const { troopId } = useCurrentTroopId();
+  const { mutate: addMember, isPending: isAddPending } = useAddMember(troopId);
   const { mutate: updateMember, isPending: isUpdatePending } =
-    useUpdateTroopMember(currentScout?.troopId ?? "");
-  const { data: patrols } = useFetchPatrols(supabase, currentScout?.troopId);
+    useUpdateTroopMember(troopId ?? "");
+  const { data: patrols } = useFetchPatrols(supabase, troopId);
 
   const schema = createAddMemberSchema(t);
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const {
     watch,
@@ -126,7 +127,7 @@ export function AddMemberModal({
           onSuccess: () => {
             showToast.success(t("dashboard.team.addMemberModal.editSuccess"));
             reset();
-            onClose();
+            handleClose();
           },
           onError: (error) => {
             showToast.error(t("dashboard.team.addMemberModal.editError"));
@@ -138,7 +139,7 @@ export function AddMemberModal({
       addMember(
         {
           ...values,
-          troopId: currentScout?.troopId!,
+          troopId: troopId!,
         },
         {
           onSuccess: () => {
@@ -155,6 +156,11 @@ export function AddMemberModal({
     }
   });
 
+  const handleClose = () => {
+    setShowDatePicker(false);
+    onClose();
+  };
+
   const selectedGender = watch("gender");
   const selectedFunction = watch("function");
   const selectedRank = watch("rank");
@@ -166,7 +172,7 @@ export function AddMemberModal({
       transparent
       visible={isOpen}
       animationType="fade"
-      onRequestClose={onClose}
+      onRequestClose={handleClose}
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalCard}>
@@ -193,6 +199,7 @@ export function AddMemberModal({
                     placeholder={t(
                       "dashboard.team.addMemberModal.firstNamePlaceholder",
                     )}
+                    placeholderTextColor={styles.placeholder.color}
                   />
                 )}
               />
@@ -214,6 +221,7 @@ export function AddMemberModal({
                     placeholder={t(
                       "dashboard.team.addMemberModal.lastNamePlaceholder",
                     )}
+                    placeholderTextColor={styles.placeholder.color}
                   />
                 )}
               />
@@ -235,6 +243,7 @@ export function AddMemberModal({
                     placeholder={t(
                       "dashboard.team.addMemberModal.emailPlaceholder",
                     )}
+                    placeholderTextColor={styles.placeholder.color}
                     keyboardType="email-address"
                   />
                 )}
@@ -257,6 +266,7 @@ export function AddMemberModal({
                     placeholder={t(
                       "dashboard.team.addMemberModal.phonePlaceholder",
                     )}
+                    placeholderTextColor={styles.placeholder.color}
                     keyboardType="phone-pad"
                   />
                 )}
@@ -270,18 +280,59 @@ export function AddMemberModal({
               <Controller
                 control={control}
                 name="birthDate"
-                render={({ field }) => (
-                  <TextInput
-                    value={field.value}
-                    onChangeText={field.onChange}
-                    onBlur={field.onBlur}
-                    style={styles.input}
-                    placeholder={t(
-                      "dashboard.team.addMemberModal.birthDatePlaceholder",
-                    )}
-                    keyboardType="numbers-and-punctuation"
-                  />
-                )}
+                render={({ field }) => {
+                  const date = field.value
+                    ? new Date(`${field.value}T00:00:00`)
+                    : new Date();
+
+                  return (
+                    <>
+                      <Pressable
+                        style={styles.input}
+                        onPress={() => setShowDatePicker(true)}
+                      >
+                        <Text
+                          style={
+                            field.value ? styles.inputText : styles.placeholder
+                          }
+                        >
+                          {field.value
+                            ? date.toLocaleDateString("pl-PL")
+                            : t(
+                                "dashboard.team.addMemberModal.birthDatePlaceholder",
+                              )}
+                        </Text>
+                      </Pressable>
+
+                      {showDatePicker && (
+                        <DateTimePicker
+                          value={date}
+                          mode="date"
+                          display="default"
+                          maximumDate={new Date()}
+                          onChange={(event, selectedDate) => {
+                            setShowDatePicker(false);
+
+                            if (event.type === "dismissed" || !selectedDate) {
+                              return;
+                            }
+
+                            const year = selectedDate.getFullYear();
+                            const month = String(
+                              selectedDate.getMonth() + 1,
+                            ).padStart(2, "0");
+                            const day = String(selectedDate.getDate()).padStart(
+                              2,
+                              "0",
+                            );
+
+                            field.onChange(`${year}-${month}-${day}`);
+                          }}
+                        />
+                      )}
+                    </>
+                  );
+                }}
               />
             </Field>
 
@@ -349,7 +400,7 @@ export function AddMemberModal({
             <View style={styles.modalActions}>
               <Pressable
                 style={[styles.modalButton, styles.modalCancelButton]}
-                onPress={onClose}
+                onPress={handleClose}
               >
                 <Text style={styles.modalButtonText}>{t("common.cancel")}</Text>
               </Pressable>
@@ -415,6 +466,9 @@ const stylesheet = createStyleSheet((theme) => ({
     fontSize: 14,
     flex: 1,
   },
+  inputText: {
+    color: theme.colors.foreground,
+  },
   modalActions: {
     flexDirection: "row",
     justifyContent: "flex-end",
@@ -442,5 +496,8 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   modalConfirmButtonText: {
     color: theme.colors.secondary,
+  },
+  placeholder: {
+    color: theme.colors.mutedForeground,
   },
 }));
