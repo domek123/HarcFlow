@@ -9,7 +9,8 @@
     "delete": "Usuń",
     "edit": "Edytuj",
     "add": "Dodaj",
-    "search": "Szukaj"
+    "search": "Szukaj",
+    "retry": "Spróbuj ponownie"
   },
   "auth": {
     "welcomeTitle": "Witaj ponownie!",
