@@ -30,6 +30,10 @@ export function useAddMember(troopId?: string) {
       queryClient.invalidateQueries({
         queryKey: troopMembersKeys.list(troopId),
       });
+
+      queryClient.invalidateQueries({
+        queryKey: attendanceKeys.statistics(troopId),
+      });
     },
   });
 }
@@ -45,6 +49,10 @@ export function useDeleteTroopMember(troopId: string) {
       });
       queryClient.invalidateQueries({
         queryKey: troopMembersKeys.single(troopId),
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: attendanceKeys.statistics(troopId),
       });
     },
   });

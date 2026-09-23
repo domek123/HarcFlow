@@ -12,7 +12,7 @@ import {
   updateEvent,
 } from "./events.api";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { eventKeys } from "../keys";
+import { attendanceKeys, eventKeys } from "../keys";
 import { CreateEventInput } from "packages/types/src/event";
 
 export function useEvents(
@@ -41,6 +41,10 @@ export function useCreateEvent(supabase: SupabaseClient, troopId?: string) {
       queryClient.invalidateQueries({
         queryKey: eventKeys.list(troopId),
       });
+
+      queryClient.invalidateQueries({
+        queryKey: attendanceKeys.statistics(troopId),
+      });
     },
   });
 }
@@ -60,6 +64,10 @@ export function useUpdateEvent(supabase: SupabaseClient, troopId?: string) {
       queryClient.invalidateQueries({
         queryKey: eventKeys.list(troopId),
       });
+
+      queryClient.invalidateQueries({
+        queryKey: attendanceKeys.statistics(troopId),
+      });
     },
   });
 }
@@ -72,6 +80,10 @@ export function useDeleteEvent(supabase: SupabaseClient, troopId?: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: eventKeys.list(troopId),
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: attendanceKeys.statistics(troopId),
       });
     },
   });

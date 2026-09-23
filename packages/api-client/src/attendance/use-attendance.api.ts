@@ -22,6 +22,10 @@ export function saveAttendances(
       queryClient.invalidateQueries({
         queryKey: attendanceKeys.list(troopId, eventId),
       });
+
+      queryClient.invalidateQueries({
+        queryKey: attendanceKeys.statistics(troopId),
+      });
     },
   });
 }
@@ -40,7 +44,7 @@ export function useTroopMembersAttendance(
 
 export function useTroopAttendanceStatistics(troopId?: string) {
   return useQuery<AttendanceStatistics>({
-    queryKey: attendanceKeys.all,
+    queryKey: attendanceKeys.statistics(troopId),
     queryFn: () => getTroopAttendanceStatistics(troopId!),
     enabled: !!troopId,
   });

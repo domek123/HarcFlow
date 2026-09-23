@@ -79,6 +79,8 @@ export const eventKeys = {
 
 export const attendanceKeys = {
   all: ["attendances"] as const,
+  statistics: (troopId?: string) =>
+    [...attendanceKeys.all, "statistics", troopId] as const,
   // list of troop attendances
   list: (troopId?: string, eventId?: string) =>
     [...attendanceKeys.all, "list", troopId, eventId] as const,
