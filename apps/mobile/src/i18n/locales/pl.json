@@ -304,6 +304,25 @@
       "logout": "Wyloguj",
       "loadError": "Nie udało się pobrać profilu."
     },
+    "appearance": {
+      "title": "Wygląd",
+      "back": "Wróć",
+      "description": "Wybierz sposób wyświetlania aplikacji.",
+      "options": {
+        "light": {
+          "title": "Jasny",
+          "description": "Zawsze używaj jasnego motywu"
+        },
+        "dark": {
+          "title": "Ciemny",
+          "description": "Zawsze używaj ciemnego motywu"
+        },
+        "system": {
+          "title": "Systemowy",
+          "description": "Dopasuj wygląd do ustawień urządzenia"
+        }
+      }
+    },
     "myData": {
       "title": "Moje dane",
       "back": "Wróć",

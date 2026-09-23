@@ -1,28 +1,20 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { useTranslation } from "react-i18next";
+import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 export default function TabsLayout() {
   const { t } = useTranslation();
+  const { styles } = useStyles(stylesheet);
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#295133",
-        tabBarInactiveTintColor: "#5D6F61",
-        tabBarStyle: {
-          backgroundColor: "#FAF9F5",
-          borderTopWidth: 1,
-          borderTopColor: "#DFD8CC",
-          height: 72,
-          paddingBottom: 10,
-          paddingTop: 8,
-        },
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: "600",
-        },
+        tabBarActiveTintColor: styles.activeTint.color,
+        tabBarInactiveTintColor: styles.inactiveTint.color,
+        tabBarStyle: styles.tabBar,
+        tabBarLabelStyle: styles.tabBarLabel,
       }}
     >
       <Tabs.Screen
@@ -73,3 +65,24 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  activeTint: {
+    color: theme.colors.primary,
+  },
+  inactiveTint: {
+    color: theme.colors.mutedForeground,
+  },
+  tabBar: {
+    backgroundColor: theme.colors.card,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border,
+    height: 72,
+    paddingBottom: 10,
+    paddingTop: 8,
+  },
+  tabBarLabel: {
+    fontSize: 11,
+    fontWeight: "600",
+  },
+}));

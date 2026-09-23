@@ -111,6 +111,7 @@ export function ProfileScreen() {
           <ProfileAction
             icon="color-palette-outline"
             label={t("dashboard.profile.appearance")}
+            onPress={() => router.push("/appearance")}
           />
         </View>
 
