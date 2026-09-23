@@ -9,6 +9,8 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { EventFormValues } from "@harcapp/validators";
 
+import { getSafeDate } from "../../utils/getSafeDate";
+
 interface FormFieldProps {
   control: ReturnType<typeof useForm<EventFormValues>>["control"];
   name: "title" | "description" | "location";
@@ -77,7 +79,7 @@ export function DateField({
               {new Intl.DateTimeFormat("pl-PL", {
                 dateStyle: "medium",
                 timeStyle: "short",
-              }).format(new Date(field.value))}
+              }).format(getSafeDate(field.value))}
             </Text>
           </Pressable>
         )}
@@ -111,7 +113,7 @@ export function DatePickerField({
           />
         ) : (
           <DateTimePicker
-            value={new Date(field.value)}
+            value={getSafeDate(field.value)}
             mode="datetime"
             is24Hour
             display="spinner"
@@ -142,7 +144,7 @@ function AndroidDatePicker({
   useEffect(() => {
     let isMounted = true;
     void DateTimePickerAndroid.open({
-      value: new Date(value),
+      value: getSafeDate(value),
       mode: step,
       is24Hour: true,
       onChange: (event, selectedDate) => {
@@ -152,7 +154,7 @@ function AndroidDatePicker({
           return;
         }
 
-        const nextDate = new Date(value);
+        const nextDate = getSafeDate(value);
         if (step === "date") {
           nextDate.setFullYear(
             selectedDate.getFullYear(),

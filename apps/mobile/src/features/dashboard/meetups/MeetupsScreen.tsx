@@ -1,17 +1,14 @@
 import { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { DeleteModal, SegmentedSwitch } from "@/components";
+import { SegmentedSwitch } from "@/components";
 
-import { EventFormModal } from "./components/EventFormModal";
-import { EventList } from "./components/EventList";
-import { MeetupsCalendar } from "./components/MeetupsCalendar";
-import { MeetupsStats } from "./components/Statistics/MeetupsStats";
-import { useMeetups } from "./hooks/useMeetups";
+import { EventSegment } from "./components/events/EventSegment";
+import { MeetupsStats } from "./components/statistics/MeetupsStats";
 
 type MeetupsTab = "calendar" | "stats";
 
@@ -19,33 +16,6 @@ export function MeetupsScreen() {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
   const [activeTab, setActiveTab] = useState<MeetupsTab>("calendar");
-
-  const {
-    events,
-    visibleEvents,
-    selectedDate,
-    editingEvent,
-    newEventDate,
-    deleteItem,
-
-    isLoading,
-    isRefetching,
-    isDeleting,
-    isSubmitting,
-
-    isModalVisible,
-    setSelectedDate,
-    openCreateModal,
-    openEditModal,
-    closeModal,
-    openDeleteModal,
-    closeDeleteModal,
-
-    handleSubmit,
-    handleDeleteEvent,
-    fetchNextPage,
-    refetch,
-  } = useMeetups();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -57,14 +27,6 @@ export function MeetupsScreen() {
               {t("dashboard.meetups.subtitle")}
             </Text>
           </View>
-          <Pressable
-            style={styles.addButton}
-            onPress={() => {
-              openCreateModal();
-            }}
-          >
-            <Text style={styles.addButtonText}>+</Text>
-          </Pressable>
         </View>
         <SegmentedSwitch
           activeKey={activeTab}
@@ -74,57 +36,8 @@ export function MeetupsScreen() {
           ]}
           onChange={setActiveTab}
         />
-        {activeTab === "calendar" ? (
-          <>
-            <MeetupsCalendar
-              events={events}
-              selectedDate={selectedDate}
-              onDateChange={setSelectedDate}
-              onDateLongPress={(date) => {
-                openCreateModal(date);
-              }}
-              onClearDate={() => setSelectedDate(null)}
-            />
-            <EventList
-              events={visibleEvents}
-              isLoading={isLoading}
-              isRefetching={isRefetching}
-              onLoadMore={fetchNextPage}
-              onRefresh={refetch}
-              onEdit={(event) => {
-                openEditModal(event);
-              }}
-              onDelete={openDeleteModal}
-            />
-          </>
-        ) : (
-          <MeetupsStats />
-        )}
-        <EventFormModal
-          visible={isModalVisible}
-          event={editingEvent}
-          isSubmitting={isSubmitting}
-          initialDate={newEventDate}
-          onClose={closeModal}
-          onSubmit={handleSubmit}
-        />
+        {activeTab === "calendar" ? <EventSegment /> : <MeetupsStats />}
       </View>
-      {deleteItem && (
-        <DeleteModal
-          titleMessage={t("dashboard.meetups.deleteTitle")}
-          contentMessage={
-            deleteItem
-              ? t("dashboard.meetups.deleteMessage", {
-                  title: deleteItem.title,
-                })
-              : null
-          }
-          isOpen={deleteItem !== null}
-          isPending={isDeleting}
-          onCancel={closeDeleteModal}
-          onConfirm={handleDeleteEvent}
-        />
-      )}
     </SafeAreaView>
   );
 }
@@ -155,19 +68,5 @@ const stylesheet = createStyleSheet((theme) => ({
   subtitle: {
     fontSize: 16,
     color: theme.colors.mutedForeground,
-  },
-  addButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: theme.colors.primary,
-  },
-  addButtonText: {
-    color: theme.colors.primaryForeground,
-    fontSize: 28,
-    fontWeight: "400",
-    lineHeight: 30,
   },
 }));

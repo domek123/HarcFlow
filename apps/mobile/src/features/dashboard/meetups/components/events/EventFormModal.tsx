@@ -14,6 +14,7 @@ import {
 } from "@harcapp/validators";
 
 import { DateField, DatePickerField, FormField } from "./FormFields";
+import { getSafeDate } from "../../utils/getSafeDate";
 
 interface EventFormModalProps {
   visible: boolean;
@@ -29,7 +30,7 @@ function toFormValues(
   initialDate: string | null | undefined,
 ): EventFormValues {
   if (!event && initialDate) {
-    const startDate = new Date(`${initialDate}T09:00:00`);
+    const startDate = getSafeDate(`${initialDate}T09:00:00`);
     const endDate = new Date(startDate.getTime() + 90 * 60 * 1000);
 
     return {

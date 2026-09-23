@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
-import { ChevronDown, ChevronUp } from "lucide-react-native";
+import { ChevronDown, ChevronUp, Plus } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Calendar, DateData } from "react-native-calendars";
 import { MarkedDates } from "react-native-calendars/src/types";
@@ -9,19 +9,21 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { EventItem } from "@harcapp/types";
 
-import { getEventDateKey } from "../utils/getEventDateKey";
+import { getEventDateKey } from "../../utils/getEventDateKey";
 
 interface MeetupsCalendarProps {
   events: EventItem[];
   selectedDate: string | null;
   onDateChange: (date: string) => void;
   onDateLongPress: (date: string) => void;
+  onAddEvent: () => void;
   onClearDate: () => void;
 }
 
 export function MeetupsCalendar({
   events,
   selectedDate,
+  onAddEvent,
   onDateChange,
   onDateLongPress,
   onClearDate,
@@ -81,7 +83,6 @@ export function MeetupsCalendar({
             onPress={onClearDate}
             accessibilityLabel={t("dashboard.meetups.showAll")}
             accessibilityRole="button"
-            hitSlop={8}
             style={styles.clearButton}
           >
             <Text style={styles.clear}>{t("dashboard.meetups.showAll")}</Text>
@@ -120,6 +121,21 @@ export function MeetupsCalendar({
           )}
         </>
       ) : null}
+      <Pressable
+        accessibilityLabel={t("dashboard.meetups.addTitle")}
+        accessibilityRole="button"
+        onPress={() => onAddEvent()}
+        style={styles.addButton}
+      >
+        <Plus
+          size={18}
+          color={theme.colors.primaryForeground}
+          strokeWidth={2.5}
+        />
+        <Text style={styles.addButtonText}>
+          {t("dashboard.meetups.addTitle")}
+        </Text>
+      </Pressable>
     </View>
   );
 }
@@ -176,5 +192,22 @@ const stylesheet = createStyleSheet((theme) => ({
     fontSize: 12,
     paddingHorizontal: 16,
     paddingBottom: 12,
+  },
+  addButton: {
+    alignItems: "center",
+    backgroundColor: theme.colors.primary,
+    borderRadius: 10,
+    flexDirection: "row",
+    gap: 8,
+    justifyContent: "center",
+    marginHorizontal: 16,
+    marginBottom: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  addButtonText: {
+    color: theme.colors.primaryForeground,
+    fontSize: 14,
+    fontWeight: "700",
   },
 }));

@@ -19,7 +19,7 @@ import { showToast } from "@/utils/toast";
 import { useTroopMembersAttendance } from "@harcapp/api-client";
 import { AttendanceStatus } from "@harcapp/types";
 
-import { AttendanceMemberRow } from "./components/AttendanceMemberRow";
+import { AttendanceMemberRow } from "./components/attendance/AttendanceMemberRow";
 import { useAttendanceEditor } from "./hooks/useAttendanceEditor";
 
 const statusOrder: Record<AttendanceStatus, number> = {
