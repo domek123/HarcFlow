@@ -9,7 +9,9 @@ export function DetailRow({ label, value }: { label: string; value?: string }) {
   return (
     <View style={styles.detailRow}>
       <Text style={styles.label}>{label}</Text>
-      <Text style={styles.value}>{value || "-"}</Text>
+      <Text style={styles.value} selectable>
+        {value || "-"}
+      </Text>
     </View>
   );
 }

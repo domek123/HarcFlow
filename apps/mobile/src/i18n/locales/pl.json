@@ -290,7 +290,19 @@
     },
     "profile": {
       "title": "Profil",
-      "subtitle": "Ustawienia drużyny, uprawnienia, eksport danych"
+      "information": "Informacje",
+      "function": "Funkcja",
+      "degree": "Stopień",
+      "rank": "Stopień instruktorski",
+      "patrol": "Zastęp",
+      "noPatrol": "Brak przypisania",
+      "myData": "Moje dane",
+      "notifications": "Powiadomienia",
+      "language": "Język",
+      "appearance": "Wygląd",
+      "security": "Bezpieczeństwo",
+      "logout": "Wyloguj",
+      "loadError": "Nie udało się pobrać profilu."
     },
     "memberDetails": {
       "title": "Szczegóły członka",
