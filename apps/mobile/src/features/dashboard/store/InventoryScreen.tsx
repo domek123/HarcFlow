@@ -6,14 +6,16 @@ import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+import { SegmentedSwitch } from "@/components";
 import { getBadgeById } from "@harcapp/types";
 
 import { BadgeRow } from "./components/badges/BadgeRow";
 import { BadgesToBuyList } from "./components/badges/BadgesToBuyList";
 import { EquipmentPanel } from "./components/equipment/EquipmentPanel";
-import { InventoryTab, InventoryTabs } from "./components/InventoryTabs";
 import { QuantityInputModal } from "./components/modals/QuantityInputModal";
 import { ListItem, useBadgeInventory } from "./hooks/useBadgeInventory";
+
+type InventoryTab = "skills" | "equipment";
 
 export function InventoryScreen() {
   const { t } = useTranslation();
@@ -84,8 +86,17 @@ export function InventoryScreen() {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.title}>{t("dashboard.inventory.title")}</Text>
-
-        <InventoryTabs activeTab={activeTab} onTabChange={setActiveTab} />
+        <SegmentedSwitch
+          activeKey={activeTab}
+          options={[
+            { key: "skills", label: t("dashboard.inventory.tabs.skills") },
+            {
+              key: "equipment",
+              label: t("dashboard.inventory.tabs.equipment"),
+            },
+          ]}
+          onChange={setActiveTab}
+        />
 
         {activeTab === "skills" ? (
           <View style={styles.listContainer}>

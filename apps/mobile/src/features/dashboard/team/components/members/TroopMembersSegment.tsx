@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { View, Pressable, TextInput, Text } from "react-native";
 
+import { Plus } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { MemberItem } from "../components/members/MemberItem";
-import { PatrolSection } from "../components/members/PatrolSection";
-import { AddMemberModal } from "../components/modals/AddMemberModal";
-import { AddPatrolModal } from "../components/modals/AddPatrolModal";
-import { useTeamScreen } from "../hooks/useTeamScreen";
+import { useTeamScreen } from "../../hooks/useTeamScreen";
+import { AddMemberModal } from "../modals/AddMemberModal";
+import { AddPatrolModal } from "../modals/AddPatrolModal";
+import { MemberActionModal } from "../modals/MemberActionModal";
+import { MemberItem } from "./MemberItem";
+import { PatrolSection } from "./PatrolSection";
 
 type TroopMembersSegmentProps = ReturnType<typeof useTeamScreen>;
 
@@ -27,24 +29,37 @@ export function TroopMembersSegment({
 
   const [isPatrolModalVisible, setIsPatrolModalVisible] = useState(false);
   const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState(false);
+  const [isAddMenuVisible, setIsAddMenuVisible] = useState(false);
+
+  const openAddMemberModal = () => {
+    setIsAddMenuVisible(false);
+    setIsAddMemberModalVisible(true);
+  };
+
+  const openAddPatrolModal = () => {
+    setIsAddMenuVisible(false);
+    setIsPatrolModalVisible(true);
+  };
 
   return (
     <>
-      <View style={styles.actionsRow}>
+      <View style={styles.actionBar}>
+        <Text style={styles.actionBarTitle}>
+          {t("dashboard.team.addTitle")}
+        </Text>
         <Pressable
-          style={[styles.actionButton, styles.actionPrimary]}
-          onPress={() => setIsAddMemberModalVisible(true)}
+          accessibilityRole="button"
+          accessibilityLabel={t("dashboard.team.addButton")}
+          style={styles.addButton}
+          onPress={() => setIsAddMenuVisible(true)}
         >
-          <Text style={[styles.actionButtonText, styles.addScoutButtonText]}>
-            {t("dashboard.team.addPerson")}
-          </Text>
-        </Pressable>
-        <Pressable
-          style={[styles.actionButton, styles.actionSecondary]}
-          onPress={() => setIsPatrolModalVisible(true)}
-        >
-          <Text style={styles.actionButtonText}>
-            {t("dashboard.team.addPatrol")}
+          <Plus
+            size={18}
+            color={styles.addButtonIcon.color}
+            strokeWidth={2.5}
+          />
+          <Text style={styles.addButtonText}>
+            {t("dashboard.team.addButton")}
           </Text>
         </Pressable>
       </View>
@@ -92,15 +107,29 @@ export function TroopMembersSegment({
           </Text>
         )}
       </View>
-      <AddPatrolModal
-        isPatrolModalVisible={isPatrolModalVisible}
-        closePatrolModal={() => setIsPatrolModalVisible(false)}
-      />
 
-      <AddMemberModal
-        isOpen={isAddMemberModalVisible}
-        onClose={() => setIsAddMemberModalVisible(false)}
-      />
+      {isAddMenuVisible && (
+        <MemberActionModal
+          isAddMenuVisible={isAddMenuVisible}
+          closeModal={() => setIsAddMenuVisible(false)}
+          openAddMemberModal={openAddMemberModal}
+          openAddPatrolModal={openAddPatrolModal}
+        />
+      )}
+
+      {isPatrolModalVisible && (
+        <AddPatrolModal
+          isPatrolModalVisible={isPatrolModalVisible}
+          closePatrolModal={() => setIsPatrolModalVisible(false)}
+        />
+      )}
+
+      {isAddMemberModalVisible && (
+        <AddMemberModal
+          isOpen={isAddMemberModalVisible}
+          onClose={() => setIsAddMemberModalVisible(false)}
+        />
+      )}
     </>
   );
 }
@@ -160,33 +189,32 @@ const stylesheet = createStyleSheet((theme) => ({
     fontSize: 22,
     fontWeight: "800",
   },
-  actionsRow: {
+  actionBar: {
     flexDirection: "row",
-    gap: 10,
-  },
-  actionButton: {
-    flex: 1,
-    borderRadius: 12,
-    paddingVertical: 12,
-    borderWidth: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
-  actionPrimary: {
-    backgroundColor: theme.colors.primary,
-    borderColor: theme.colors.primary,
-  },
-  actionSecondary: {
-    backgroundColor: "transparent",
-    borderColor: theme.colors.border,
-  },
-  actionButtonText: {
+  actionBarTitle: {
     color: theme.colors.foreground,
+    fontSize: 20,
+    fontWeight: "800",
+  },
+  addButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: theme.colors.primary,
+  },
+  addButtonIcon: {
+    color: theme.colors.primaryForeground,
+  },
+  addButtonText: {
+    color: theme.colors.primaryForeground,
     fontSize: 14,
     fontWeight: "700",
-  },
-  addScoutButtonText: {
-    color: theme.colors.secondary,
   },
   searchBox: {
     backgroundColor: theme.colors.card,

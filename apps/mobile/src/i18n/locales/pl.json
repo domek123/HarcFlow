@@ -55,7 +55,6 @@
     "team": {
       "title": "Drużyna",
       "subtitle": "Baza członków, zastępy, próby na stopnie",
-      "defaultName": "Drużyna harcerska",
       "tabs": {
         "members": "Członkowie",
         "skills": "Sprawności"
@@ -77,6 +76,11 @@
       },
       "addPerson": "Dodaj osobę",
       "addPatrol": "Dodaj zastęp",
+      "addTitle": "Lista członków",
+      "addButton": "Dodaj",
+      "addDescription": "Wybierz, co chcesz utworzyć",
+      "addPersonDescription": "Utwórz profil członka drużyny",
+      "addPatrolDescription": "Utwórz nowy zastęp",
       "searchPlaceholder": "Szukaj członka...",
       "loadingMembers": "Ładowanie członków drużyny...",
       "staff": "Kadra",
@@ -148,6 +152,9 @@
     "meetups": {
       "title": "Zbiórki",
       "subtitle": "Planuj wydarzenia i kontroluj terminy",
+      "calendarTab": "Kalendarz",
+      "statsTab": "Statystyki",
+      "statsTitle": "Statystyki zbiórek",
       "calendarTitle": "Kalendarz wydarzeń",
       "collapseCalendar": "Zwiń kalendarz",
       "expandCalendar": "Rozwiń kalendarz",
