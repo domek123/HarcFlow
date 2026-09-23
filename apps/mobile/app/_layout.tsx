@@ -9,6 +9,10 @@ import Toast from "react-native-toast-message";
 
 import { toastConfig } from "@/lib/toastConfig";
 import { AuthProvider } from "@/providers/AuthProvider";
+import {
+  applyAppearance,
+  useAppearanceStore,
+} from "@/store/useAppearanceStore";
 import { configureApiClient } from "@harcapp/api-client";
 
 import { useAuthStore } from "../src/store/useAuthStore";
@@ -49,10 +53,23 @@ function RouteGuard() {
   return <Slot />;
 }
 
+function AppearanceBootstrap() {
+  const isHydrated = useAppearanceStore((state) => state.isHydrated);
+
+  useEffect(() => {
+    if (isHydrated) {
+      applyAppearance(useAppearanceStore.getState().appearance);
+    }
+  }, [isHydrated]);
+
+  return null;
+}
+
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <AppearanceBootstrap />
         <RouteGuard />
         <Toast config={toastConfig} />
       </AuthProvider>

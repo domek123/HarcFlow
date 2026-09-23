@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { supabase } from "@lib/supabase";
@@ -8,6 +9,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { useFetchCurrentScoutProfile } from "@harcapp/api-client";
 
+import { AppearanceScreen } from "./components/AppearanceModal";
 import { InfoRow } from "./components/InfoRow";
 import { ProfileAction } from "./components/ProfileAction";
 
@@ -15,6 +17,7 @@ export function ProfileScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const { styles } = useStyles(stylesheet);
+  const [isAppearanceVisible, setAppearanceVisible] = useState(false);
   const {
     data: profile,
     isLoading,
@@ -105,13 +108,9 @@ export function ProfileScreen() {
             label={t("dashboard.profile.notifications")}
           />
           <ProfileAction
-            icon="language-outline"
-            label={t("dashboard.profile.language")}
-          />
-          <ProfileAction
             icon="color-palette-outline"
             label={t("dashboard.profile.appearance")}
-            onPress={() => router.push("/appearance")}
+            onPress={() => setAppearanceVisible(true)}
           />
         </View>
 
@@ -127,6 +126,10 @@ export function ProfileScreen() {
           />
         </View>
       </ScrollView>
+      <AppearanceScreen
+        visible={isAppearanceVisible}
+        onClose={() => setAppearanceVisible(false)}
+      />
     </SafeAreaView>
   );
 }
