@@ -1,7 +1,6 @@
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 
 import { FlashList } from "@shopify/flash-list";
-import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { EventItem } from "@harcapp/types";
@@ -11,10 +10,9 @@ import { EventCard } from "./EventCard";
 interface EventListProps {
   events: EventItem[];
   isLoading: boolean;
-  hasNextPage: boolean;
+  isRefetching: boolean;
   onLoadMore: () => void;
   onRefresh: () => void;
-  onPress: (event: EventItem) => void;
   onEdit: (event: EventItem) => void;
   onDelete: (event: EventItem) => void;
 }
@@ -22,49 +20,31 @@ interface EventListProps {
 export function EventList({
   events,
   isLoading,
-  hasNextPage,
+  isRefetching,
   onLoadMore,
   onRefresh,
-  onPress,
   onEdit,
   onDelete,
 }: EventListProps) {
-  const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
   return (
     <FlashList
       data={events}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <EventCard
-          event={item}
-          onPress={onPress}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
+        <EventCard event={item} onEdit={onEdit} onDelete={onDelete} />
       )}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       contentContainerStyle={styles.content}
       onRefresh={onRefresh}
-      refreshing={isLoading && events.length > 0}
-      onEndReached={() => {
-        if (hasNextPage && !isLoading) onLoadMore();
-      }}
+      refreshing={isRefetching}
+      onEndReached={onLoadMore}
       onEndReachedThreshold={0.4}
-      ListEmptyComponent={
-        isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={styles.empty}>{t("dashboard.meetups.empty")}</Text>
-        )
-      }
-      ListFooterComponent={
-        isLoading ? (
-          <ActivityIndicator style={styles.loader} />
-        ) : hasNextPage ? (
-          <Text style={styles.more}>{t("dashboard.meetups.loadMore")}</Text>
-        ) : null
-      }
     />
   );
 }

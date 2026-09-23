@@ -35,17 +35,17 @@ export function useMeetups() {
   const {
     data,
     isLoading,
+    isRefetching,
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
     refetch,
-  } = useEvents(supabase, troopId, 3);
+  } = useEvents(supabase, troopId, 10);
 
   const createEventMutation = useCreateEvent(supabase, troopId);
   const updateEventMutation = useUpdateEvent(supabase, troopId);
   const deleteEventMutation = useDeleteEvent(supabase, troopId);
 
-  // --- Dane ---
   const events = useMemo(
     () => data?.pages.flatMap((page) => page.items) ?? [],
     [data],
@@ -161,6 +161,22 @@ export function useMeetups() {
     }
   }, [deleteItem, deleteEventMutation, closeDeleteModal, t]);
 
+  const handleLoadMore = useCallback(() => {
+    if (!hasNextPage || isFetchingNextPage || isRefetching) {
+      return;
+    }
+
+    fetchNextPage();
+  }, [hasNextPage, isFetchingNextPage, isRefetching, fetchNextPage]);
+
+  const handleRefresh = useCallback(() => {
+    if (isFetchingNextPage || isRefetching) {
+      return;
+    }
+
+    refetch();
+  }, [isFetchingNextPage, isRefetching, refetch]);
+
   return {
     events,
     visibleEvents,
@@ -171,8 +187,7 @@ export function useMeetups() {
     newEventDate,
 
     isLoading,
-    isFetchingNextPage,
-    hasNextPage,
+    isRefetching,
     isDeleting: deleteEventMutation.isPending,
     isSubmitting:
       createEventMutation.isPending || updateEventMutation.isPending,
@@ -186,7 +201,7 @@ export function useMeetups() {
 
     handleSubmit,
     handleDeleteEvent,
-    fetchNextPage,
-    refetch,
+    fetchNextPage: handleLoadMore,
+    refetch: handleRefresh,
   };
 }

@@ -1,5 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 
+import { router } from "expo-router";
 import {
   CalendarDays,
   Clock3,
@@ -14,25 +15,23 @@ import { EventItem } from "@harcapp/types";
 
 import { formatDate } from "../utils/formatDate";
 import { formatTime } from "../utils/formatTime";
-
 interface EventCardProps {
   event: EventItem;
-  onPress: (event: EventItem) => void;
   onEdit: (event: EventItem) => void;
   onDelete: (event: EventItem) => void;
 }
 
-export function EventCard({
-  event,
-  onPress,
-  onEdit,
-  onDelete,
-}: EventCardProps) {
+export function EventCard({ event, onEdit, onDelete }: EventCardProps) {
   const { t } = useTranslation();
   const { styles, theme } = useStyles(stylesheet);
 
   return (
-    <Pressable style={styles.card} onPress={() => onPress(event)}>
+    <Pressable
+      style={styles.card}
+      onPress={() => {
+        router.push(`/(main)/attendance/${event.id}`);
+      }}
+    >
       <View style={styles.header}>
         <Text style={styles.title}>{event.title}</Text>
         <View style={styles.actions}>
