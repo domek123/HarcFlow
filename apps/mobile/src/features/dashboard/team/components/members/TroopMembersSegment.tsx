@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { View, Pressable, TextInput, Text } from "react-native";
+import {
+  View,
+  Pressable,
+  TextInput,
+  Text,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 
 import { Plus } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
@@ -12,20 +19,22 @@ import { MemberActionModal } from "../modals/MemberActionModal";
 import { MemberItem } from "./MemberItem";
 import { PatrolSection } from "./PatrolSection";
 
-type TroopMembersSegmentProps = ReturnType<typeof useTeamScreen>;
-
-export function TroopMembersSegment({
-  profileLoading,
-  troopLoading,
-  membersLoading,
-  staffMembers,
-  patrolGroups,
-  unassignedMembers,
-  search,
-  setSearch,
-}: TroopMembersSegmentProps) {
+export function TroopMembersSegment() {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
+
+  const {
+    onRefresh,
+    refreshing,
+    troopLoading,
+    membersLoading,
+    staffMembers,
+    patrolGroups,
+    unassignedMembers,
+    search,
+    setSearch,
+    adequateDegreesPercentage,
+  } = useTeamScreen();
 
   const [isPatrolModalVisible, setIsPatrolModalVisible] = useState(false);
   const [isAddMemberModalVisible, setIsAddMemberModalVisible] = useState(false);
@@ -42,7 +51,12 @@ export function TroopMembersSegment({
   };
 
   return (
-    <>
+    <ScrollView
+      contentContainerStyle={styles.content}
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+      }
+    >
       <View style={styles.actionBar}>
         <Text style={styles.actionBarTitle}>
           {t("dashboard.team.addTitle")}
@@ -64,6 +78,17 @@ export function TroopMembersSegment({
         </Pressable>
       </View>
 
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>{t("dashboard.team.degrees")}</Text>
+        <View>
+          <Text style={styles.emptyText}>
+            {t("dashboard.team.adequateDegreesPercentage", {
+              percentage: adequateDegreesPercentage,
+            })}
+          </Text>
+        </View>
+      </View>
+
       <View style={styles.searchBox}>
         <TextInput
           value={search}
@@ -74,7 +99,7 @@ export function TroopMembersSegment({
         />
       </View>
 
-      {profileLoading || troopLoading || membersLoading ? (
+      {troopLoading || membersLoading ? (
         <Text style={styles.loadingText}>
           {t("dashboard.team.loadingMembers")}
         </Text>
@@ -130,7 +155,7 @@ export function TroopMembersSegment({
           onClose={() => setIsAddMemberModalVisible(false)}
         />
       )}
-    </>
+    </ScrollView>
   );
 }
 
@@ -140,9 +165,9 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.background,
   },
   content: {
+    gap: 16,
     padding: 20,
     paddingBottom: 40,
-    gap: 16,
   },
   headerCard: {
     backgroundColor: theme.colors.card,

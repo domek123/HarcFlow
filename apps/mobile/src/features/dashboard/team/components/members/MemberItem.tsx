@@ -6,6 +6,7 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { Rank, TroopMemberSectionDTO } from "@harcapp/types";
 
+import { DegreeMaxAge } from "../../constants";
 import { getAgeFromBirthDate } from "../../utils/getAgeFromBirthDate";
 
 type MemberItemProps = {
@@ -16,9 +17,12 @@ export function MemberItem({ member }: MemberItemProps) {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
 
+  const memberAge = getAgeFromBirthDate(member.birthDate);
+  const isMemberDegreeAdequate =
+    memberAge && memberAge <= DegreeMaxAge[member.degree];
+
   return (
     <Pressable
-      key={member.id}
       style={styles.memberCard}
       onPress={() => router.push(`/member/${member.id}`)}
     >
@@ -28,9 +32,8 @@ export function MemberItem({ member }: MemberItemProps) {
             <Text style={styles.memberName}>
               {member.firstName} {member.lastName}
             </Text>
-            <Text style={styles.memberAge}>
-              {getAgeFromBirthDate(member.birthDate)}
-            </Text>
+
+            <Text style={styles.memberAge}>{memberAge ?? "-"}</Text>
           </View>
 
           <Text style={styles.memberMeta}>
@@ -38,7 +41,16 @@ export function MemberItem({ member }: MemberItemProps) {
           </Text>
 
           <Text style={styles.memberMetaSecondary}>
-            {t(`enums.degree.${member.degree}`)}
+            <Text
+              style={
+                isMemberDegreeAdequate
+                  ? styles.validDegree
+                  : styles.invalidDegree
+              }
+            >
+              {t(`enums.degree.${member.degree}`)}
+            </Text>
+
             {member.rank !== Rank.NONE &&
               ` · ${t(`enums.rank.${member.rank}`)}`}
           </Text>
@@ -56,39 +68,55 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.background,
     padding: 12,
   },
+
   memberRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
   },
+
   memberContent: {
     flex: 1,
     gap: 2,
   },
+
   memberHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     gap: 8,
   },
+
   memberName: {
     color: theme.colors.foreground,
     fontSize: 15,
     fontWeight: "700",
     flex: 1,
   },
+
   memberAge: {
     color: theme.colors.mutedForeground,
     fontSize: 12,
     fontWeight: "600",
   },
+
   memberMeta: {
     color: theme.colors.primary,
     fontSize: 12,
     fontWeight: "700",
   },
+
   memberMetaSecondary: {
     color: theme.colors.mutedForeground,
     fontSize: 11,
+  },
+
+  validDegree: {
+    color: theme.colors.mutedForeground,
+  },
+
+  invalidDegree: {
+    color: theme.colors.destructive,
+    fontWeight: "700",
   },
 }));

@@ -4,7 +4,13 @@ import { Pressable, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-export function DetailRow({ label, value }: { label: string; value?: string }) {
+export function DetailRow({
+  label,
+  value,
+}: {
+  label: string;
+  value?: string | number;
+}) {
   const { styles } = useStyles(stylesheet);
   return (
     <View style={styles.detailRow}>

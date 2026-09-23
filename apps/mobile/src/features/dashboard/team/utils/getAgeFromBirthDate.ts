@@ -1,8 +1,8 @@
 export function getAgeFromBirthDate(birthDate?: Date | string | null) {
-  if (!birthDate) return "–";
+  if (!birthDate) return undefined;
 
   const date = new Date(birthDate);
-  if (Number.isNaN(date.getTime())) return "–";
+  if (Number.isNaN(date.getTime())) return undefined;
 
   const today = new Date();
   let age = today.getFullYear() - date.getFullYear();
@@ -12,5 +12,5 @@ export function getAgeFromBirthDate(birthDate?: Date | string | null) {
     age -= 1;
   }
 
-  return `${age} lat`;
+  return age;
 }

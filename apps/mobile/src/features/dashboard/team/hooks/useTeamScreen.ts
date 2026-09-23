@@ -1,13 +1,15 @@
 import { useState, useMemo, useCallback } from "react";
 
+import { useCurrentTroopId } from "@/hooks/useCurrentTroopId";
 import { supabase } from "@/lib/supabase";
 import {
-  useFetchCurrentScoutProfile,
   useGetTroopMembersSection,
   useTroopDetailsWithPatrols,
 } from "@harcapp/api-client";
 import { TroopMemberSectionDTO, Function } from "@harcapp/types";
 
+import { DegreeMaxAge } from "../constants";
+import { getAgeFromBirthDate } from "../utils/getAgeFromBirthDate";
 import { sortMembersByRank } from "../utils/sortMembersByRank";
 
 export interface PatrolGroup {
@@ -19,12 +21,11 @@ export interface PatrolGroup {
 }
 
 export function useTeamScreen() {
-  const { data: profile, isLoading: profileLoading } =
-    useFetchCurrentScoutProfile(supabase);
+  const { troopId } = useCurrentTroopId();
 
   const { data: troop, isLoading: troopLoading } = useTroopDetailsWithPatrols(
     supabase,
-    profile?.troopId,
+    troopId,
   );
 
   const {
@@ -32,7 +33,7 @@ export function useTeamScreen() {
     isLoading: membersLoading,
     isRefetching,
     refetch,
-  } = useGetTroopMembersSection(profile?.troopId);
+  } = useGetTroopMembersSection(troopId);
 
   const [search, setSearch] = useState("");
 
@@ -109,6 +110,21 @@ export function useTeamScreen() {
     };
   }, [searchedMembers, troop?.patrols]);
 
+  const adequateDegreesPercentage = useMemo(() => {
+    const totalMembers = members.length;
+    if (totalMembers === 0) return 0;
+
+    const adequateMembersCount = members.reduce((acc, member) => {
+      const age = getAgeFromBirthDate(member.birthDate);
+      if (age !== undefined && age <= DegreeMaxAge[member.degree]) {
+        acc++;
+      }
+      return acc;
+    }, 0);
+
+    return ((adequateMembersCount / totalMembers) * 100).toFixed(0);
+  }, [members]);
+
   const onRefresh = useCallback(async () => {
     try {
       await refetch();
@@ -118,7 +134,6 @@ export function useTeamScreen() {
   }, [refetch]);
 
   return {
-    profileLoading,
     troop,
     troopLoading,
     membersLoading,
@@ -130,5 +145,6 @@ export function useTeamScreen() {
     setSearch,
     refreshing: isRefetching,
     onRefresh,
+    adequateDegreesPercentage,
   };
 }

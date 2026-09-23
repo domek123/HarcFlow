@@ -62,7 +62,6 @@
       },
       "members": "Członkowie",
       "skills": "Sprawności",
-      "skillsDescription": "Tutaj pojawią się sprawności członków drużyny.",
       "badges": {
         "title": "Sprawności członków",
         "empty": "Brak członków drużyny.",
@@ -81,7 +80,9 @@
       "addButton": "Dodaj",
       "addDescription": "Wybierz, co chcesz utworzyć",
       "addPersonDescription": "Utwórz profil członka drużyny",
+      "degrees": "Stopnie",
       "addPatrolDescription": "Utwórz nowy zastęp",
+      "adequateDegreesPercentage": "Adekwatność: {{percentage}}%",
       "searchPlaceholder": "Szukaj członka...",
       "loadingMembers": "Ładowanie członków drużyny...",
       "staff": "Kadra",

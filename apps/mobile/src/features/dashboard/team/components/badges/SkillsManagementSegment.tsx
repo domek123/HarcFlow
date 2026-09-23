@@ -61,7 +61,7 @@ export function SkillsManagementSegment() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  container: { flex: 1, gap: 12 },
+  container: { flex: 1, padding: 20, gap: 16 },
   title: { color: theme.colors.foreground, fontSize: 20, fontWeight: "800" },
   list: { gap: 10, paddingBottom: 8, flexGrow: 1 },
   empty: { color: theme.colors.mutedForeground, paddingVertical: 20 },
