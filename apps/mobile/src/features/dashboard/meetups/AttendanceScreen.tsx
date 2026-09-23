@@ -48,6 +48,9 @@ export function AttendanceScreen() {
 
   const sortedMembers = useMemo(() => {
     if (!members) return [];
+
+    if (editor.isEditing) return members;
+
     return members.sort((a, b) => {
       const aStatus = editor.getStatus(a);
       const bStatus = editor.getStatus(b);
@@ -61,6 +64,11 @@ export function AttendanceScreen() {
   const presentCount = (members ?? []).filter(
     (member) => editor.getStatus(member) === AttendanceStatus.PRESENT,
   ).length;
+
+  const presentPercentage = (
+    (presentCount * 100) /
+    ((members ?? []).length || 0)
+  ).toFixed(0);
 
   const handleSave = async () => {
     try {
@@ -96,12 +104,15 @@ export function AttendanceScreen() {
                     : "dashboard.meetups.attendance.title",
                 )}
               </Text>
-              <Text style={styles.subtitle}>
-                {t("dashboard.meetups.attendance.summary", {
-                  present: presentCount,
-                  total: members?.length ?? 0,
-                })}
-              </Text>
+              {!editor.isEditing && (
+                <Text style={styles.subtitle}>
+                  {t("dashboard.meetups.attendance.summary", {
+                    present: presentCount,
+                    total: members?.length ?? 0,
+                    percentage: presentPercentage,
+                  })}
+                </Text>
+              )}
             </View>
             <Pressable
               accessibilityLabel={t(
