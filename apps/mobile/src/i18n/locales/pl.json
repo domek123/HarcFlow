@@ -303,6 +303,7 @@
       "appearance": "Wygląd",
       "security": "Bezpieczeństwo",
       "logout": "Wyloguj",
+      "logoutSuccess": "Wylogowano pomyślnie",
       "loadError": "Nie udało się pobrać profilu."
     },
     "appearance": {

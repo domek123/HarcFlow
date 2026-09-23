@@ -7,6 +7,7 @@ type ProfileActionProps = {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
   danger?: boolean;
+  disabled?: boolean;
   onPress?: () => void;
 };
 
@@ -14,6 +15,7 @@ export function ProfileAction({
   icon,
   label,
   danger = false,
+  disabled = false,
   onPress,
 }: ProfileActionProps) {
   const { styles } = useStyles(stylesheet);
@@ -23,6 +25,7 @@ export function ProfileAction({
       accessibilityRole="button"
       onPress={onPress}
       style={[styles.action, danger && styles.dangerAction]}
+      disabled={disabled}
     >
       <Ionicons
         name={icon}

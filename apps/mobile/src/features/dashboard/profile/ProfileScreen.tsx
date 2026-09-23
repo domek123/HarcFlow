@@ -12,6 +12,7 @@ import { useFetchCurrentScoutProfile } from "@harcapp/api-client";
 import { AppearanceScreen } from "./components/AppearanceModal";
 import { InfoRow } from "./components/InfoRow";
 import { ProfileAction } from "./components/ProfileAction";
+import { useLogout } from "./hooks/useLogout";
 
 export function ProfileScreen() {
   const { t } = useTranslation();
@@ -24,6 +25,8 @@ export function ProfileScreen() {
     isError,
     refetch,
   } = useFetchCurrentScoutProfile(supabase);
+
+  const { logout, isLoading: isLoginOut } = useLogout();
 
   if (isLoading) {
     return (
@@ -123,6 +126,8 @@ export function ProfileScreen() {
             icon="log-out-outline"
             label={t("dashboard.profile.logout")}
             danger
+            onPress={logout}
+            disabled={isLoginOut}
           />
         </View>
       </ScrollView>

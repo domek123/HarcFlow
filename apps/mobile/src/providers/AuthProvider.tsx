@@ -9,17 +9,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const setInitialized = useAuthStore((state) => state.setInitialized);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    let mounted = true;
+
+    const initializeAuth = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!mounted) {
+        return;
+      }
+
       setSession(session);
       setInitialized(true);
-    });
+    };
+
+    initializeAuth();
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) {
+        return;
+      }
+
       setSession(session);
     });
 
     return () => {
+      mounted = false;
       subscription.unsubscribe();
     };
   }, [setSession, setInitialized]);
