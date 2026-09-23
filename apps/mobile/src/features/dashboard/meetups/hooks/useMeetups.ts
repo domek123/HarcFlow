@@ -18,7 +18,7 @@ import {
   createDeviceCalendarEvent,
   deleteDeviceCalendarEvent,
   updateDeviceCalendarEvent,
-} from "../calendarService";
+} from "../utils/calendarService";
 import { getEventDateKey } from "../utils/getEventDateKey";
 
 export function useMeetups() {
