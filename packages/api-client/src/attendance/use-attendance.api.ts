@@ -1,6 +1,7 @@
-import { CreateAttendanceInput } from "@harcapp/types";
+import { AttendanceStatistics, CreateAttendanceInput } from "@harcapp/types";
 import {
   fetchTroopMembersAttendance,
+  getTroopAttendanceStatistics,
   upsertAttendances,
 } from "./attendance.api";
 import { SupabaseClient } from "@supabase/supabase-js";
@@ -34,5 +35,13 @@ export function useTroopMembersAttendance(
     queryKey: attendanceKeys.list(troopId, eventId),
     queryFn: () => fetchTroopMembersAttendance(supabase, troopId!, eventId!),
     enabled: !!troopId && !!eventId,
+  });
+}
+
+export function useTroopAttendanceStatistics(troopId?: string) {
+  return useQuery<AttendanceStatistics>({
+    queryKey: attendanceKeys.all,
+    queryFn: () => getTroopAttendanceStatistics(troopId!),
+    enabled: !!troopId,
   });
 }

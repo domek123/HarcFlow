@@ -3,7 +3,11 @@ import {
   TroopMemberAttendanceDTO,
 } from "@harcapp/types";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { CreateAttendanceInput } from "packages/types/src/attendance";
+import {
+  AttendanceStatistics,
+  CreateAttendanceInput,
+} from "packages/types/src/attendance";
+import { apiClient } from "../api";
 
 export async function upsertAttendances(
   supabase: SupabaseClient,
@@ -53,4 +57,10 @@ export async function fetchTroopMembersAttendance(
     lastName: item.user?.lastName ?? "",
     status: item.attendance[0]?.status ?? null,
   }));
+}
+
+export function getTroopAttendanceStatistics(troopId: string) {
+  return apiClient<AttendanceStatistics>(`/attendance/stats/${troopId}`, {
+    method: "GET",
+  });
 }
