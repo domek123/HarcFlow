@@ -1,19 +1,24 @@
+import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
 import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { DeleteModal } from "@/components";
+import { DeleteModal, SegmentedSwitch } from "@/components";
 
 import { EventFormModal } from "./components/EventFormModal";
 import { EventList } from "./components/EventList";
 import { MeetupsCalendar } from "./components/MeetupsCalendar";
+import { MeetupsStats } from "./components/Statistics/MeetupsStats";
 import { useMeetups } from "./hooks/useMeetups";
+
+type MeetupsTab = "calendar" | "stats";
 
 export function MeetupsScreen() {
   const { t } = useTranslation();
   const { styles } = useStyles(stylesheet);
+  const [activeTab, setActiveTab] = useState<MeetupsTab>("calendar");
 
   const {
     events,
@@ -61,26 +66,40 @@ export function MeetupsScreen() {
             <Text style={styles.addButtonText}>+</Text>
           </Pressable>
         </View>
-        <MeetupsCalendar
-          events={events}
-          selectedDate={selectedDate}
-          onDateChange={setSelectedDate}
-          onDateLongPress={(date) => {
-            openCreateModal(date);
-          }}
-          onClearDate={() => setSelectedDate(null)}
+        <SegmentedSwitch
+          activeKey={activeTab}
+          options={[
+            { key: "calendar", label: t("dashboard.meetups.calendarTab") },
+            { key: "stats", label: t("dashboard.meetups.statsTab") },
+          ]}
+          onChange={setActiveTab}
         />
-        <EventList
-          events={visibleEvents}
-          isLoading={isLoading}
-          isRefetching={isRefetching}
-          onLoadMore={fetchNextPage}
-          onRefresh={refetch}
-          onEdit={(event) => {
-            openEditModal(event);
-          }}
-          onDelete={openDeleteModal}
-        />
+        {activeTab === "calendar" ? (
+          <>
+            <MeetupsCalendar
+              events={events}
+              selectedDate={selectedDate}
+              onDateChange={setSelectedDate}
+              onDateLongPress={(date) => {
+                openCreateModal(date);
+              }}
+              onClearDate={() => setSelectedDate(null)}
+            />
+            <EventList
+              events={visibleEvents}
+              isLoading={isLoading}
+              isRefetching={isRefetching}
+              onLoadMore={fetchNextPage}
+              onRefresh={refetch}
+              onEdit={(event) => {
+                openEditModal(event);
+              }}
+              onDelete={openDeleteModal}
+            />
+          </>
+        ) : (
+          <MeetupsStats />
+        )}
         <EventFormModal
           visible={isModalVisible}
           event={editingEvent}
