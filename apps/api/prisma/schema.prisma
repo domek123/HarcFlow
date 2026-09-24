@@ -16,6 +16,7 @@ model User {
   pesel        String?       @unique
   gender       Gender
   role         Role          @default(USER)
+  createdAt      DateTime     @default(now())
 
   writtenNotes ScoutNote[]    @relation("NoteAuthor")
   scoutProfile ScoutProfile?
@@ -37,6 +38,7 @@ model ScoutProfile {
   rank           Rank         @default(NONE)
   degree         Degree       @default(NONE)
   function       Function     @default(NONE)
+  acquiringDegree Degree       @default(NONE)
   hasNaramiennik Boolean      @default(false)
   troopId        String       @db.Uuid
   patrolId       String?      @db.Uuid

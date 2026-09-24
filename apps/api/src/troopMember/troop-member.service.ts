@@ -3,13 +3,23 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma, Function } from '@prisma/client';
+import { Prisma, Function, Degree } from '@prisma/client';
 
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 
 import { TroopMemberSectionDTO } from '@harcapp/types';
+
+const DEGREE_ORDER = [
+  Degree.NONE,
+  Degree.DH,
+  Degree.ML,
+  Degree.WYW,
+  Degree.CW,
+  Degree.HO,
+  Degree.HR,
+];
 
 @Injectable()
 export class TroopMemberService {
@@ -172,5 +182,29 @@ export class TroopMemberService {
       function: member.function,
       patrolId: member.patrolId,
     }));
+  }
+
+  async updateDegree(
+    profileId: string,
+    degree: Degree,
+    acquiringDegree: Degree,
+  ) {
+    const degreeIndex = DEGREE_ORDER.indexOf(degree);
+    const acquiringDegreeIndex = DEGREE_ORDER.indexOf(acquiringDegree);
+
+    if (degreeIndex === -1 || acquiringDegreeIndex === -1) {
+      throw new BadRequestException('Nieprawidłowy stopień harcerski');
+    }
+
+    if (acquiringDegreeIndex < degreeIndex) {
+      throw new BadRequestException(
+        'Stopień zdobywany nie może być nizszy niż aktualny stopień harcerski',
+      );
+    }
+
+    return this.prisma.scoutProfile.update({
+      where: { id: profileId },
+      data: { degree, acquiringDegree },
+    });
   }
 }

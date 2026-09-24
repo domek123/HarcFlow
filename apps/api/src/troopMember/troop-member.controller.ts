@@ -14,6 +14,8 @@ import {
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { TroopMemberService } from './troop-member.service';
+import { Degree } from '@prisma/client';
+import { UpdateDegreeDto } from './dto/update-degree.dto';
 
 @Controller('troop-members')
 export class TroopMemberController {
@@ -41,5 +43,18 @@ export class TroopMemberController {
   @Get('section/:troopId')
   getTroopMembersSection(@Param('troopId', ParseUUIDPipe) troopId: string) {
     return this.troopMemberService.getTroopMembersSection(troopId);
+  }
+
+  @Patch(':id/degree')
+  updateDegree(
+    @Param('id', ParseUUIDPipe) profileId: string,
+    @Body() body: UpdateDegreeDto,
+  ) {
+    const { degree, acquiringDegree } = body;
+    return this.troopMemberService.updateDegree(
+      profileId,
+      degree,
+      acquiringDegree,
+    );
   }
 }
