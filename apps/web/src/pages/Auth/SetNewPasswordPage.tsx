@@ -9,9 +9,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
-import { Label } from "../components/ui/label";
-import { useSetNewPassword } from "../hooks";
+} from "../../components/ui/card";
+import { Label } from "../../components/ui/label";
+import { useSetNewPassword } from "../../hooks";
 
 export function SetNewPasswordPage() {
   const { t } = useTranslation();

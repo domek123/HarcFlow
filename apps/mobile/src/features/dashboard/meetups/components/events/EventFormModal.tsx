@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { EventItem } from "@harcapp/types";
+import { getSafeDate } from "@harcapp/utils";
 import {
   eventFormDefaultValues,
   EventFormValues,
@@ -14,7 +15,6 @@ import {
 } from "@harcapp/validators";
 
 import { DateField, DatePickerField, FormField } from "./FormFields";
-import { getSafeDate } from "../../utils/getSafeDate";
 
 interface EventFormModalProps {
   visible: boolean;

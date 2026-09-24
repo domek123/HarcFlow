@@ -7,7 +7,8 @@
     "paths": {
       "@harcapp/types": ["./packages/types/src/index.ts"],
       "@harcapp/api-client": ["./packages/api-client/src/index.ts"],
-      "@harcapp/validators": ["./packages/validators/src/index.ts"]
+      "@harcapp/validators": ["./packages/validators/src/index.ts"],
+      "@harcapp/utils": ["./packages/utils/src/index.ts"]
     },
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

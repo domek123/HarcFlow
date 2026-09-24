@@ -12,8 +12,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
 import { supabase } from "@/lib/supabase";
-import { formatDate } from "@/utils/formatDate";
 import { useFetchCurrentScoutProfile } from "@harcapp/api-client";
+import { formatDate } from "@harcapp/utils";
 
 export function MyDataScreen() {
   const { t } = useTranslation();

@@ -7,9 +7,8 @@ import DateTimePicker, {
 import { useForm, Controller } from "react-hook-form";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+import { getSafeDate } from "@harcapp/utils";
 import { EventFormValues } from "@harcapp/validators";
-
-import { getSafeDate } from "../../utils/getSafeDate";
 
 interface FormFieldProps {
   control: ReturnType<typeof useForm<EventFormValues>>["control"];
