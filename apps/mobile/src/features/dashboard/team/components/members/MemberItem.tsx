@@ -4,10 +4,8 @@ import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
-import { Rank, TroopMemberSectionDTO } from "@harcapp/types";
-
-import { DegreeMaxAge } from "../../constants";
-import { getAgeFromBirthDate } from "../../utils/getAgeFromBirthDate";
+import { DegreeMaxAge, Rank, TroopMemberSectionDTO } from "@harcapp/types";
+import { getAgeFromBirthDate } from "@harcapp/utils";
 
 type MemberItemProps = {
   member: TroopMemberSectionDTO;

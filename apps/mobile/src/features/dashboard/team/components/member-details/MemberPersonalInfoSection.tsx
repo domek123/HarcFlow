@@ -8,8 +8,8 @@ import { createStyleSheet, useStyles } from "react-native-unistyles";
 import { showToast } from "@/utils/toast";
 import { useDeleteTroopMember } from "@harcapp/api-client";
 import { Function, ScoutProfileDTO } from "@harcapp/types";
+import { getAgeFromBirthDate } from "@harcapp/utils";
 
-import { getAgeFromBirthDate } from "../../utils/getAgeFromBirthDate";
 import { AddMemberModal } from "../modals/AddMemberModal";
 import { DeleteUserModal } from "../modals/DeleteUserModal";
 import { ActionButton, ActionRow, DetailRow } from "../shared/SharedUI";

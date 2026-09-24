@@ -6,10 +6,9 @@ import {
   useGetTroopMembersSection,
   useTroopDetailsWithPatrols,
 } from "@harcapp/api-client";
-import { TroopMemberSectionDTO, Function } from "@harcapp/types";
+import { TroopMemberSectionDTO, Function, DegreeMaxAge } from "@harcapp/types";
+import { getAgeFromBirthDate } from "@harcapp/utils";
 
-import { DegreeMaxAge } from "../constants";
-import { getAgeFromBirthDate } from "../utils/getAgeFromBirthDate";
 import { sortMembersByRank } from "../utils/sortMembersByRank";
 
 export interface PatrolGroup {
