@@ -4,6 +4,7 @@ import type {
   Function,
   Gender,
   AttendanceStatus,
+  BadgeStatus,
 } from "@prisma/client";
 import { PatrolDTO } from "./patrol";
 
@@ -47,6 +48,7 @@ export interface ScoutProfileDTO {
   gender: Gender;
   rank: Rank;
   degree: Degree;
+  acquiringDegree: Degree;
   function: Function;
   patrolId?: string | null;
   patrol?: PatrolDTO | null;
@@ -65,6 +67,7 @@ export interface RawScoutProfile {
   userId: string;
   rank: Rank;
   degree: Degree;
+  acquiringDegree: Degree;
   troopId: string;
   patrolId?: string | null;
   function: Function;
@@ -77,4 +80,34 @@ export interface RawScoutProfile {
     gender?: "MALE" | "FEMALE";
   };
   patrol?: PatrolDTO;
+}
+
+export interface RawScoutProfileDevelopmentDTO {
+  id: string;
+  rank: Rank;
+  degree: Degree;
+  acquiringDegree: Degree;
+  user: {
+    lastName: string;
+    firstName: string;
+    birthDate: string;
+  };
+  badges: {
+    badgeId: string;
+    status: BadgeStatus;
+  }[];
+}
+
+export interface ScoutProfileDevelopmentDTO {
+  id: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  rank: Rank;
+  degree: Degree;
+  acquiringDegree: Degree;
+  badges: {
+    badgeId: string;
+    status: BadgeStatus;
+  }[];
 }

@@ -6,6 +6,8 @@ import type {
   Function,
   RawScoutProfile,
   TroopMemberSectionDTO,
+  RawScoutProfileDevelopmentDTO,
+  ScoutProfileDevelopmentDTO,
 } from "@harcapp/types";
 
 import type { AddMemberPayload, UpdateMemberPayload } from "./types";
@@ -24,6 +26,7 @@ export async function fetchTroopMembers(
       userId,
       rank,
       degree,
+      acquiringDegree,
       function,
       user:User!inner (
         firstName,
@@ -84,4 +87,59 @@ export function getTroopMembersSection(troopId: string) {
     `/troop-members/section/${troopId}`,
     { method: "GET" },
   );
+}
+
+export async function getScoutsDevelopmentProfile(
+  supabase: SupabaseClient,
+  troopId: string,
+) {
+  const { data, error } = await supabase
+    .from("ScoutProfile")
+    .select<string, RawScoutProfileDevelopmentDTO>(
+      `
+      id,
+      userId,
+      rank,
+      degree,
+      acquiringDegree,
+      user:User!inner (
+        firstName,
+        lastName,
+        birthDate
+      ),
+      badges:UserBadge (
+        badgeId,
+        status
+      )
+    `,
+    )
+    .eq("troopId", troopId)
+    .order("function", { ascending: true })
+    .order("degree", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+
+  return data.map((item) => ({
+    id: item.id,
+    firstName: item.user?.firstName,
+    lastName: item.user?.lastName,
+    birthDate: item.user?.birthDate,
+    rank: item.rank,
+    degree: item.degree,
+    acquiringDegree: item.acquiringDegree,
+    badges: item.badges,
+  })) as ScoutProfileDevelopmentDTO[];
+}
+
+export function updateDegree(
+  profileId: string,
+  payload: { degree: Degree; acquiringDegree: Degree },
+) {
+  return apiClient<ScoutProfileDTO>(`/troop-members/${profileId}/degree`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
 }

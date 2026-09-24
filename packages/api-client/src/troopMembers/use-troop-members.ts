@@ -6,9 +6,12 @@ import {
   deleteTroopMember,
   updateTroopMember,
   getTroopMembersSection,
+  getScoutsDevelopmentProfile,
+  updateDegree,
 } from "./troop-members.api";
 import type { AddMemberPayload, UpdateMemberPayload } from "./types";
 import { attendanceKeys, troopMembersKeys } from "../keys";
+import { Degree } from "@harcapp/types";
 
 export function useTroopMembersList(
   supabase: SupabaseClient,
@@ -28,7 +31,7 @@ export function useAddMember(troopId?: string) {
     mutationFn: (payload: AddMemberPayload) => addTroopMember(payload, troopId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: troopMembersKeys.list(troopId),
+        queryKey: troopMembersKeys.all,
       });
 
       queryClient.invalidateQueries({
@@ -45,10 +48,7 @@ export function useDeleteTroopMember(troopId: string) {
     mutationFn: (profileId: string) => deleteTroopMember(profileId),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: troopMembersKeys.list(troopId),
-      });
-      queryClient.invalidateQueries({
-        queryKey: troopMembersKeys.single(troopId),
+        queryKey: troopMembersKeys.all,
       });
 
       queryClient.invalidateQueries({
@@ -65,10 +65,7 @@ export function useUpdateTroopMember(troopId: string) {
     mutationFn: (payload: UpdateMemberPayload) => updateTroopMember(payload),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
-        queryKey: troopMembersKeys.list(troopId),
-      });
-      queryClient.invalidateQueries({
-        queryKey: troopMembersKeys.single(variables.id),
+        queryKey: troopMembersKeys.all,
       });
     },
   });
@@ -79,5 +76,38 @@ export function useGetTroopMembersSection(troopId?: string) {
     queryKey: troopMembersKeys.list(troopId),
     queryFn: () => getTroopMembersSection(troopId!),
     enabled: !!troopId,
+  });
+}
+
+export function useGetScoutsDevelopmentProfile(
+  supabase: SupabaseClient,
+  troopId?: string,
+) {
+  return useQuery({
+    queryKey: troopMembersKeys.developmentProfile(troopId),
+    queryFn: () => getScoutsDevelopmentProfile(supabase, troopId!),
+    enabled: !!troopId,
+  });
+}
+
+export function useUpdateDegree(troopId?: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (payload: {
+      profileId: string;
+      degree: Degree;
+      acquiringDegree: Degree;
+    }) =>
+      updateDegree(payload.profileId, {
+        degree: payload.degree,
+        acquiringDegree: payload.acquiringDegree,
+      }),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: troopMembersKeys.developmentProfile(troopId),
+      });
+    },
   });
 }

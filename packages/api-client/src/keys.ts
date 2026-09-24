@@ -24,6 +24,8 @@ export const troopMembersKeys = {
   all: ["scout-troop-members"] as const,
   // list of troop members
   list: (troopId?: string) => [...troopMembersKeys.all, troopId] as const,
+  developmentProfile: (troopId?: string) =>
+    [...troopMembersKeys.all, "developmentProfile", troopId] as const,
   // single troop member
   single: (profileId?: string) => [...troopMembersKeys.all, profileId] as const,
 };
