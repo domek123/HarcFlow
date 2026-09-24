@@ -157,6 +157,7 @@
       "error": "Nie udało się zaktualizować danych członka drużyny, spróbuj ponownie później."
     },
     "editTroopModal": {
+      "editButtonHover": "Edytuj drużynę",
       "title": "Edytuj dane drużyny",
       "description": "Zmień nazwę, opis lub rok założenia drużyny.",
       "name": "Nazwa drużyny",
@@ -177,6 +178,91 @@
     },
     "deleteMemberSuccess": "Członek drużyny został usunięty.",
     "deleteMemberError": "Nie udało się usunąć członka drużyny, spróbuj ponownie później."
+  },
+  "warehouse": {
+    "title": "Magazyn",
+    "description": "Zarządzaj sprawnościami oraz wyposażeniem drużyny.",
+    "sections": {
+      "label": "Sekcje magazynu",
+      "badges": "Sprawności",
+      "equipment": "Wyposażenie"
+    },
+    "badges": {
+      "title": "Sprawności / odznaki",
+      "description": "Aktualizuj liczbę odznak dostępnych w magazynie drużyny.",
+      "searchPlaceholder": "Szukaj sprawności...",
+      "loading": "Ładowanie sprawności...",
+      "empty": "Magazyn jest pusty.",
+      "emptyDescription": "Nie znaleziono sprawności w katalogu.",
+      "noResults": "Brak wyników",
+      "noResultsDescription": "Spróbuj zmienić wyszukiwaną frazę.",
+      "table": {
+        "name": "Sprawność",
+        "level": "Poziom",
+        "available": "Dostępne"
+      },
+      "decrease": "Zmniejsz ilość {{name}}",
+      "increase": "Zwiększ ilość {{name}}"
+    },
+    "equipment": {
+      "title": "Wyposażenie",
+      "description": "Zarządzaj sprzętem i umundurowaniem drużyny.",
+      "searchPlaceholder": "Szukaj wyposażenia...",
+      "add": "Dodaj przedmiot",
+      "addFirst": "Dodaj pierwszy przedmiot",
+      "loading": "Ładowanie wyposażenia...",
+      "empty": "Magazyn jest pusty.",
+      "emptyDescription": "Dodaj pierwszy przedmiot do magazynu.",
+      "noResults": "Brak wyników",
+      "noResultsDescription": "Spróbuj zmienić wyszukiwanie lub filtr.",
+      "table": {
+        "name": "Nazwa",
+        "type": "Typ",
+        "amount": "Ilość",
+        "actions": "Akcje"
+      },
+      "decrease": "Zmniejsz ilość {{name}}",
+      "increase": "Zwiększ ilość {{name}}",
+      "edit": "Edytuj {{name}}",
+      "delete": "Usuń {{name}}"
+    },
+    "types": {
+      "all": "Wszystkie",
+      "equipment": "Sprzęt",
+      "uniform": "Umundurowanie"
+    },
+    "common": {
+      "error": "Nie udało się pobrać danych magazynu.",
+      "retry": "Spróbuj ponownie"
+    },
+    "form": {
+      "editTitle": "Edytuj wyposażenie",
+      "addTitle": "Dodaj wyposażenie",
+      "description": "Uzupełnij dane przedmiotu znajdującego się w magazynie drużyny.",
+      "name": "Nazwa",
+      "namePlaceholder": "np. Namiot",
+      "nameRequired": "Nazwa jest wymagana.",
+      "type": "Typ",
+      "typePlaceholder": "Wybierz typ",
+      "amount": "Ilość",
+      "amountError": "Ilość musi być liczbą większą lub równą zero.",
+      "cancel": "Anuluj",
+      "save": "Zapisz",
+      "saving": "Zapisywanie..."
+    },
+    "dialog": {
+      "deleteTitle": "Usuń przedmiot?",
+      "deleteDescription": "Przedmiot „{{name}}” zostanie usunięty z magazynu.",
+      "deleteFallbackDescription": "Ta operacja jest nieodwracalna.",
+      "delete": "Usuń"
+    },
+    "toast": {
+      "updated": "Przedmiot został zaktualizowany.",
+      "added": "Przedmiot został dodany.",
+      "deleted": "Przedmiot został usunięty.",
+      "saveError": "Nie udało się zapisać przedmiotu.",
+      "deleteError": "Nie udało się usunąć przedmiotu."
+    }
   },
   "enums": {
     "gender": {

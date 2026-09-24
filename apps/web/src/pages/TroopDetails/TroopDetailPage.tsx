@@ -44,8 +44,8 @@ export function TroopDetailsPage() {
           size="icon"
           className="shrink-0 text-muted-foreground hover:text-foreground"
           onClick={() => setIsEditTroopModalOpen(true)}
-          aria-label="Edytuj drużynę"
-          title="Edytuj drużynę"
+          aria-label={t("troopDetails.editTroopModal.editButtonHover")}
+          title={t("troopDetails.editTroopModal.editButtonHover")}
         >
           <Pencil className="size-4" />
         </Button>
