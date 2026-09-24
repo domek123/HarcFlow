@@ -16,6 +16,7 @@
     "@harcapp/api-client": "workspace:*",
     "@harcapp/types": "workspace:*",
     "@harcapp/validators": "workspace:*",
+    "@harcapp/utils": "workspace:*",
     "@hookform/resolvers": "^5.9.1",
     "@supabase/supabase-js": "^2.112.3",
     "@tailwindcss/vite": "^4.3.3",

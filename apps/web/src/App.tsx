@@ -1,13 +1,19 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import "./App.css";
 
 import {
   DashboardPage,
   LoginPage,
+  MembersPage,
+  ParentsAndConsentsPage,
+  RanksAndSkillsPage,
   ResetPasswordPage,
   SetNewPasswordPage,
+  StatisticsPage,
   TroopDetailsPage,
+  WarehousePage,
+  WorkPlanPage,
 } from "@/pages";
 import { configureApiClient } from "@harcapp/api-client";
 
@@ -31,7 +37,18 @@ function App() {
 
         <Route element={<ProtectedLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/troop/:id" element={<TroopDetailsPage />} />
+          <Route path="/troop/:id" element={<TroopDetailsPage />}>
+            <Route index element={<Navigate to="members" replace />} />
+            <Route path="members" element={<MembersPage />} />
+            <Route path="ranks-and-skills" element={<RanksAndSkillsPage />} />
+            <Route
+              path="parents-and-consents"
+              element={<ParentsAndConsentsPage />}
+            />
+            <Route path="warehouse" element={<WarehousePage />} />
+            <Route path="statistics" element={<StatisticsPage />} />
+            <Route path="work-plan" element={<WorkPlanPage />} />
+          </Route>
         </Route>
         <Route path="*" element={<NotFoundRedirect />} />
       </Routes>

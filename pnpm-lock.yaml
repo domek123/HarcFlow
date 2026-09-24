@@ -310,6 +310,9 @@ importers:
       '@harcapp/types':
         specifier: workspace:*
         version: link:../../packages/types
+      '@harcapp/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@harcapp/validators':
         specifier: workspace:*
         version: link:../../packages/validators

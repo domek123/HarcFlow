@@ -15,10 +15,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MemberDialog } from "@/pages/TroopDetails/AddMemberModal.tsx";
 import { useDeleteTroopMember } from "@harcapp/api-client";
 import { type ScoutProfileDTO } from "@harcapp/types";
 import type { Function as ScoutFunction } from "@harcapp/types";
+import { formatDate } from "@harcapp/utils";
+import { MemberDialog } from "./AddMemberModal";
 
 const functionBadgeVariants: Record<ScoutFunction, string> = {
   DRUZYNOWY: "bg-blue-950 text-white hover:bg-blue-900",
@@ -82,7 +83,7 @@ export function MembersTable({ members }: MembersTableProps) {
                 {member.birthDate ? (
                   <div className="flex items-center gap-1 text-sm">
                     <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-                    {member.birthDate}
+                    {formatDate(member.birthDate)}
                   </div>
                 ) : (
                   "-"
