@@ -38,6 +38,7 @@ import {
   createAddMemberSchema,
   type AddMemberFormValues,
 } from "@harcapp/validators";
+import { DegreeSelect } from "@/components/DegreeSelect";
 
 interface MemberDialogProps {
   isOpen: boolean;
@@ -272,17 +273,17 @@ export function MemberDialog({
                     <SelectItem value={Function.NONE}>
                       {t("enums.function.NONE")}
                     </SelectItem>
-                    <SelectItem value={Function.DRUZYNOWY}>
-                      {t("enums.function.DRUZYNOWY")}
-                    </SelectItem>
-                    <SelectItem value={Function.PRZYBOCZNY}>
-                      {t("enums.function.PRZYBOCZNY")}
+                    <SelectItem value={Function.PODZASTEPOWY}>
+                      {t("enums.function.PODZASTEPOWY")}
                     </SelectItem>
                     <SelectItem value={Function.ZASTEPOWY}>
                       {t("enums.function.ZASTEPOWY")}
                     </SelectItem>
-                    <SelectItem value={Function.PODZASTEPOWY}>
-                      {t("enums.function.PODZASTEPOWY")}
+                    <SelectItem value={Function.PRZYBOCZNY}>
+                      {t("enums.function.PRZYBOCZNY")}
+                    </SelectItem>
+                    <SelectItem value={Function.DRUZYNOWY}>
+                      {t("enums.function.DRUZYNOWY")}
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -328,45 +329,12 @@ export function MemberDialog({
                 <Label htmlFor="degree">
                   {t("troopDetails.addModal.degree")}
                 </Label>
-                <Select
-                  value={selectedDegree}
-                  onValueChange={(val) =>
+                <DegreeSelect
+                  selectedDegree={selectedDegree}
+                  setSelectedDegree={(val) =>
                     setValue("degree", val as Degree, { shouldValidate: true })
                   }
-                >
-                  <SelectTrigger id="degree" className="w-full overflow-hidden">
-                    <SelectValue
-                      placeholder={t("troopDetails.addModal.degreePlaceholder")}
-                    >
-                      <span className="truncate block">
-                        {t(`enums.degree.${selectedDegree}`, selectedDegree)}
-                      </span>
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value={Degree.NONE}>
-                      {t("enums.degree.NONE")}
-                    </SelectItem>
-                    <SelectItem value={Degree.DH}>
-                      {t("enums.degree.DH")}
-                    </SelectItem>
-                    <SelectItem value={Degree.ML}>
-                      {t("enums.degree.ML")}
-                    </SelectItem>
-                    <SelectItem value={Degree.WYW}>
-                      {t("enums.degree.WYW")}
-                    </SelectItem>
-                    <SelectItem value={Degree.CW}>
-                      {t("enums.degree.CW")}
-                    </SelectItem>
-                    <SelectItem value={Degree.HO}>
-                      {t("enums.degree.HO")}
-                    </SelectItem>
-                    <SelectItem value={Degree.HR}>
-                      {t("enums.degree.HR")}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                />
               </div>
             </div>
           </div>

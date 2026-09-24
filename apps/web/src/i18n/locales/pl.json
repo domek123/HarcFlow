@@ -179,6 +179,46 @@
     "deleteMemberSuccess": "Członek drużyny został usunięty.",
     "deleteMemberError": "Nie udało się usunąć członka drużyny, spróbuj ponownie później."
   },
+  "ranksAndSkills": {
+    "error": "Nie udało się pobrać rozwoju członków drużyny.",
+    "retry": "Spróbuj ponownie",
+    "empty": "Brak członków drużyny.",
+    "AdequateDegree": "Adekwatność",
+    "AdequateAcquiringDegree": "Zdobywa",
+    "table": {
+      "member": "Członek",
+      "age": "Wiek",
+      "rank": "Stopień Instruktrorski",
+      "degree": "Stopień",
+      "acquiringDegree": "Zdobywany stopień",
+      "badges": "Sprawności",
+      "actions": "Akcje"
+    },
+    "badges": {
+      "title": "Sprawności",
+      "empty": "Brak sprawności"
+    },
+    "actions": {
+      "open": "Otwórz menu akcji",
+      "trial": "Próba",
+      "degree": "Stopień"
+    },
+    "degreeDialog": {
+      "title": "Przypisz stopień",
+      "description": "Ustal aktualny oraz planowany stopień członka drużyny.",
+      "degree": "Stopień",
+      "plannedDegree": "Planowany stopień",
+      "cancel": "Anuluj",
+      "save": "Zapisz",
+      "saveSuccess": "Stopień członka drużyny został zaktualizowany.",
+      "saveError": "Nie udało się zaktualizować stopnia członka drużyny, spróbuj ponownie później."
+    },
+    "status": {
+      "PLANNED": "Zaplanowana",
+      "COMPLETED": "Ukończona",
+      "WON": "Zdobyta"
+    }
+  },
   "warehouse": {
     "title": "Magazyn",
     "description": "Zarządzaj sprawnościami oraz wyposażeniem drużyny.",

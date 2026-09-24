@@ -57,7 +57,6 @@ export function MembersTable({ members }: MembersTableProps) {
         <TableHeader>
           <TableRow>
             <TableHead>{t("troopDetails.table.name")}</TableHead>
-            <TableHead>{t("troopDetails.table.gender")}</TableHead>
             <TableHead>{t("troopDetails.table.birthDate")}</TableHead>
             <TableHead>{t("troopDetails.table.contact")}</TableHead>
             <TableHead>{t("troopDetails.table.function")}</TableHead>
@@ -73,11 +72,6 @@ export function MembersTable({ members }: MembersTableProps) {
             <TableRow key={member.id}>
               <TableCell className="font-medium">
                 {member.firstName} {member.lastName}
-              </TableCell>
-              <TableCell>
-                <Badge variant="secondary">
-                  {t(`enums.gender.${member.gender}`)}
-                </Badge>
               </TableCell>
               <TableCell>
                 {member.birthDate ? (
