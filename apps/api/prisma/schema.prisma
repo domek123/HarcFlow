@@ -6,8 +6,21 @@ datasource db {
   provider = "postgresql"
 }
 
+model ScoutYear {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String   @unique
+  startDate DateTime @db.Date
+  endDate   DateTime @db.Date
+
+  events    Event[]
+
+  @@index([startDate, endDate])
+}
+
 model User {
   id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  authUserId   String?       @unique @db.Uuid
+
   email        String?       @unique
   phoneNumber  String?       @unique
   firstName    String
@@ -16,7 +29,7 @@ model User {
   pesel        String?       @unique
   gender       Gender
   role         Role          @default(USER)
-  createdAt      DateTime     @default(now())
+  createdAt      DateTime    @default(now())
 
   writtenNotes ScoutNote[]    @relation("NoteAuthor")
   scoutProfile ScoutProfile?
@@ -25,23 +38,29 @@ model User {
 
 model Parent {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
   firstName   String
   lastName    String
   phoneNumber String?
   email       String?
+
   children    User[]   @relation("UserParents")
 }
 
 model ScoutProfile {
   id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   userId         String       @unique @db.Uuid
+  troopId        String       @db.Uuid
+  patrolId       String?      @db.Uuid
+
   rank           Rank         @default(NONE)
   degree         Degree       @default(NONE)
   function       Function     @default(NONE)
-  acquiringDegree Degree       @default(NONE)
+  acquiringDegree Degree      @default(NONE)
   hasNaramiennik Boolean      @default(false)
-  troopId        String       @db.Uuid
-  patrolId       String?      @db.Uuid
+
+  joinedAt       DateTime
+  isActive        Boolean        @default(true)
 
   notes          ScoutNote[]  @relation("ProfileNotes")
   patrol         ScoutPatrol? @relation(fields: [patrolId], references: [id])
@@ -59,7 +78,10 @@ model ScoutProfile {
 model UserBadge {
   profileId String       @db.Uuid
   badgeId   String       
+
   status    BadgeStatus  @default(PLANNED)
+  updatedAt DateTime     @default(now()) @updatedAt     
+
   profile   ScoutProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@id([profileId, badgeId])
@@ -68,10 +90,11 @@ model UserBadge {
 
 model ScoutNote {
   id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  content   String
-  createdAt DateTime     @default(now())
   authorId  String       @db.Uuid
   profileId String       @db.Uuid
+
+  content   String
+  createdAt DateTime     @default(now())
 
   author    User         @relation("NoteAuthor", fields: [authorId], references: [id])
   profile   ScoutProfile @relation("ProfileNotes", fields: [profileId], references: [id], onDelete: Cascade)
@@ -81,9 +104,10 @@ model ScoutNote {
 
 model ScoutTroop {
   id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
   name           String
   description    String?
-  creationYear   Int?
+
   badgeInventory BadgeStore[]
   troopInventory InventoryItem[]
   patrols        ScoutPatrol[]
@@ -93,20 +117,23 @@ model ScoutTroop {
 
 model ScoutPatrol {
   id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String         @unique
+  troopId      String         @db.Uuid
+
+  name         String         
   assemblyDay  Int?
   assemblyTime String?
-  troopId      String         @db.Uuid
 
   troop        ScoutTroop     @relation(fields: [troopId], references: [id])
   members      ScoutProfile[]
 
+  @@unique([troopId, name])
   @@index([troopId])
 }
 
 model BadgeStore {
   troopId String     @db.Uuid
-  badgeId String     
+  badgeId String    
+
   quantity  Int        @default(0)
   updatedAt DateTime @default(now()) @updatedAt
 
@@ -117,33 +144,40 @@ model BadgeStore {
 
 model InventoryItem {
   id      String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  troopId String            @db.Uuid
+
   name    String
   amount  Int
-  troopId String            @db.Uuid
   type    InventoryItemType
+
   troop   ScoutTroop        @relation(fields: [troopId], references: [id])
 }
 
 model Event {
   id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   troopId        String       @db.Uuid
+  scoutYearId     String      @db.Uuid
+
   title          String
   description    String?
-  calendarEventId        String?
   startDate      DateTime     @db.Timestamptz
   endDate        DateTime     @db.Timestamptz
   location       String?
-  createdAt      DateTime?    @default(now()) @db.Timestamptz
+  createdAt      DateTime    @default(now()) @db.Timestamptz
 
   troop        ScoutTroop        @relation(fields: [troopId], references: [id], onDelete: Cascade)
+  scoutYear     ScoutYear @relation(fields: [scoutYearId],references: [id],onDelete: Restrict)
   attendances  Attendance[]
+
+  @@index([troopId, scoutYearId, startDate])
 }
 
 model Attendance {
   eventId   String           @db.Uuid
   scoutId  String           @db.Uuid
+
   status    AttendanceStatus
-  updatedAt DateTime?        @default(now()) @updatedAt @db.Timestamptz
+  updatedAt DateTime        @default(now()) @updatedAt @db.Timestamptz
 
   event  Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
   scout ScoutProfile @relation(fields: [scoutId], references: [id], onDelete: Cascade)

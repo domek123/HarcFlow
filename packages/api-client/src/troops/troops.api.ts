@@ -14,6 +14,8 @@ export async function fetchTroops(
     .select("*, ScoutProfile(count)")
     .order("name", { ascending: true });
 
+  console.log(data, error);
+
   if (error) throw error;
 
   const rawData = data as unknown as RawTroopWithProfileCount[];
