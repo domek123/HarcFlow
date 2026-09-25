@@ -87,3 +87,10 @@ export const attendanceKeys = {
   list: (troopId?: string, eventId?: string) =>
     [...attendanceKeys.all, "list", troopId, eventId] as const,
 };
+
+export const scoutYearKeys = {
+  all: ["scout-years"] as const,
+  // list of scout years
+  lists: () => [...scoutYearKeys.all, "list"] as const,
+  current: () => [...scoutYearKeys.all, "current"] as const,
+};

@@ -59,8 +59,8 @@ model ScoutProfile {
   acquiringDegree Degree      @default(NONE)
   hasNaramiennik Boolean      @default(false)
 
-  joinedAt       DateTime
-  isActive        Boolean        @default(true)
+  joinedAt       DateTime?
+  isActive       Boolean        @default(true)
 
   notes          ScoutNote[]  @relation("ProfileNotes")
   patrol         ScoutPatrol? @relation(fields: [patrolId], references: [id])
