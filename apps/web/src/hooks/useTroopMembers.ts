@@ -3,7 +3,7 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase.ts";
 import { useTroopMembersList } from "@harcapp/api-client";
 
-export type SortByOptions = "function" | "rank" | "degree" | "none";
+export type SortByOptions = "function" | "rank" | "degree";
 
 const FUNCTION_ORDER: Record<string, number> = {
   DRUZYNOWY: 1,
@@ -43,7 +43,7 @@ export function useTroopMembers(troopId?: string) {
   const { data, isLoading } = useTroopMembersList(supabase, troopId);
 
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<SortByOptions>("none");
+  const [sortBy, setSortBy] = useState<SortByOptions>("function");
 
   const rawMembers = data || [];
 
@@ -57,8 +57,6 @@ export function useTroopMembers(troopId?: string) {
       );
     })
     .sort((a, b) => {
-      if (sortBy === "none") return 0;
-
       const orderMap = ORDER_MAPS[sortBy];
 
       const weightA = orderMap[a[sortBy] as string] ?? 99;

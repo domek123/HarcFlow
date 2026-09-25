@@ -69,7 +69,7 @@ export function MembersPage() {
             <div className="w-full sm:w-auto">
               <Select
                 value={sortBy}
-                onValueChange={(value) => setSortBy(value ?? "none")}
+                onValueChange={(value) => setSortBy(value ?? "function")}
               >
                 <SelectTrigger className="w-full sm:ml-auto sm:w-55">
                   <SelectValue>
@@ -77,9 +77,6 @@ export function MembersPage() {
                   </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">
-                    {t("troopDetails.sortBy.none")}
-                  </SelectItem>
                   <SelectItem value="function">
                     {t("troopDetails.sortBy.function")}
                   </SelectItem>

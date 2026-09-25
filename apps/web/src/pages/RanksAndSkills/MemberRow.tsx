@@ -98,9 +98,17 @@ export function MemberRows({
                         key={badge.badgeId}
                         className="flex items-center justify-between gap-4 px-3 py-2.5"
                       >
-                        <span className="text-sm">
-                          {badgeDefinition?.name ?? badge.badgeId}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm">
+                            {badgeDefinition?.name ?? badge.badgeId}
+                          </span>
+                          <span className="text-amber-600">
+                            {badgeDefinition?.level
+                              ? `${"★".repeat(badgeDefinition.level)}${"☆".repeat(3 - badgeDefinition.level)}`
+                              : "M"}
+                          </span>
+                        </div>
+
                         <Badge variant={statusVariant(badge.status)}>
                           {t(`ranksAndSkills.status.${badge.status}`)}
                         </Badge>
