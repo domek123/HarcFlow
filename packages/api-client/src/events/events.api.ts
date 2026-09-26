@@ -7,6 +7,7 @@ export async function fetchEventsPage(
   troopId: string,
   page: number = 0,
   pageSize: number = 10,
+  currentYear: string,
 ): Promise<{ items: EventItem[]; hasNextPage: boolean }> {
   const from = page * pageSize;
   const to = from + pageSize - 1;
@@ -15,6 +16,7 @@ export async function fetchEventsPage(
     .from("Event")
     .select("*", { count: "exact" })
     .eq("troopId", troopId)
+    .eq("currentYear", currentYear)
     .order("startDate", { ascending: false })
     .range(from, to);
 
@@ -57,7 +59,6 @@ export async function createEvent(
       location: values.location?.trim() || null,
       startDate: values.startDate,
       endDate: values.endDate,
-      calendarEventId: values.calendarEventId || null,
     })
     .select()
     .single();
@@ -93,7 +94,6 @@ export async function updateEvent(
       location: values.location?.trim() || null,
       startDate: values.startDate,
       endDate: values.endDate,
-      calendarEventId: values.calendarEventId || null,
     })
     .eq("id", eventId)
     .select()
@@ -113,7 +113,6 @@ export async function updateEvent(
     startDate: data.startDate,
     endDate: data.endDate,
     createdAt: data.createdAt,
-    calendarEventId: data.calendarEventId || undefined,
   };
 }
 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Modal, Pressable, ScrollView, Switch, Text, View } from "react-native";
+import { Modal, Pressable, ScrollView, Text, View } from "react-native";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
@@ -47,7 +47,6 @@ function toFormValues(
         startDate: event.startDate,
         endDate: event.endDate,
         location: event.location ?? "",
-        saveToDeviceCalendar: true,
       }
     : eventFormDefaultValues;
 }
@@ -61,7 +60,7 @@ export function EventFormModal({
   isSubmitting,
 }: EventFormModalProps) {
   const { t } = useTranslation();
-  const { styles, theme } = useStyles(stylesheet);
+  const { styles } = useStyles(stylesheet);
   const [picker, setPicker] = useState<"startDate" | "endDate" | null>(null);
   const {
     control,
@@ -144,31 +143,6 @@ export function EventFormModal({
                 onClose={() => setPicker(null)}
               />
             ) : null}
-            <Controller
-              control={control}
-              name="saveToDeviceCalendar"
-              render={({ field }) => (
-                <View style={styles.switchRow}>
-                  <View style={styles.switchCopy}>
-                    <Text style={styles.label}>
-                      {t("dashboard.meetups.form.deviceCalendar")}
-                    </Text>
-                    <Text style={styles.hint}>
-                      {t("dashboard.meetups.form.deviceCalendarHint")}
-                    </Text>
-                  </View>
-                  <Switch
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    trackColor={{
-                      false: theme.colors.muted,
-                      true: theme.colors.primary,
-                    }}
-                    thumbColor={theme.colors.primaryForeground}
-                  />
-                </View>
-              )}
-            />
             <View style={styles.buttons}>
               <Pressable style={styles.cancel} onPress={onClose}>
                 <Text style={styles.cancelText}>{t("common.cancel")}</Text>

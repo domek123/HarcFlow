@@ -27,7 +27,7 @@ export function useLogout() {
       };
     }
 
-    showToast.success(t("profile.logoutSuccess"));
+    showToast.success(t("profile.logout.Success"));
 
     return {
       success: true,

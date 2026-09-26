@@ -26,7 +26,6 @@ export const eventFormSchema = z
     startDate: isoDateSchema,
     endDate: isoDateSchema,
     location: z.string().optional(),
-    saveToDeviceCalendar: z.boolean(),
   })
   .superRefine((values, context) => {
     if (
@@ -48,5 +47,4 @@ export const eventFormDefaultValues: EventFormValues = {
   startDate: new Date().toISOString(),
   endDate: new Date(Date.now() + 90 * 60 * 1000).toISOString(),
   location: "",
-  saveToDeviceCalendar: true,
 };

@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { showToast } from "@/utils/toast";
 import {
   useCreateEvent,
+  useCurrentScoutYear,
   useDeleteEvent,
   useEvents,
   useUpdateEvent,
@@ -14,11 +15,6 @@ import {
 import { EventItem } from "@harcapp/types";
 import { EventFormValues } from "@harcapp/validators";
 
-import {
-  createDeviceCalendarEvent,
-  deleteDeviceCalendarEvent,
-  updateDeviceCalendarEvent,
-} from "../utils/calendarService";
 import { getEventDateKey } from "../utils/getEventDateKey";
 
 export function useMeetups() {
@@ -32,6 +28,8 @@ export function useMeetups() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [newEventDate, setNewEventDate] = useState<string | null>(null);
 
+  const { data: currentYear } = useCurrentScoutYear(supabase);
+
   const {
     data,
     isLoading,
@@ -40,7 +38,7 @@ export function useMeetups() {
     hasNextPage,
     fetchNextPage,
     refetch,
-  } = useEvents(supabase, troopId, 10);
+  } = useEvents(supabase, currentYear?.id, troopId, 10);
 
   const createEventMutation = useCreateEvent(supabase, troopId);
   const updateEventMutation = useUpdateEvent(supabase, troopId);
@@ -91,48 +89,22 @@ export function useMeetups() {
     async (values: EventFormValues) => {
       try {
         if (editingEvent) {
-          const updatedCalendarEventId = await updateDeviceCalendarEvent(
-            editingEvent.calendarEventId ?? undefined,
+          await updateEventMutation.mutateAsync({
+            eventId: editingEvent.id,
             values,
-          );
+          });
 
-          try {
-            await updateEventMutation.mutateAsync({
-              eventId: editingEvent.id,
-              values: {
-                ...values,
-                calendarEventId: updatedCalendarEventId,
-              },
-            });
-
-            showToast.success(t("dashboard.meetups.updateSuccess"));
-            closeModal();
-          } catch (supabaseError) {
-            if (updatedCalendarEventId && !editingEvent.calendarEventId) {
-              await deleteDeviceCalendarEvent(updatedCalendarEventId);
-            }
-            throw supabaseError;
-          }
+          showToast.success(t("dashboard.meetups.updateSuccess"));
+          closeModal();
         } else {
-          const calendarEventId = await createDeviceCalendarEvent(values);
+          await createEventMutation.mutateAsync({
+            ...values,
+          });
 
-          try {
-            await createEventMutation.mutateAsync({
-              ...values,
-              calendarEventId,
-            });
-
-            showToast.success(t("dashboard.meetups.createSuccess"));
-            closeModal();
-          } catch (supabaseError) {
-            if (calendarEventId) {
-              await deleteDeviceCalendarEvent(calendarEventId);
-            }
-            throw supabaseError;
-          }
+          showToast.success(t("dashboard.meetups.createSuccess"));
+          closeModal();
         }
-      } catch (error) {
-        console.error("Błąd zapisywania wydarzenia:", error);
+      } catch {
         showToast.error(
           editingEvent
             ? t("dashboard.meetups.updateError")
@@ -147,10 +119,6 @@ export function useMeetups() {
     if (!deleteItem) return;
 
     try {
-      if (deleteItem.calendarEventId) {
-        await deleteDeviceCalendarEvent(deleteItem.calendarEventId);
-      }
-
       await deleteEventMutation.mutateAsync(deleteItem.id);
 
       showToast.success(t("dashboard.meetups.deleteSuccess"));

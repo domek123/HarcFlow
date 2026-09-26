@@ -9,16 +9,22 @@ import type {
   RawScoutProfileWithBadges,
 } from "@harcapp/types";
 
-export type ProfileQuery = { profileId?: string; userId?: string };
+export type ProfileQuery = {
+  profileId?: string;
+  userId?: string;
+  authUserId?: string;
+};
 
 export async function fetchScoutProfile(
   supabase: SupabaseClient,
   query: ProfileQuery,
 ): Promise<ScoutProfileDTO | null> {
-  const { profileId, userId } = query;
+  const { profileId, userId, authUserId } = query;
 
-  if (!profileId && !userId) {
-    console.error("fetchScoutProfile: Wymagane profileId lub userId");
+  if (!profileId && !userId && !authUserId) {
+    console.error(
+      "fetchScoutProfile: Wymagane profileId lub userId lub authUserId",
+    );
     return null;
   }
 
@@ -89,5 +95,5 @@ export async function fetchCurrentScoutProfile(
 
   if (authError || !authUser) return null;
 
-  return fetchScoutProfile(supabase, { userId: authUser.id });
+  return fetchScoutProfile(supabase, { authUserId: authUser.id });
 }

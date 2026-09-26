@@ -17,17 +17,18 @@ import { CreateEventInput } from "packages/types/src/event";
 
 export function useEvents(
   supabase: SupabaseClient,
+  currentYear: string | undefined,
   troopId?: string,
   pageSize: number = 10,
 ) {
   return useInfiniteQuery({
     queryKey: eventKeys.list(troopId),
     queryFn: ({ pageParam = 0 }) =>
-      fetchEventsPage(supabase, troopId!, pageParam, pageSize),
+      fetchEventsPage(supabase, troopId!, pageParam, pageSize, currentYear!),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.hasNextPage ? allPages.length : undefined,
-    enabled: Boolean(troopId),
+    enabled: Boolean(troopId) && Boolean(currentYear),
   });
 }
 

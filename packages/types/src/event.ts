@@ -2,7 +2,6 @@ export interface EventItem {
   id: string;
   troopId: string;
   title: string;
-  calendarEventId?: string;
   description?: string;
   startDate: string;
   endDate: string;
@@ -12,7 +11,6 @@ export interface EventItem {
 
 export interface CreateEventInput {
   title: string;
-  calendarEventId?: string;
   description?: string;
   startDate: Date;
   endDate: Date;
