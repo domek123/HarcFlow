@@ -68,11 +68,13 @@ model ScoutProfile {
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   badges         UserBadge[]
   attendances Attendance[]
+  scoutDegrees ScoutDegree[]
 
   @@index([troopId])
   @@index([patrolId])
   @@index([function])
   @@index([troopId, patrolId])
+
 }
 
 model UserBadge {
@@ -113,6 +115,7 @@ model ScoutTroop {
   patrols        ScoutPatrol[]
   members        ScoutProfile[]
   events Event[]
+  degreeTemplates DegreeTemplate[]
 }
 
 model ScoutPatrol {
@@ -185,6 +188,80 @@ model Attendance {
   @@id([eventId, scoutId])
 }
 
+model DegreeTemplate {
+  id          String   @id @default(uuid()) @db.Uuid
+  troopId     String   @db.Uuid
+
+  degree      Degree
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  troop       ScoutTroop @relation(fields: [troopId], references: [id], onDelete: Cascade)
+  tasks       DegreeTemplateTask[]
+  scoutDegrees ScoutDegree[]
+  @@index([isActive])
+}
+
+model DegreeTemplateTask {
+  id          String   @id @default(uuid()) @db.Uuid
+  degreeId    String   @db.Uuid
+
+  title       String
+  description String?
+  position    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  degree      DegreeTemplate @relation(fields: [degreeId],references: [id],onDelete: Cascade)
+  scoutTasks  ScoutDegreeTask[]
+
+  @@index([degreeId])
+}
+
+model ScoutDegree {
+  id          String   @id @default(uuid()) @db.Uuid
+  scoutId     String   @db.Uuid
+  degreeId    String   @db.Uuid
+
+  status      ScoutDegreeStatus @default(IN_PROGRESS)
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  scout       ScoutProfile  @relation(fields: [scoutId],references: [id],onDelete: Cascade)
+  degree      DegreeTemplate @relation(fields: [degreeId],references: [id])
+  tasks       ScoutDegreeTask[]
+
+  @@unique([scoutId, degreeId])
+  @@index([scoutId])
+  @@index([degreeId])
+}
+
+model ScoutDegreeTask {
+  id            String   @id @default(uuid()) @db.Uuid
+  scoutDegreeId String   @db.Uuid
+  templateTaskId String? @db.Uuid
+
+  title       String
+  description String?
+  position    Int
+  source      ScoutDegreeTaskSource
+  status      ScoutDegreeTaskStatus @default(TODO)
+
+  scoutDegree ScoutDegree @relation(fields: [scoutDegreeId],references: [id],onDelete: Cascade)
+  templateTask DegreeTemplateTask? @relation(fields: [templateTaskId],references: [id],onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([scoutDegreeId])
+  @@index([templateTaskId])
+}
+
 enum AttendanceStatus {
   PRESENT
   ABSENT
@@ -235,4 +312,21 @@ enum Degree {
 enum InventoryItemType {
   UNIFORM
   EQUIPMENT
+}
+
+enum ScoutDegreeStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum ScoutDegreeTaskStatus {
+  TODO
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+enum ScoutDegreeTaskSource {
+  TEMPLATE
+  INDIVIDUAL
 }
