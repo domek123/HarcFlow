@@ -22,6 +22,15 @@ CREATE TYPE "Degree" AS ENUM ('HR', 'HO', 'CW', 'WYW', 'ML', 'DH', 'NONE');
 -- CreateEnum
 CREATE TYPE "InventoryItemType" AS ENUM ('UNIFORM', 'EQUIPMENT');
 
+-- CreateEnum
+CREATE TYPE "ScoutDegreeStatus" AS ENUM ('IN_PROGRESS', 'COMPLETED');
+
+-- CreateEnum
+CREATE TYPE "ScoutDegreeTaskStatus" AS ENUM ('TODO', 'SUBMITTED', 'APPROVED', 'REJECTED');
+
+-- CreateEnum
+CREATE TYPE "ScoutDegreeTaskSource" AS ENUM ('TEMPLATE', 'INDIVIDUAL');
+
 -- CreateTable
 CREATE TABLE "ScoutYear" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -71,7 +80,7 @@ CREATE TABLE "ScoutProfile" (
     "function" "Function" NOT NULL DEFAULT 'NONE',
     "acquiringDegree" "Degree" NOT NULL DEFAULT 'NONE',
     "hasNaramiennik" BOOLEAN NOT NULL DEFAULT false,
-    "joinedAt" TIMESTAMP(3) NOT NULL,
+    "joinedAt" TIMESTAMP(3),
     "isActive" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "ScoutProfile_pkey" PRIMARY KEY ("id")
@@ -165,6 +174,61 @@ CREATE TABLE "Attendance" (
 );
 
 -- CreateTable
+CREATE TABLE "DegreeTemplate" (
+    "id" UUID NOT NULL,
+    "troopId" UUID NOT NULL,
+    "degree" "Degree" NOT NULL,
+    "description" TEXT,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "DegreeTemplate_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "DegreeTemplateTask" (
+    "id" UUID NOT NULL,
+    "templateId" UUID NOT NULL,
+    "description" TEXT,
+    "position" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "DegreeTemplateTask_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ScoutDegree" (
+    "id" UUID NOT NULL,
+    "scoutId" UUID NOT NULL,
+    "degreeId" UUID NOT NULL,
+    "status" "ScoutDegreeStatus" NOT NULL DEFAULT 'IN_PROGRESS',
+    "startedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "completedAt" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ScoutDegree_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ScoutDegreeTask" (
+    "id" UUID NOT NULL,
+    "scoutDegreeId" UUID NOT NULL,
+    "templateTaskId" UUID,
+    "title" TEXT NOT NULL,
+    "description" TEXT,
+    "position" INTEGER NOT NULL,
+    "source" "ScoutDegreeTaskSource" NOT NULL,
+    "status" "ScoutDegreeTaskStatus" NOT NULL DEFAULT 'TODO',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ScoutDegreeTask_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_UserParents" (
     "A" UUID NOT NULL,
     "B" UUID NOT NULL,
@@ -221,6 +285,30 @@ CREATE UNIQUE INDEX "ScoutPatrol_troopId_name_key" ON "ScoutPatrol"("troopId", "
 CREATE INDEX "Event_troopId_scoutYearId_startDate_idx" ON "Event"("troopId", "scoutYearId", "startDate");
 
 -- CreateIndex
+CREATE INDEX "DegreeTemplate_isActive_idx" ON "DegreeTemplate"("isActive");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DegreeTemplate_troopId_degree_key" ON "DegreeTemplate"("troopId", "degree");
+
+-- CreateIndex
+CREATE INDEX "DegreeTemplateTask_templateId_idx" ON "DegreeTemplateTask"("templateId");
+
+-- CreateIndex
+CREATE INDEX "ScoutDegree_scoutId_idx" ON "ScoutDegree"("scoutId");
+
+-- CreateIndex
+CREATE INDEX "ScoutDegree_degreeId_idx" ON "ScoutDegree"("degreeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ScoutDegree_scoutId_degreeId_key" ON "ScoutDegree"("scoutId", "degreeId");
+
+-- CreateIndex
+CREATE INDEX "ScoutDegreeTask_scoutDegreeId_idx" ON "ScoutDegreeTask"("scoutDegreeId");
+
+-- CreateIndex
+CREATE INDEX "ScoutDegreeTask_templateTaskId_idx" ON "ScoutDegreeTask"("templateTaskId");
+
+-- CreateIndex
 CREATE INDEX "_UserParents_B_index" ON "_UserParents"("B");
 
 -- AddForeignKey
@@ -261,6 +349,24 @@ ALTER TABLE "Attendance" ADD CONSTRAINT "Attendance_eventId_fkey" FOREIGN KEY ("
 
 -- AddForeignKey
 ALTER TABLE "Attendance" ADD CONSTRAINT "Attendance_scoutId_fkey" FOREIGN KEY ("scoutId") REFERENCES "ScoutProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DegreeTemplate" ADD CONSTRAINT "DegreeTemplate_troopId_fkey" FOREIGN KEY ("troopId") REFERENCES "ScoutTroop"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DegreeTemplateTask" ADD CONSTRAINT "DegreeTemplateTask_templateId_fkey" FOREIGN KEY ("templateId") REFERENCES "DegreeTemplate"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ScoutDegree" ADD CONSTRAINT "ScoutDegree_scoutId_fkey" FOREIGN KEY ("scoutId") REFERENCES "ScoutProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ScoutDegree" ADD CONSTRAINT "ScoutDegree_degreeId_fkey" FOREIGN KEY ("degreeId") REFERENCES "DegreeTemplate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ScoutDegreeTask" ADD CONSTRAINT "ScoutDegreeTask_scoutDegreeId_fkey" FOREIGN KEY ("scoutDegreeId") REFERENCES "ScoutDegree"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ScoutDegreeTask" ADD CONSTRAINT "ScoutDegreeTask_templateTaskId_fkey" FOREIGN KEY ("templateTaskId") REFERENCES "DegreeTemplateTask"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_UserParents" ADD CONSTRAINT "_UserParents_A_fkey" FOREIGN KEY ("A") REFERENCES "Parent"("id") ON DELETE CASCADE ON UPDATE CASCADE;
