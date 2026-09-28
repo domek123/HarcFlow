@@ -45,7 +45,7 @@ export function TemplateEditor({
     onChange([
       ...tasks,
       {
-        id: `task-${Date()}`,
+        id: `task-${Date.now()}`,
         description: "",
         position: tasks.length,
       },
