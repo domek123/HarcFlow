@@ -4,6 +4,7 @@ import {
   BarChart3,
   Boxes,
   ClipboardList,
+  FileCog,
   GraduationCap,
   Handshake,
   Users,
@@ -21,10 +22,11 @@ const navigationItems = [
     path: "ranks-and-skills",
     icon: GraduationCap,
   },
-  { label: "Rodzice i zgody", path: "parents-and-consents", icon: Handshake },
+  { label: "Templatki stopni", path: "degrees/templates", icon: FileCog },
+  // { label: "Rodzice i zgody", path: "parents-and-consents", icon: Handshake },
   { label: "Magazyn", path: "warehouse", icon: Boxes },
-  { label: "Statystyki", path: "statistics", icon: BarChart3 },
-  { label: "Plan pracy", path: "work-plan", icon: ClipboardList },
+  // { label: "Statystyki", path: "statistics", icon: BarChart3 },
+  // { label: "Plan pracy", path: "work-plan", icon: ClipboardList },
 ];
 
 export function TopNavigation({ troopId }: TopNavigationProps) {

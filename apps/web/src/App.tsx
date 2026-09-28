@@ -4,6 +4,7 @@ import "./App.css";
 
 import {
   DashboardPage,
+  DegreeTemplatesPage,
   LoginPage,
   MembersPage,
   ParentsAndConsentsPage,
@@ -41,6 +42,7 @@ function App() {
             <Route index element={<Navigate to="members" replace />} />
             <Route path="members" element={<MembersPage />} />
             <Route path="ranks-and-skills" element={<RanksAndSkillsPage />} />
+            <Route path="degrees/templates" element={<DegreeTemplatesPage />} />
             <Route
               path="parents-and-consents"
               element={<ParentsAndConsentsPage />}

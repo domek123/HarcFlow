@@ -2,6 +2,7 @@ export * from "./Auth/LoginPage";
 export * from "./Auth/ResetPasswordPage";
 export * from "./Auth/SetNewPasswordPage";
 export * from "./DashboardPage/DashboardPage";
+export * from "./DegreeTemplates/DegreeTemplatesPage";
 export * from "./Members/MembersPage";
 export * from "./ParentAndConsents/ParentsAndConsentsPage";
 export * from "./RanksAndSkills/RanksAndSkillsPage";

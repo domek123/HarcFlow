@@ -304,6 +304,71 @@
       "deleteError": "Nie udało się usunąć przedmiotu."
     }
   },
+  "degreeTemplates": {
+    "title": "Stopnie",
+    "description": "Zarządzaj templatkami prób dla stopni harcerskich.",
+    "selectorLabel": "Wybór stopnia",
+    "error": {
+      "title": "Nie udało się wczytać templatki",
+      "description": "Spróbuj ponownie zainicjalizować dane demonstracyjne.",
+      "retry": "Spróbuj ponownie"
+    },
+    "empty": {
+      "title": "Brak templatki dla tego stopnia",
+      "description": "Utwórz nową templatkę i dodaj do niej zadania próby.",
+      "add": "Dodaj templatkę",
+      "showError": "Pokaż stan błędu"
+    },
+    "preview": {
+      "edit": "Edytuj templatkę"
+    },
+    "editor": {
+      "newTitle": "Nowa templatka",
+      "editTitle": "Edytuj templatkę",
+      "name": "Nazwa templatki",
+      "namePlaceholder": "Np. Próba młodzika",
+      "tasks": "Zadania",
+      "addTask": "Dodaj zadanie",
+      "taskPlaceholder": "Zadanie {{number}}",
+      "dragTask": "Przeciągnij, aby zmienić kolejność zadania {{number}}",
+      "removeTask": "Usuń zadanie {{number}}",
+      "cancel": "Anuluj",
+      "save": "Zapisz",
+      "createSuccess": "Templatka została utworzona.",
+      "updateSuccess": "Templatka została zaktualizowana.",
+      "saveError": "Nie udało się zapisać templatki, spróbuj ponownie później.",
+      "deleteError": "Nie udało się usunąć templatki, spróbuj ponownie później."
+    },
+    "degrees": {
+      "NONE": "Brak stopnia",
+      "DH": "Ochotniczka / Młodzik",
+      "ML": "Tropicielka / Wywiadowca",
+      "WYW": "Pionierka / Odkrywca",
+      "CW": "Samarytanka / Ćwik",
+      "HO": "Harcerka Orla / Harcerz Orli",
+      "HR": "Harcerka Rzeczypospolitej / Harcerz Rzeczypospolitej"
+    },
+    "mock": {
+      "dh": {
+        "name": "Próba młodzika",
+        "tasks": [
+          "Poznaję symbolikę i tradycje harcerskie",
+          "Uczestniczę w zbiórkach zastępu"
+        ]
+      },
+      "ml": {
+        "name": "Próba tropicielki",
+        "tasks": [
+          "Doskonalę orientację w terenie",
+          "Podejmuję służbę na rzecz zastępu"
+        ]
+      },
+      "cw": {
+        "name": "Próba ćwika",
+        "tasks": ["Planuję i prowadzę działanie zastępu"]
+      }
+    }
+  },
   "enums": {
     "gender": {
       "MALE": "Mężczyzna",
