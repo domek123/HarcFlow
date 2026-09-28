@@ -21,10 +21,7 @@ export const createAddMemberSchema = (t: TranslateFn) =>
       .regex(/^[0-9+ \-()]*$/, t("troopDetails.addModal.errors.phoneInvalid"))
       .optional()
       .or(z.literal("")),
-    birthDate: z
-      .string()
-      .regex(/^\d{4}-\d{2}-\d{2}$/)
-      .optional(),
+    birthDate: z.string().optional(),
     gender: z.nativeEnum(Gender),
     function: z.nativeEnum(Function),
     rank: z.nativeEnum(Rank),

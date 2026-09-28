@@ -14,3 +14,4 @@ export * from "./memberBadge/use-member-badge";
 export * from "./events/use-event";
 export * from "./attendance/use-attendance";
 export * from "./scoutYear/use-scout-year";
+export * from "./degreeTemplate/use-degree-template";

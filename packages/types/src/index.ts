@@ -41,3 +41,4 @@ export * from "./memberBadge";
 export * from "./event";
 export * from "./attendance";
 export * from "./scoutYear";
+export * from "./degreeTemplates";
