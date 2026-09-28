@@ -94,3 +94,10 @@ export const scoutYearKeys = {
   lists: () => [...scoutYearKeys.all, "list"] as const,
   current: () => [...scoutYearKeys.all, "current"] as const,
 };
+
+export const degreeTemplateKeys = {
+  all: ["degree-templates"] as const,
+
+  list: (troopId: string) =>
+    [...degreeTemplateKeys.all, "list", troopId] as const,
+};

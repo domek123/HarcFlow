@@ -10,19 +10,7 @@ import {
   fetchDegreeTemplates,
   updateDegreeTemplate,
 } from "./degree-template.api";
-
-export const degreeTemplateKeys = {
-  all: ["degree-templates"] as const,
-
-  lists: () => [...degreeTemplateKeys.all, "list"] as const,
-
-  list: (troopId: string) => [...degreeTemplateKeys.lists(), troopId] as const,
-
-  details: () => [...degreeTemplateKeys.all, "detail"] as const,
-
-  detail: (troopId: string, templateId: string) =>
-    [...degreeTemplateKeys.details(), troopId, templateId] as const,
-};
+import { degreeTemplateKeys } from "../keys";
 
 export function useDegreeTemplates(troopId?: string) {
   return useQuery({
