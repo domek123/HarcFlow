@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import { useGetScoutsDevelopmentProfile } from "@harcapp/api-client";
-import type { ScoutProfileDevelopmentDTO } from "@harcapp/types";
+import { BadgeStatus, type ScoutProfileDevelopmentDTO } from "@harcapp/types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -82,7 +82,9 @@ export function RanksAndSkillsPage() {
             {members.map((member) => {
               const isExpanded = expandedMemberId === member.id;
               const wonBadges = (member.badges ?? []).filter(
-                (badge) => badge.status === "WON",
+                (badge) =>
+                  badge.status === BadgeStatus.COMPLETED ||
+                  badge.status === BadgeStatus.WON,
               ).length;
 
               return (
