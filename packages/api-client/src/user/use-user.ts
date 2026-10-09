@@ -1,6 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { fetchCurrentScoutProfile, fetchScoutProfile } from "./user.api";
+import {
+  fetchCurrentScoutProfile,
+  fetchScoutProfile,
+  fetchUserData,
+} from "./user.api";
 import { troopMembersKeys } from "../keys";
 
 export function useFetchCurrentScoutProfile(supabase: SupabaseClient) {
@@ -18,5 +22,12 @@ export function useFetchScoutProfile(
     queryKey: troopMembersKeys.single(profileId),
     queryFn: () => fetchScoutProfile(supabase, { profileId }),
     enabled: !!profileId,
+  });
+}
+
+export function useFetchUserData(supabase: SupabaseClient) {
+  return useQuery({
+    queryKey: ["user-data"],
+    queryFn: () => fetchUserData(supabase),
   });
 }

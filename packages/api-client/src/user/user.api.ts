@@ -42,7 +42,8 @@ export async function fetchScoutProfile(
       email,
       phoneNumber,
       birthDate,
-      gender
+      gender,
+      role
     ),
     patrol:ScoutPatrol (
       id,
@@ -56,6 +57,8 @@ export async function fetchScoutProfile(
     builder = builder.eq("id", profileId);
   } else if (userId) {
     builder = builder.eq("userId", userId);
+  } else if (authUserId) {
+    builder = builder.eq("user.authUserId", authUserId);
   }
 
   const { data, error } = await builder.maybeSingle();
@@ -70,6 +73,7 @@ export async function fetchScoutProfile(
   return {
     id: data.id,
     userId: data.userId,
+    role: data.user?.role ?? "USER",
     firstName: data.user?.firstName ?? "",
     lastName: data.user?.lastName ?? "",
     email: data.user?.email ?? "",
@@ -96,4 +100,38 @@ export async function fetchCurrentScoutProfile(
   if (authError || !authUser) return null;
 
   return fetchScoutProfile(supabase, { authUserId: authUser.id });
+}
+
+export async function fetchUserData(supabase: SupabaseClient) {
+  const {
+    data: { user: authUser },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError) {
+    console.error("Błąd pobierania użytkownika z Auth:", authError);
+    throw authError;
+  }
+
+  if (!authUser) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("User")
+    .select("id, firstName, lastName, role")
+    .eq("authUserId", authUser.id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Błąd pobierania danych użytkownika:", error);
+    throw error;
+  }
+
+  // Użytkownik Auth istnieje, ale nie ma jeszcze rekordu w tabeli User.
+  if (!data) {
+    return null;
+  }
+
+  return data;
 }

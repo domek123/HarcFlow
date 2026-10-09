@@ -13,6 +13,7 @@ import { CompletedScoutDegreeTaskList } from "./CompletedScoutDegreeTaskList";
 import { ScoutDegreeTaskCard } from "./ScoutDegreeTaskCard";
 import { formatDate } from "@harcapp/utils";
 import { useTranslation } from "react-i18next";
+import { usePermission } from "@/hooks";
 
 type Props = {
   degree: ScoutDegree;
@@ -48,6 +49,8 @@ export function ScoutDegreeDetails({
   deletionPending,
 }: Props) {
   const { t } = useTranslation();
+
+  const { isAdmin } = usePermission();
 
   const approvedCount = degree.tasks.filter(
     (task) => task.status === "APPROVED",
@@ -122,7 +125,7 @@ export function ScoutDegreeDetails({
                 {t("ranksAndSkills.details.completeTrial")}
               </Button>
             )}
-            {degree.status === "COMPLETED" && (
+            {degree.status === "COMPLETED" && isAdmin && (
               <Button
                 size="icon"
                 variant="destructive"

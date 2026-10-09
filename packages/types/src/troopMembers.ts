@@ -5,6 +5,7 @@ import type {
   Gender,
   AttendanceStatus,
   BadgeStatus,
+  Role,
 } from "@prisma/client";
 import { PatrolDTO } from "./patrol";
 
@@ -39,6 +40,7 @@ export interface TroopMemberSectionDTO {
 export interface ScoutProfileDTO {
   id: string;
   userId: string;
+  role: Role;
   firstName: string;
   lastName: string;
   troopId: string;
@@ -78,6 +80,7 @@ export interface RawScoutProfile {
     phoneNumber?: string;
     birthDate?: string;
     gender?: "MALE" | "FEMALE";
+    role: Role;
   };
   patrol?: PatrolDTO;
 }

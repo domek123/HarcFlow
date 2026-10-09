@@ -2,7 +2,7 @@ import { LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button.tsx";
-import { useLogout } from "@/hooks";
+import { useLogout, usePermission } from "@/hooks";
 import { supabase } from "@/lib/supabase.ts";
 import { AddTroopModal } from "@/pages/DashboardPage/AddTroopModal.tsx";
 import { TroopCard } from "@/pages/DashboardPage/TroopCard.tsx";
@@ -15,6 +15,8 @@ export function DashboardPage() {
   const { data: troops, isLoading, isError, error } = useTroops(supabase);
 
   const { handleLogout, isLoggingOut, logoutError } = useLogout();
+
+  const { isAdmin } = usePermission();
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6">
@@ -31,7 +33,7 @@ export function DashboardPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <AddTroopModal />
+            {isAdmin && <AddTroopModal />}
             <Button
               variant="outline"
               className="inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium shadow"
