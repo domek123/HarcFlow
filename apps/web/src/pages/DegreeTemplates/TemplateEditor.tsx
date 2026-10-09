@@ -1,4 +1,4 @@
-import { GripVertical, Plus, Trash2 } from "lucide-react";
+import { GripVertical, ListChecks, Plus, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { Degree, type DegreeTemplateTask } from "@harcapp/types";
@@ -87,18 +87,26 @@ export function TemplateEditor({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          {isCreating
-            ? t("degreeTemplates.editor.newTitle")
-            : t("degreeTemplates.editor.editTitle")}
-        </CardTitle>
-
-        <CardDescription>{t(`enums.degree.${degree}`)}</CardDescription>
+    <Card className="gap-0 p-0 border-primary/15 shadow-md shadow-primary/5">
+      <CardHeader className="border-b bg-primary/[0.035] pt-5 pb-5">
+        <div className="flex items-start gap-3">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <ListChecks className="size-5" />
+          </span>
+          <div className="min-w-0">
+            <CardTitle className="text-lg">
+              {isCreating
+                ? t("degreeTemplates.editor.newTitle")
+                : t("degreeTemplates.editor.editTitle")}
+            </CardTitle>
+            <CardDescription className="mt-1 font-medium">
+              {t(`enums.degree.${degree}`)}
+            </CardDescription>
+          </div>
+        </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="p-4 sm:p-6">
         <form
           className="space-y-6"
           onSubmit={(event) => {
@@ -108,7 +116,7 @@ export function TemplateEditor({
         >
           <div className="space-y-3">
             <div className="flex items-center justify-between gap-3">
-              <Label>
+              <Label className="text-sm font-semibold">
                 {t("degreeTemplates.editor.tasks")} ({tasks.length})
               </Label>
 
@@ -123,11 +131,11 @@ export function TemplateEditor({
               </Button>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {tasks.map((task, index) => (
                 <div
                   key={task.id}
-                  className="flex items-center gap-2"
+                  className="group flex items-center gap-2 rounded-xl border bg-background p-2 shadow-sm transition-colors hover:border-primary/30"
                   onDragOver={(event) => {
                     event.preventDefault();
                   }}
@@ -160,7 +168,12 @@ export function TemplateEditor({
                     <GripVertical />
                   </Button>
 
+                  <span className="hidden size-7 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-semibold text-muted-foreground sm:flex">
+                    {index + 1}
+                  </span>
+
                   <Input
+                    className="border-0 bg-transparent shadow-none focus-visible:ring-1"
                     value={task.description ?? ""}
                     onChange={(event) =>
                       updateTask(task.id!, event.target.value)
@@ -178,7 +191,7 @@ export function TemplateEditor({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="shrink-0 text-muted-foreground hover:text-destructive"
+                    className="shrink-0 text-muted-foreground opacity-70 transition-opacity hover:text-destructive group-hover:opacity-100"
                     onClick={() => removeTask(task.id!)}
                     aria-label={t("degreeTemplates.editor.removeTask", {
                       number: index + 1,
@@ -194,7 +207,7 @@ export function TemplateEditor({
             </div>
           </div>
 
-          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <div className="flex flex-col-reverse gap-2 border-t pt-4 sm:flex-row sm:justify-end">
             <Button type="button" variant="outline" onClick={onCancel}>
               {t("degreeTemplates.editor.cancel")}
             </Button>

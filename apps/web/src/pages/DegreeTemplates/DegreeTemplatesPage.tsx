@@ -136,12 +136,15 @@ export function DegreeTemplatesPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">
+      <div className="border-b pb-5">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          {t("degreeTemplates.selectorLabel")}
+        </p>
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
           {t("degreeTemplates.title")}
         </h1>
 
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {t("degreeTemplates.description")}
         </p>
       </div>
