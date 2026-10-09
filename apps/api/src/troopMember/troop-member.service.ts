@@ -10,16 +10,7 @@ import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 
 import { TroopMemberSectionDTO } from '@harcapp/types';
-
-const DEGREE_ORDER = [
-  Degree.NONE,
-  Degree.DH,
-  Degree.ML,
-  Degree.WYW,
-  Degree.CW,
-  Degree.HO,
-  Degree.HR,
-];
+import { degreeRank } from '../common/constants';
 
 @Injectable()
 export class TroopMemberService {
@@ -189,8 +180,8 @@ export class TroopMemberService {
     degree: Degree,
     acquiringDegree: Degree,
   ) {
-    const degreeIndex = DEGREE_ORDER.indexOf(degree);
-    const acquiringDegreeIndex = DEGREE_ORDER.indexOf(acquiringDegree);
+    const degreeIndex = degreeRank[degree];
+    const acquiringDegreeIndex = degreeRank[acquiringDegree];
 
     if (degreeIndex === -1 || acquiringDegreeIndex === -1) {
       throw new BadRequestException('Nieprawidłowy stopień harcerski');

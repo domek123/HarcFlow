@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { TroopMemberModule } from './troopMember/troop-member.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { DegreeTemplatesModule } from './degreeTemplate/degree-template.module';
+import { ScoutDegreeModule } from './scoutDegree/scout-degree.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { DegreeTemplatesModule } from './degreeTemplate/degree-template.module';
     TroopMemberModule,
     AttendanceModule,
     DegreeTemplatesModule,
+    ScoutDegreeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

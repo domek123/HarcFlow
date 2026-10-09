@@ -216,7 +216,6 @@ model DegreeTemplateTask {
   updatedAt   DateTime @updatedAt
 
   template      DegreeTemplate @relation(fields: [templateId],references: [id],onDelete: Cascade)
-  scoutTasks  ScoutDegreeTask[]
 
   @@index([templateId])
 }
@@ -226,9 +225,10 @@ model ScoutDegree {
   scoutId     String   @db.Uuid
   degreeId    String   @db.Uuid
 
-  status      ScoutDegreeStatus @default(IN_PROGRESS)
-  startedAt   DateTime @default(now())
+  status      ScoutDegreeStatus @default(PREPARED)
+  startedAt   DateTime?
   completedAt DateTime?
+  orderNumber String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -244,22 +244,18 @@ model ScoutDegree {
 model ScoutDegreeTask {
   id            String   @id @default(uuid()) @db.Uuid
   scoutDegreeId String   @db.Uuid
-  templateTaskId String? @db.Uuid
 
-  title       String
   description String?
   position    Int
   source      ScoutDegreeTaskSource
   status      ScoutDegreeTaskStatus @default(TODO)
 
   scoutDegree ScoutDegree @relation(fields: [scoutDegreeId],references: [id],onDelete: Cascade)
-  templateTask DegreeTemplateTask? @relation(fields: [templateTaskId],references: [id],onDelete: SetNull)
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt 
 
   @@index([scoutDegreeId])
-  @@index([templateTaskId])
 }
 
 enum AttendanceStatus {
@@ -315,6 +311,7 @@ enum InventoryItemType {
 }
 
 enum ScoutDegreeStatus {
+  PREPARED
   IN_PROGRESS
   COMPLETED
 }
