@@ -7,6 +7,9 @@ export {
   Gender,
   BadgeStatus,
   AttendanceStatus,
+  ScoutDegreeTaskStatus,
+  ScoutDegreeTaskSource,
+  ScoutDegreeStatus,
 } from "@prisma/client";
 
 export const DEGREE_ORDER = [
@@ -18,6 +21,16 @@ export const DEGREE_ORDER = [
   Degree.HO,
   Degree.HR,
 ];
+
+export const DEGREE_RANK: Record<Degree, number> = {
+  NONE: 0,
+  DH: 1,
+  ML: 2,
+  WYW: 3,
+  CW: 4,
+  HO: 5,
+  HR: 6,
+};
 
 export const DegreeMaxAge: Record<Degree, number> = {
   [Degree.NONE]: 10,

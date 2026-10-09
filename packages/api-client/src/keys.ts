@@ -101,3 +101,9 @@ export const degreeTemplateKeys = {
   list: (troopId: string) =>
     [...degreeTemplateKeys.all, "list", troopId] as const,
 };
+
+export const scoutDegreeKeys = {
+  all: ["scout-degrees"] as const,
+  list: (troopId?: string, scoutId?: string) =>
+    [...scoutDegreeKeys.all, troopId, scoutId] as const,
+};
