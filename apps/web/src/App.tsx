@@ -9,6 +9,7 @@ import {
   MembersPage,
   ParentsAndConsentsPage,
   RanksAndSkillsPage,
+  ScoutDegreePage,
   ResetPasswordPage,
   SetNewPasswordPage,
   StatisticsPage,
@@ -42,6 +43,10 @@ function App() {
             <Route index element={<Navigate to="members" replace />} />
             <Route path="members" element={<MembersPage />} />
             <Route path="ranks-and-skills" element={<RanksAndSkillsPage />} />
+            <Route
+              path="ranks-and-skills/:scoutId"
+              element={<ScoutDegreePage />}
+            />
             <Route path="degrees/templates" element={<DegreeTemplatesPage />} />
             <Route
               path="parents-and-consents"

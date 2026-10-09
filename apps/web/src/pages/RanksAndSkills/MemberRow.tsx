@@ -16,6 +16,7 @@ type MemberRowProps = {
   isExpanded: boolean;
   wonBadges: number;
   onToggle: () => void;
+  onTrialClick: () => void;
   onDegreeClick: () => void;
 };
 
@@ -24,6 +25,7 @@ export function MemberRows({
   isExpanded,
   wonBadges,
   onToggle,
+  onTrialClick,
   onDegreeClick,
 }: MemberRowProps) {
   const { t } = useTranslation();
@@ -74,7 +76,10 @@ export function MemberRows({
           <Badge variant="secondary">{wonBadges}</Badge>
         </TableCell>
         <TableCell className="text-right">
-          <MemberActionsMenu onDegreeClick={onDegreeClick} />
+          <MemberActionsMenu
+            onTrialClick={onTrialClick}
+            onDegreeClick={onDegreeClick}
+          />
         </TableCell>
       </TableRow>
       {isExpanded && (

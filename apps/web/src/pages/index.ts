@@ -6,6 +6,7 @@ export * from "./DegreeTemplates/DegreeTemplatesPage";
 export * from "./Members/MembersPage";
 export * from "./ParentAndConsents/ParentsAndConsentsPage";
 export * from "./RanksAndSkills/RanksAndSkillsPage";
+export * from "./RanksAndSkills/ScoutDegreePage";
 export * from "./Statistics/StatisticsPage";
 export * from "./TroopDetails/TroopDetailPage";
 export * from "./Warehouse/WarehousePage";

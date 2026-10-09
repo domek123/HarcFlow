@@ -10,10 +10,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 type MemberActionsMenuProps = {
+  onTrialClick: () => void;
   onDegreeClick: () => void;
 };
 
-export function MemberActionsMenu({ onDegreeClick }: MemberActionsMenuProps) {
+export function MemberActionsMenu({
+  onTrialClick,
+  onDegreeClick,
+}: MemberActionsMenuProps) {
   const { t } = useTranslation();
 
   return (
@@ -32,7 +36,7 @@ export function MemberActionsMenu({ onDegreeClick }: MemberActionsMenuProps) {
           <MoreVertical className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={onTrialClick}>
             <ClipboardCheck className="size-4" />
             {t("ranksAndSkills.actions.trial")}
           </DropdownMenuItem>

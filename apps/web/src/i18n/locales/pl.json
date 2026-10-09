@@ -203,6 +203,17 @@
       "trial": "Próba",
       "degree": "Stopień"
     },
+    "task": {
+      "descriptionLabel": "Treść zadania",
+      "statusLabel": "Status zadania",
+      "delete": "Usuń zadanie",
+      "statuses": {
+        "TODO": "Do zrobienia",
+        "SUBMITTED": "Zgłoszone",
+        "APPROVED": "Zatwierdzone",
+        "REJECTED": "Odrzucone"
+      }
+    },
     "degreeDialog": {
       "title": "Przypisz stopień",
       "description": "Ustal aktualny oraz planowany stopień członka drużyny.",
@@ -217,6 +228,81 @@
       "PLANNED": "Zaplanowana",
       "COMPLETED": "Ukończona",
       "WON": "Zdobyta"
+    },
+    "degreeStatuses": {
+      "PREPARED": "Przygotowana",
+      "IN_PROGRESS": "W trakcie",
+      "COMPLETED": "Ukończona"
+    },
+    "stats": {
+      "title": "Rozwój drużyny"
+    },
+    "createTrial": {
+      "title": "Rozpisz kolejną próbę",
+      "selectDegree": "Wybierz stopień",
+      "addTrial": "Dodaj próbę",
+      "taskCount": "{{count}} zadań",
+      "noTemplates": "Brak aktywnych szablonów."
+    },
+    "details": {
+      "title": "Próba na stopień {{degree}}",
+      "startedAt": "Rozpoczęta: {{startedAt}}",
+      "completedAt": "Ukończona: {{completedAt}} ({{orderNumber}})",
+      "readOnly": "Ukończona próba jest tylko do odczytu.",
+      "openTrial": "Otwórz próbę",
+      "completeTrial": "Zakończ próbę",
+      "deleteTrial": "Usuń próbę",
+      "deleteTrialIconLabel": "Usuń ukończoną próbę",
+      "progress": "Postęp próby",
+      "approvedCount": "{{approved}}/{{total}} zatwierdzonych",
+      "templateTasks": "Zadania z szablonu",
+      "individualTasks": "Zadania indywidualne",
+      "newTaskPlaceholder": "Treść nowego zadania",
+      "addIndividualTask": "Dodaj zadanie indywidualne"
+    },
+    "completeTrial": {
+      "title": "Zakończ próbę",
+      "description": "Podaj numer rozkazu, w którym próba została zamknięta.",
+      "orderNumber": "Numer rozkazu",
+      "cancel": "Anuluj",
+      "confirm": "Zakończ próbę"
+    },
+    "deleteTrial": {
+      "title": "Usuń próbę",
+      "description": "Czy na pewno chcesz usunąć próbę na stopień {{degree}} użytkownikowi {{member}}? Tej operacji nie można cofnąć.",
+      "cancel": "Anuluj",
+      "confirm": "Usuń próbę"
+    },
+    "list": {
+      "title": "Próby",
+      "approvedCount": "{{approved}}/{{total}} zatwierdzonych",
+      "current": "Aktualna próba",
+      "noActive": "Brak aktywnej próby",
+      "other": "Pozostałe próby",
+      "noOther": "Brak dodatkowych prób.",
+      "history": "Historia prób",
+      "noCompleted": "Brak ukończonych prób."
+    },
+    "degreePage": {
+      "loading": "Ładowanie prób...",
+      "error": "Nie udało się pobrać prób.",
+      "back": "Wróć do listy członków",
+      "selectTrial": "Wybierz próbę z listy",
+      "selectTrialDescription": "Zobacz jej zadania i postęp."
+    },
+    "toasts": {
+      "taskSaved": "Zadanie zostało zapisane.",
+      "taskSaveError": "Nie udało się zapisać zadania.",
+      "taskStatusChanged": "Status zadania został zmieniony.",
+      "taskStatusChangeError": "Nie udało się zmienić statusu zadania.",
+      "trialStarted": "Próba została rozpoczęta.",
+      "trialStartError": "Nie udało się rozpocząć próby.",
+      "individualTaskAdded": "Dodano zadanie indywidualne.",
+      "individualTaskAddError": "Nie udało się dodać zadania.",
+      "trialOpened": "Próba została otwarta.",
+      "trialOpenError": "Nie udało się otworzyć próby.",
+      "trialCompleted": "Próba została zakończona.",
+      "trialCompleteError": "Nie udało się zakończyć próby."
     }
   },
   "warehouse": {

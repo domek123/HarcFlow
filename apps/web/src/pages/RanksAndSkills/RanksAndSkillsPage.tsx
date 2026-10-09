@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useGetScoutsDevelopmentProfile } from "@harcapp/api-client";
 import { BadgeStatus, type ScoutProfileDevelopmentDTO } from "@harcapp/types";
@@ -23,6 +23,7 @@ import { DevelopmentStats } from "./DevelopmentStats";
 export function RanksAndSkillsPage() {
   const { t } = useTranslation();
   const { id: troopId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [expandedMemberId, setExpandedMemberId] = useState<string | null>(null);
   const profileQuery = useGetScoutsDevelopmentProfile(supabase, troopId);
 
@@ -95,6 +96,9 @@ export function RanksAndSkillsPage() {
                   wonBadges={wonBadges}
                   onToggle={() =>
                     setExpandedMemberId(isExpanded ? null : member.id)
+                  }
+                  onTrialClick={() =>
+                    navigate(`/troop/${troopId}/ranks-and-skills/${member.id}`)
                   }
                   onDegreeClick={() => setSelectedMember(member)}
                 />
