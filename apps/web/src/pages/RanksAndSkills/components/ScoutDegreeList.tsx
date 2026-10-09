@@ -1,6 +1,5 @@
 import type { ScoutDegree } from "@harcapp/types";
 
-import { CheckCircle2, CircleDashed } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,11 +33,6 @@ function DegreeButton({
     >
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2 font-medium">
-          {degree.status === "COMPLETED" ? (
-            <CheckCircle2 className="size-4 text-emerald-600" />
-          ) : (
-            <CircleDashed className="size-4 text-primary" />
-          )}
           <span className="truncate">
             {t(`enums.degree.${degree.degree.degree}`)}
           </span>

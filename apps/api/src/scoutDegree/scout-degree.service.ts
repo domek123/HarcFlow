@@ -181,10 +181,6 @@ export class ScoutDegreeService {
   async open(scoutDegreeId: string) {
     const degree = await this.getDegree(scoutDegreeId);
 
-    if (degree.status === ScoutDegreeStatus.COMPLETED) {
-      throw new BadRequestException('Nie można otworzyć ukończonej próby.');
-    }
-
     if (degree.status === ScoutDegreeStatus.IN_PROGRESS) {
       return degree;
     }

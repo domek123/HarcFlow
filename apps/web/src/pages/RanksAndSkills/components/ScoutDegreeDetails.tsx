@@ -111,7 +111,7 @@ export function ScoutDegreeDetails({
           </div>
           <div className="flex items-center gap-2">
             <Badge>{t(`ranksAndSkills.degreeStatuses.${degree.status}`)}</Badge>
-            {degree.status === "PREPARED" && (
+            {degree.status !== "IN_PROGRESS" && (
               <Button size="sm" onClick={onOpen}>
                 {t("ranksAndSkills.details.openTrial")}
               </Button>

@@ -136,7 +136,7 @@ export class TroopMemberService {
 
   async getTroopMembersSection(
     troopId: string,
-  ): Promise<TroopMemberSectionDTO[]> {
+  ): Promise<Omit<TroopMemberSectionDTO, 'acquiringDegree'>[]> {
     const members = await this.prisma.scoutProfile.findMany({
       where: {
         troopId: troopId,
