@@ -7,50 +7,50 @@ import type {
   BadgeStatus,
   Role,
 } from "@prisma/client";
-import { PatrolDTO } from "./patrol";
+
+import type { PatrolDTO } from "./patrol";
+
+interface ScoutName {
+  firstName: string;
+  lastName: string;
+}
+
+interface ScoutIdentity extends ScoutName {
+  id: string;
+}
+
+interface ScoutDegreeInfo {
+  rank: Rank;
+  degree: Degree;
+  acquiringDegree: Degree;
+}
 
 export interface RawTroopMemberAttendance {
   id: string;
-  user: {
-    firstName: string;
-    lastName: string;
-  };
+  user: ScoutName;
   attendance: {
     status: AttendanceStatus;
   }[];
 }
 
-export interface TroopMemberAttendanceDTO {
-  id: string;
-  firstName: string;
-  lastName: string;
+export interface TroopMemberAttendanceDTO extends ScoutIdentity {
   status: AttendanceStatus | null;
 }
-export interface TroopMemberSectionDTO {
-  id: string;
-  firstName: string;
-  lastName: string;
+
+export interface TroopMemberSectionDTO extends ScoutIdentity, ScoutDegreeInfo {
   birthDate: Date | null;
-  rank: Rank;
-  degree: Degree;
   function: Function;
   patrolId: string | null;
 }
 
-export interface ScoutProfileDTO {
-  id: string;
+export interface ScoutProfileDTO extends ScoutDegreeInfo, ScoutIdentity {
   userId: string;
   role: Role;
-  firstName: string;
-  lastName: string;
   troopId: string;
   email?: string;
   phoneNumber?: string;
   birthDate?: string;
   gender: Gender;
-  rank: Rank;
-  degree: Degree;
-  acquiringDegree: Degree;
   function: Function;
   patrolId?: string | null;
   patrol?: PatrolDTO | null;
@@ -64,53 +64,38 @@ export interface CreateScoutInput {
   troopId: string;
 }
 
-export interface RawScoutProfile {
+export interface RawScoutProfile extends ScoutDegreeInfo {
   id: string;
   userId: string;
-  rank: Rank;
-  degree: Degree;
-  acquiringDegree: Degree;
   troopId: string;
-  patrolId?: string | null;
   function: Function;
-  user?: {
-    firstName?: string;
-    lastName?: string;
+  patrolId?: string | null;
+  user?: Partial<ScoutName> & {
     email?: string;
     phoneNumber?: string;
     birthDate?: string;
-    gender?: "MALE" | "FEMALE";
+    gender?: Gender;
     role: Role;
   };
-  patrol?: PatrolDTO;
+  patrol?: PatrolDTO | null;
 }
 
-export interface RawScoutProfileDevelopmentDTO {
+interface ScoutProfileDevelopmentBase extends ScoutDegreeInfo {
   id: string;
-  rank: Rank;
-  degree: Degree;
-  acquiringDegree: Degree;
-  user: {
-    lastName: string;
-    firstName: string;
-    birthDate: string;
-  };
   badges: {
     badgeId: string;
     status: BadgeStatus;
   }[];
 }
 
-export interface ScoutProfileDevelopmentDTO {
-  id: string;
+export interface RawScoutProfileDevelopmentDTO extends ScoutProfileDevelopmentBase {
+  user: ScoutName & {
+    birthDate: string;
+  };
+}
+
+export interface ScoutProfileDevelopmentDTO extends ScoutProfileDevelopmentBase {
   firstName: string;
   lastName: string;
   birthDate: string;
-  rank: Rank;
-  degree: Degree;
-  acquiringDegree: Degree;
-  badges: {
-    badgeId: string;
-    status: BadgeStatus;
-  }[];
 }
