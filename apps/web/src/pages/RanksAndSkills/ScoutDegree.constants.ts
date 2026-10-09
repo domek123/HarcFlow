@@ -4,5 +4,4 @@ export const taskStatuses: ScoutDegreeTaskStatus[] = [
   "TODO",
   "SUBMITTED",
   "APPROVED",
-  "REJECTED",
 ];

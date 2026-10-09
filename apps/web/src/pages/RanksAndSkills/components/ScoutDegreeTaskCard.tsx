@@ -45,7 +45,6 @@ export function ScoutDegreeTaskCard({
     SUBMITTED: "border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100",
     APPROVED:
       "border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100",
-    REJECTED: "border-red-200 bg-red-50 text-red-800 hover:bg-red-100",
   }[task.status];
 
   const resizeTextarea = (element: HTMLTextAreaElement | null) => {

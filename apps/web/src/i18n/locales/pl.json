@@ -210,8 +210,7 @@
       "statuses": {
         "TODO": "Do zrobienia",
         "SUBMITTED": "Zgłoszone",
-        "APPROVED": "Zatwierdzone",
-        "REJECTED": "Odrzucone"
+        "APPROVED": "Zatwierdzone"
       }
     },
     "degreeDialog": {

@@ -320,7 +320,6 @@ enum ScoutDegreeTaskStatus {
   TODO
   SUBMITTED
   APPROVED
-  REJECTED
 }
 
 enum ScoutDegreeTaskSource {
