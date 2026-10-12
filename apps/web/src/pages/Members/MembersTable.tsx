@@ -19,6 +19,7 @@ import { useDeleteTroopMember } from "@harcapp/api-client";
 import { type ScoutProfileDTO } from "@harcapp/types";
 import type { Function as ScoutFunction } from "@harcapp/types";
 import { formatDate } from "@harcapp/utils";
+
 import { MemberDialog } from "./AddMemberModal";
 
 const functionBadgeVariants: Record<ScoutFunction, string> = {

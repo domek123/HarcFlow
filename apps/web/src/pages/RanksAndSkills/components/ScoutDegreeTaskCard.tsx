@@ -1,10 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
+
 import { Trash2 } from "lucide-react";
-import {
-  ScoutDegreeStatus,
-  ScoutDegreeTaskStatus,
-  type ScoutDegreeTask,
-} from "@harcapp/types";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  ScoutDegreeStatus,
+  ScoutDegreeTaskStatus,
+  type ScoutDegreeTask,
+} from "@harcapp/types";
 
 import { taskStatuses } from "../ScoutDegree.constants";
 

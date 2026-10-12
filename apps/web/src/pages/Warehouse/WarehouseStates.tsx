@@ -1,6 +1,7 @@
+import type { ReactNode } from "react";
+
 import { PackageOpen, RotateCcw } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
 

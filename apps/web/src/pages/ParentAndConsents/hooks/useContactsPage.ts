@@ -1,11 +1,13 @@
 import { useMemo, useState } from "react";
+
 import { useParams } from "react-router-dom";
 
+import { supabase } from "@/lib/supabase";
 import { useChildrenContacts, useParentsContacts } from "@harcapp/api-client";
 
-import { supabase } from "@/lib/supabase";
-import type { ChildContact, ParentContact } from "../types";
 import { normalizeEmail } from "../utils";
+
+import type { ChildContact, ParentContact } from "../types";
 
 export function useContactsPage() {
   const { id: troopId } = useParams<{ id: string }>();
@@ -13,10 +15,17 @@ export function useContactsPage() {
   const childrenQuery = useChildrenContacts(supabase, troopId ?? "");
   const parentsQuery = useParentsContacts(supabase, troopId ?? "");
 
-  const children = (childrenQuery.data ?? []) as ChildContact[];
-  const parents = (parentsQuery.data ?? []) as ParentContact[];
-
   const [search, setSearch] = useState("");
+
+  const children = useMemo(
+    () => (childrenQuery.data ?? []) as ChildContact[],
+    [childrenQuery.data],
+  );
+
+  const parents = useMemo(
+    () => (parentsQuery.data ?? []) as ParentContact[],
+    [parentsQuery.data],
+  );
 
   const filteredChildren = useMemo(() => {
     const query = search.trim().toLowerCase();

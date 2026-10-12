@@ -1,15 +1,14 @@
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import {
-  BarChart3,
   Boxes,
-  ClipboardList,
   FileCog,
   GraduationCap,
   Handshake,
   Users,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
+
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type TopNavigationProps = {
   troopId?: string;

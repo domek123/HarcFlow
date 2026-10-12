@@ -19,8 +19,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { EmptyState, ErrorState, LoadingState } from "../WarehouseStates";
 import { useBadgeInventory } from "../hooks/useBadgeInventory";
+import { EmptyState, ErrorState, LoadingState } from "../WarehouseStates";
 
 export function BadgeInventorySection() {
   const { t } = useTranslation();

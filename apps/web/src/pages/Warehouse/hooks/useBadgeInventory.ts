@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
+
 import { useParams } from "react-router-dom";
 
+import { supabase } from "@/lib/supabase";
 import {
   useFetchTroopBadgeInventory,
   useUpdateBadgeQuantity,
 } from "@harcapp/api-client";
-
-import { supabase } from "@/lib/supabase";
 
 export function useBadgeInventory() {
   const { id: troopId } = useParams<{ id: string }>();

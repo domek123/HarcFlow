@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { DegreeSelect } from "@/components/DegreeSelect";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -38,7 +39,6 @@ import {
   createAddMemberSchema,
   type AddMemberFormValues,
 } from "@harcapp/validators";
-import { DegreeSelect } from "@/components/DegreeSelect";
 
 interface MemberDialogProps {
   isOpen: boolean;

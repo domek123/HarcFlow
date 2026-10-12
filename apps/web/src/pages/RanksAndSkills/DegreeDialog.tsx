@@ -1,4 +1,11 @@
+import { useEffect, useState } from "react";
+
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { toast } from "sonner";
+
 import { DegreeSelect } from "@/components/DegreeSelect";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,17 +14,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useUpdateDegree } from "@harcapp/api-client";
 import {
   Degree,
   DEGREE_ORDER,
   type ScoutProfileDevelopmentDTO,
 } from "@harcapp/types";
-import { Button } from "@/components/ui/button";
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useUpdateDegree } from "@harcapp/api-client";
-import { toast } from "sonner";
 
 type DegreeDialogProps = {
   isDegreeDialogOpen: boolean;
@@ -45,7 +47,7 @@ export function DegreeDialog({
 
     setDegree(member.degree);
     setPlannedDegree(member.acquiringDegree);
-  }, [isDegreeDialogOpen, member?.degree, member?.acquiringDegree]);
+  }, [isDegreeDialogOpen, member]);
 
   const handleSubmit = () => {
     if (!member) return;

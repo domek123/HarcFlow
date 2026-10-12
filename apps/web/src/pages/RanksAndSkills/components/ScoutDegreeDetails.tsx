@@ -1,19 +1,20 @@
 import { CheckCircle2, ClipboardList, Plus, Trash2 } from "lucide-react";
-import {
-  type ScoutDegree,
-  type ScoutDegreeTask,
-  type ScoutDegreeTaskStatus,
-} from "@harcapp/types";
+import { useTranslation } from "react-i18next";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { usePermission } from "@/hooks";
+import {
+  type ScoutDegree,
+  type ScoutDegreeTask,
+  type ScoutDegreeTaskStatus,
+} from "@harcapp/types";
+import { formatDate } from "@harcapp/utils";
+
 import { CompletedScoutDegreeTaskList } from "./CompletedScoutDegreeTaskList";
 import { ScoutDegreeTaskCard } from "./ScoutDegreeTaskCard";
-import { formatDate } from "@harcapp/utils";
-import { useTranslation } from "react-i18next";
-import { usePermission } from "@/hooks";
 
 type Props = {
   degree: ScoutDegree;

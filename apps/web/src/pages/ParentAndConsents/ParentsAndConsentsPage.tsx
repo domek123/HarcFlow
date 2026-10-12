@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import { ContactTable } from "./components/ContactTable";
 import { EmailRecipientsDialog } from "./components/EmailRecipientsDialog";
 import { useContactsPage } from "./hooks/useContactsPage";

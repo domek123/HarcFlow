@@ -1,4 +1,9 @@
+import { useEffect, useMemo } from "react";
+
 import { useTranslation } from "react-i18next";
+
+import { Degree, DEGREE_ORDER } from "@harcapp/types";
+
 import {
   Select,
   SelectContent,
@@ -6,8 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { Degree, DEGREE_ORDER } from "@harcapp/types";
-import { useEffect } from "react";
 
 type DegreeSelectProps = {
   selectedDegree: Degree;
@@ -22,30 +25,33 @@ export function DegreeSelect({
 }: DegreeSelectProps) {
   const { t } = useTranslation();
 
-  let values = DEGREE_ORDER;
-
-  if (disableAfter !== undefined) {
-    values = values.slice(disableAfter);
-  }
+  const values = useMemo(
+    () =>
+      disableAfter !== undefined
+        ? DEGREE_ORDER.slice(disableAfter)
+        : DEGREE_ORDER,
+    [disableAfter],
+  );
 
   useEffect(() => {
-    if (!values.includes(selectedDegree)) {
+    if (values.length > 0 && !values.includes(selectedDegree)) {
       setSelectedDegree(values[0]);
     }
-  }, [selectedDegree]);
+  }, [selectedDegree, setSelectedDegree, values]);
 
   return (
     <Select
       value={selectedDegree}
-      onValueChange={(val) => setSelectedDegree(val)}
+      onValueChange={(val) => setSelectedDegree(val as Degree)}
     >
       <SelectTrigger className="w-full overflow-hidden">
         <SelectValue placeholder={t("troopDetails.addModal.degreePlaceholder")}>
-          <span className="truncate block">
+          <span className="block truncate">
             {t(`enums.degree.${selectedDegree}`, selectedDegree)}
           </span>
         </SelectValue>
       </SelectTrigger>
+
       <SelectContent>
         {values.map((degree) => (
           <SelectItem value={degree} key={degree}>

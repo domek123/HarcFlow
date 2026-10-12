@@ -35,10 +35,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { EmptyState, ErrorState, LoadingState } from "../WarehouseStates";
-import { categoryLabelKeys } from "./warehouse.constants";
-import { InventoryItemDialog } from "./InventoryItemDialog";
 import { useEquipmentInventory } from "../hooks/useEquipmentInventory";
+import { EmptyState, ErrorState, LoadingState } from "../WarehouseStates";
+import { InventoryItemDialog } from "./InventoryItemDialog";
+import { categoryLabelKeys } from "./warehouse.constants";
 
 export function EquipmentInventorySection() {
   const { t } = useTranslation();

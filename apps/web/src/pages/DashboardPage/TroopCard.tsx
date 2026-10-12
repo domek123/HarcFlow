@@ -12,9 +12,9 @@ import {
   CardFooter,
   Card,
 } from "@/components/ui/card.tsx";
+import { usePermission } from "@/hooks";
 import { DeleteTroopModal } from "@/pages/DashboardPage/DeleteTroopModal.tsx";
 import type { TroopDTO } from "@harcapp/types";
-import { usePermission } from "@/hooks";
 
 export function TroopCard({ troop }: { troop: TroopDTO }) {
   const { t } = useTranslation();

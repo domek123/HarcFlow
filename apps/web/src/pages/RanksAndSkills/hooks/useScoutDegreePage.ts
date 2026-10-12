@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { supabase } from "@/lib/supabase";
 import {
   useCreateScoutDegree,
   useCreateScoutDegreeTask,
@@ -16,8 +18,6 @@ import {
   useUpdateScoutDegreeTask,
 } from "@harcapp/api-client";
 import type { ScoutDegreeTask, ScoutDegreeTaskStatus } from "@harcapp/types";
-
-import { supabase } from "@/lib/supabase";
 
 export function useScoutDegreePage() {
   const { t } = useTranslation();

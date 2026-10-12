@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 
+import { useTranslation } from "react-i18next";
+
+import { Card, CardContent } from "@/components/ui/card";
 import type { ScoutProfileDevelopmentDTO } from "@harcapp/types";
 import { DegreeMaxAge } from "@harcapp/types";
 import { getAgeFromBirthDate } from "@harcapp/utils";
-
-import { Card, CardContent } from "@/components/ui/card";
-import { useTranslation } from "react-i18next";
 
 type DevelopmentStatsProps = {
   members: ScoutProfileDevelopmentDTO[];

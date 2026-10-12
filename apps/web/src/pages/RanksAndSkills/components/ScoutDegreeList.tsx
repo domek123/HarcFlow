@@ -1,9 +1,9 @@
-import type { ScoutDegree } from "@harcapp/types";
+import { useTranslation } from "react-i18next";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTranslation } from "react-i18next";
+import type { ScoutDegree } from "@harcapp/types";
 import { formatDate } from "@harcapp/utils";
 
 type Props = {

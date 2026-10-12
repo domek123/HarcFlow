@@ -1,15 +1,16 @@
+import { useState } from "react";
+
+import { t } from "i18next";
 import { ArrowLeft, Pencil } from "lucide-react";
 import { Link, Outlet, useParams } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
-
-import { TopNavigation } from "./TopNavigation";
 import { CardTitle } from "@/components/ui/card";
-import { t } from "i18next";
-import { EditTroopModal } from "./EditTroopModal";
-import { useState } from "react";
-import { useTroopDetails } from "@harcapp/api-client";
 import { supabase } from "@/lib/supabase";
+import { useTroopDetails } from "@harcapp/api-client";
+
+import { EditTroopModal } from "./EditTroopModal";
+import { TopNavigation } from "./TopNavigation";
 
 export function TroopDetailsPage() {
   const { id } = useParams<{ id: string }>();

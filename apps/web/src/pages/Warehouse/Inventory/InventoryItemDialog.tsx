@@ -1,15 +1,8 @@
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { InventoryItemType } from "@harcapp/types";
-import type { InventoryItem } from "@harcapp/types";
-import {
-  inventoryItemDefaultValues,
-  inventoryItemSchema,
-  type InventoryItemFormValues,
-} from "@harcapp/validators";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +22,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { InventoryItemType } from "@harcapp/types";
+import type { InventoryItem } from "@harcapp/types";
+import {
+  inventoryItemDefaultValues,
+  inventoryItemSchema,
+  type InventoryItemFormValues,
+} from "@harcapp/validators";
 
 import { categoryLabelKeys } from "./warehouse.constants";
 

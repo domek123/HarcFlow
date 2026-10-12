@@ -1,6 +1,10 @@
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { toast } from "sonner";
+
+import { supabase } from "@/lib/supabase";
 import {
   useCreateInventoryItem,
   useDeleteInventoryItem,
@@ -9,11 +13,7 @@ import {
   useUpdateInventoryItem,
 } from "@harcapp/api-client";
 import { InventoryItemType, type InventoryItem } from "@harcapp/types";
-
-import { supabase } from "@/lib/supabase";
 import type { InventoryItemFormValues } from "@harcapp/validators";
-import { toast } from "sonner";
-import { useTranslation } from "react-i18next";
 
 export type InventoryCategory = InventoryItemType | "ALL";
 

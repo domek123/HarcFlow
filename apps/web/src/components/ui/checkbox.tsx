@@ -1,8 +1,9 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import { cn } from "cn";
 import { CheckIcon } from "lucide-react";
-import type { ReactNode } from "react";
 
 interface CheckboxProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

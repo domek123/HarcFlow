@@ -1,21 +1,21 @@
 import { useState } from "react";
+
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-
-import { Degree, type DegreeTemplateTask } from "@harcapp/types";
+import { toast } from "sonner";
 
 import {
   useCreateDegreeTemplate,
   useDegreeTemplates,
   useUpdateDegreeTemplate,
 } from "@harcapp/api-client";
+import { Degree, type DegreeTemplateTask } from "@harcapp/types";
 
 import { TemplateEditor } from "./TemplateEditor";
 import { TemplateSelector } from "./TemplateSelector";
 import { TemplateEmpty } from "./templateStates/TemplateEmpty";
 import { TemplateError } from "./templateStates/TemplateError";
 import { TemplatePreview } from "./templateStates/TemplatePreview";
-import { toast } from "sonner";
 
 export function DegreeTemplatesPage() {
   const { t } = useTranslation();

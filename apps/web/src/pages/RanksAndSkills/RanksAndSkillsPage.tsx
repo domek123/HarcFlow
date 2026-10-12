@@ -1,9 +1,7 @@
 import { useState } from "react";
+
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-
-import { useGetScoutsDevelopmentProfile } from "@harcapp/api-client";
-import { BadgeStatus, type ScoutProfileDevelopmentDTO } from "@harcapp/types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +12,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { supabase } from "@/lib/supabase";
+import { useGetScoutsDevelopmentProfile } from "@harcapp/api-client";
+import { BadgeStatus, type ScoutProfileDevelopmentDTO } from "@harcapp/types";
 
 import { DegreeDialog } from "./DegreeDialog";
-import { MemberRows } from "./MemberRow";
 import { DevelopmentProfileSkeleton } from "./DevelopmentProfileSkeleton";
 import { DevelopmentStats } from "./DevelopmentStats";
+import { MemberRows } from "./MemberRow";
 
 export function RanksAndSkillsPage() {
   const { t } = useTranslation();

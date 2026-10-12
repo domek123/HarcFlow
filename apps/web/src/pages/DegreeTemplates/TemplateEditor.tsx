@@ -1,8 +1,6 @@
 import { GripVertical, ListChecks, Plus, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-import { Degree, type DegreeTemplateTask } from "@harcapp/types";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Degree, type DegreeTemplateTask } from "@harcapp/types";
 
 type TemplateEditorProps = {
   degree: Degree;

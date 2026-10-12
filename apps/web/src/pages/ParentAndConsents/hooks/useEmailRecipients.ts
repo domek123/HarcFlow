@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 
-import type { EmailMode, ParentContact } from "../types";
 import { normalizeEmail } from "../utils";
+
+import type { EmailMode, ParentContact } from "../types";
 
 export function useEmailRecipients(parentsWithEmail: ParentContact[]) {
   const [isOpen, setIsOpen] = useState(false);

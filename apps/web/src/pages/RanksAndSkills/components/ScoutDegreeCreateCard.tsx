@@ -1,4 +1,3 @@
-import { DEGREE_RANK, type Degree, type DegreeTemplate } from "@harcapp/types";
 import { FilePlus2, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -11,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DEGREE_RANK, type Degree, type DegreeTemplate } from "@harcapp/types";
 
 type Props = {
   templates: DegreeTemplate[];

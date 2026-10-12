@@ -1,8 +1,9 @@
 import { ClipboardCheck, Pencil } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Degree, DegreeTemplate } from "@harcapp/types";
-import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
 
 type TemplatePreviewProps = {
   degree: Degree;

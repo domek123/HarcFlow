@@ -1,3 +1,7 @@
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+import { Badge } from "@/components/ui/badge";
 import { TableRow, TableCell } from "@/components/ui/table";
 import {
   BadgeStatus,
@@ -5,11 +9,9 @@ import {
   type ScoutProfileDevelopmentDTO,
   getBadgeById,
 } from "@harcapp/types";
-import { ChevronDown, ChevronRight } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { MemberActionsMenu } from "./MemberActionsMenu";
-import { Badge } from "@/components/ui/badge";
 import { getAgeFromBirthDate } from "@harcapp/utils";
+
+import { MemberActionsMenu } from "./MemberActionsMenu";
 
 type MemberRowProps = {
   member: ScoutProfileDevelopmentDTO;
