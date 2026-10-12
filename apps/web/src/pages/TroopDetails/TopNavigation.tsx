@@ -22,9 +22,9 @@ const navigationItems = [
     path: "ranks-and-skills",
     icon: GraduationCap,
   },
-  { label: "Templatki stopni", path: "degrees/templates", icon: FileCog },
-  // { label: "Rodzice i zgody", path: "parents-and-consents", icon: Handshake },
+  { label: "Templatki stopni", path: "templates", icon: FileCog },
   { label: "Magazyn", path: "warehouse", icon: Boxes },
+  { label: "Kontakt", path: "contact", icon: Handshake },
   // { label: "Statystyki", path: "statistics", icon: BarChart3 },
   // { label: "Plan pracy", path: "work-plan", icon: ClipboardList },
 ];

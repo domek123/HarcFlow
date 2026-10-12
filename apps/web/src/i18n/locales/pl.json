@@ -20,6 +20,51 @@
     "forgotPassword": "Zapomniałeś hasła?",
     "createAccount": "Utwórz konto"
   },
+  "contacts": {
+    "title": "Rodzice i kontakty",
+    "description": "Dane kontaktowe członków drużyny i ich rodziców.",
+    "generateEmail": "Generuj e-mail",
+    "loadError": "Nie udało się pobrać danych kontaktowych. Spróbuj odświeżyć stronę.",
+    "searchPlaceholder": "Szukaj po imieniu, nazwisku, e-mailu lub telefonie...",
+    "children": "Dzieci ({{count}})",
+    "parents": "Rodzice ({{count}})",
+    "loading": "Ładowanie kontaktów...",
+    "emptyChildren": "Nie znaleziono dzieci pasujących do wyszukiwania.",
+    "emptyParents": "Nie znaleziono rodziców pasujących do wyszukiwania.",
+    "noEmail": "Brak adresu",
+    "noPhone": "—",
+    "noValue": "—",
+    "stats": {
+      "children": "Dzieci",
+      "parentsWithEmail": "Rodzice z adresem e-mail"
+    },
+    "table": {
+      "name": "Imię i nazwisko",
+      "children": "Dzieci",
+      "email": "E-mail",
+      "phone": "Telefon"
+    },
+    "dialog": {
+      "title": "Generowanie wiadomości e-mail",
+      "description": "Wybierz rodziców, do których chcesz wysłać wiadomość. Adresy zostaną zebrane w jedną listę odbiorców.",
+      "selectedSummary": "Wybrano {{parents}} rodziców i {{emails}} unikalnych adresów e-mail.",
+      "selectAll": "Zaznacz wszystkich",
+      "selectVisible": "Zaznacz wszystkich widocznych rodziców z adresem e-mail",
+      "noEmails": "Brak rodziców z uzupełnionym adresem e-mail.",
+      "modeLabel": "Sposób dodania odbiorców",
+      "bcc": "UDW (ukryci odbiorcy)",
+      "to": "Do (widoczni odbiorcy)",
+      "modeDescription": {
+        "bcc": "UDW ukrywa adresy odbiorców przed innymi osobami. To zalecane przy wysyłaniu wiadomości do wielu rodziców.",
+        "to": "Wszyscy odbiorcy będą widzieć adresy pozostałych osób."
+      },
+      "recipientList": "Lista adresów e-mail",
+      "recipientPlaceholder": "Zaznacz co najmniej jednego rodzica.",
+      "copySuccess": "Skopiowano adresy e-mail do schowka.",
+      "copy": "Kopiuj adresy",
+      "openMail": "Otwórz program pocztowy"
+    }
+  },
   "resetPassword": {
     "title": "Resetowanie hasła",
     "description": "Podaj adres email, a wyślemy Ci link do ustawienia nowego hasła.",

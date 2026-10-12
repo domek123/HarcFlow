@@ -7,7 +7,6 @@ import {
   DegreeTemplatesPage,
   LoginPage,
   MembersPage,
-  ParentsAndConsentsPage,
   RanksAndSkillsPage,
   ScoutDegreePage,
   ResetPasswordPage,
@@ -24,6 +23,7 @@ import {
   ProtectedLayout,
   PublicOnlyLayout,
 } from "./lib/protectedRoute";
+import ParentsAndConsentsPage from "./pages/ParentAndConsents/ParentsAndConsentsPage";
 
 configureApiClient(import.meta.env.VITE_API_URL);
 
@@ -47,11 +47,8 @@ function App() {
               path="ranks-and-skills/:scoutId"
               element={<ScoutDegreePage />}
             />
-            <Route path="degrees/templates" element={<DegreeTemplatesPage />} />
-            <Route
-              path="parents-and-consents"
-              element={<ParentsAndConsentsPage />}
-            />
+            <Route path="templates" element={<DegreeTemplatesPage />} />
+            <Route path="contact" element={<ParentsAndConsentsPage />} />
             <Route path="warehouse" element={<WarehousePage />} />
             <Route path="statistics" element={<StatisticsPage />} />
             <Route path="work-plan" element={<WorkPlanPage />} />

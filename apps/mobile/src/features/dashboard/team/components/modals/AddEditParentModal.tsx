@@ -129,7 +129,7 @@ export function AddEditParentModal({
             control={control}
             name="phoneNumber"
             label={t("dashboard.memberDetails.phone")}
-            placeholder={t("dashboard.memberDetails.parentEmailPlaceholder")}
+            placeholder={t("dashboard.memberDetails.parentPhonePlaceholder")}
             error={errors.phoneNumber?.message}
             keyboardType="phone-pad"
           />
@@ -137,7 +137,7 @@ export function AddEditParentModal({
             control={control}
             name="email"
             label={t("dashboard.memberDetails.email")}
-            placeholder={t("dashboard.memberDetails.parentPhonePlaceholder")}
+            placeholder={t("dashboard.memberDetails.parentEmailPlaceholder")}
             error={errors.email?.message}
             keyboardType="email-address"
           />
