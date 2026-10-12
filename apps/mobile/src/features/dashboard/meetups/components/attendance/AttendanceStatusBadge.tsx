@@ -1,7 +1,8 @@
 import { Text } from "react-native";
 
-import { AttendanceStatus } from "@harcapp/types";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
+
+import { AttendanceStatus } from "@harcapp/types";
 
 interface AttendanceStatusBadgeProps {
   status: AttendanceStatus;

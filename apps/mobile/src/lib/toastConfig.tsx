@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { BaseToast, ErrorToast, ToastConfig } from "react-native-toast-message";
 import { createStyleSheet, useStyles } from "react-native-unistyles";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const SuccessToastContent = (props: any) => {
   const { styles } = useStyles(stylesheet);
 
@@ -17,6 +18,7 @@ const SuccessToastContent = (props: any) => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ErrorToastContent = (props: any) => {
   const { styles } = useStyles(stylesheet);
 

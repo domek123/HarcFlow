@@ -149,7 +149,7 @@ export function EditPatrolModal({
             <Controller
               control={form.control}
               name="assemblyTime"
-              render={({ field, fieldState }) => (
+              render={({ fieldState }) => (
                 <View style={styles.pickerShell}>
                   <Pressable
                     style={styles.timeButton}

@@ -11,7 +11,7 @@ export async function fetchEventsPage(
 ): Promise<{ items: EventItem[]; hasNextPage: boolean }> {
   const from = page * pageSize;
   const to = from + pageSize - 1;
-  console.log("event", currentYear);
+
   const { data, error, count } = await supabase
     .from("Event")
     .select("*", { count: "exact" })

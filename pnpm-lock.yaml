@@ -38,6 +38,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@harcapp/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
       '@harcapp/types':
         specifier: workspace:*
         version: link:../../packages/types
@@ -307,6 +310,9 @@ importers:
       '@harcapp/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
+      '@harcapp/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
       '@harcapp/types':
         specifier: workspace:*
         version: link:../../packages/types

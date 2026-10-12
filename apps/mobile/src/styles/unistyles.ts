@@ -88,13 +88,11 @@ export const darkTheme = {
   },
 } as const;
 
-type AppThemes = {
-  light: typeof lightTheme;
-  dark: typeof darkTheme;
-};
-
 declare module "react-native-unistyles" {
-  export interface UnistylesThemes extends AppThemes {}
+  export interface UnistylesThemes {
+    light: typeof lightTheme;
+    dark: typeof darkTheme;
+  }
 }
 
 UnistylesRegistry.addThemes({
