@@ -5,12 +5,12 @@ import {
 } from '@nestjs/common';
 import { Prisma, Function, Degree } from '@prisma/client';
 
+import { TroopMemberSectionDTO } from '@harcapp/types';
+
 import { PrismaService } from '../../prisma/prisma.service';
+import { degreeRank } from '../common/constants';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
-
-import { TroopMemberSectionDTO } from '@harcapp/types';
-import { degreeRank } from '../common/constants';
 
 @Injectable()
 export class TroopMemberService {
@@ -97,7 +97,9 @@ export class TroopMemberService {
       targetFunction === Function.DRUZYNOWY ||
       targetFunction === Function.PRZYBOCZNY;
 
-    let patrolUpdate: any = undefined;
+    let patrolUpdate:
+      { disconnect: true } | { connect: { id: string } } | undefined =
+      undefined;
 
     if (isStaffFunction) {
       patrolUpdate = { disconnect: true };

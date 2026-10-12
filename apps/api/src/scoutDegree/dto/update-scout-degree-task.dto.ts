@@ -1,5 +1,5 @@
-import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
 import { ScoutDegreeTaskStatus } from '@prisma/client';
+import { IsEnum, IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class UpdateScoutDegreeTaskDto {
   @IsOptional()

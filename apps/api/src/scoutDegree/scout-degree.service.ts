@@ -4,7 +4,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-
 import {
   Prisma,
   ScoutDegreeStatus,
@@ -13,11 +12,10 @@ import {
 } from '@prisma/client';
 
 import { PrismaService } from '../../prisma/prisma.service';
-
-import { CreateScoutDegreeDto } from './dto/create-scout-degree.dto';
-import { CreateScoutDegreeTaskDto } from './dto/create-scout-degree-task.dto';
-import { UpdateScoutDegreeTaskDto } from './dto/update-scout-degree-task.dto';
 import { degreeRank } from '../common/constants';
+import { CreateScoutDegreeTaskDto } from './dto/create-scout-degree-task.dto';
+import { CreateScoutDegreeDto } from './dto/create-scout-degree.dto';
+import { UpdateScoutDegreeTaskDto } from './dto/update-scout-degree-task.dto';
 
 const taskInclude = {
   degree: {

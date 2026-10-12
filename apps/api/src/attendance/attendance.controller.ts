@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
+
 import { AttendanceService } from './attendance.service';
 
 @Controller('attendance')

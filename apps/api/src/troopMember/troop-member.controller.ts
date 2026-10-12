@@ -12,10 +12,9 @@ import {
 } from '@nestjs/common';
 
 import { CreateMemberDto } from './dto/create-member.dto';
+import { UpdateDegreeDto } from './dto/update-degree.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { TroopMemberService } from './troop-member.service';
-import { Degree } from '@prisma/client';
-import { UpdateDegreeDto } from './dto/update-degree.dto';
 
 @Controller('troop-members')
 export class TroopMemberController {

@@ -1,13 +1,13 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Param,
   ParseUUIDPipe,
   Patch,
   Post,
 } from '@nestjs/common';
+
 import { DegreeTemplatesService } from './degree-template.service';
 import { CreateTemplateDto } from './dto/create-template.dto';
 import { UpdateTemplateDto } from './dto/update-template.dto';

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { AttendanceStatus } from '@prisma/client';
+import { Function } from '@prisma/client';
 
 import { PrismaService } from '../../prisma/prisma.service';
-import { Function } from '@prisma/client';
 
 @Injectable()
 export class AttendanceService {
@@ -110,7 +110,6 @@ export class AttendanceService {
       let present = 0;
       let absent = 0;
       let excused = 0;
-      let notRecorded = 0;
 
       for (const event of events) {
         const status = attendanceByEvent.get(event.id);

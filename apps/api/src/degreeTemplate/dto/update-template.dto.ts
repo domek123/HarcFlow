@@ -1,3 +1,5 @@
+import { Degree } from '@prisma/client';
+import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
   IsArray,
@@ -5,9 +7,7 @@ import {
   IsOptional,
   ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
-import { Degree } from '@prisma/client';
 import { UpdateTemplateTaskDto } from './update-template-tast.dto';
 
 export class UpdateTemplateDto {

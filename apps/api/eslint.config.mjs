@@ -1,5 +1,3 @@
 import { nestConfig } from '@harcapp/eslint-config/nest';
 
-export default [
-  ...nestConfig,
-];
+export default [...nestConfig];

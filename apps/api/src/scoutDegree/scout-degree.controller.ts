@@ -9,11 +9,11 @@ import {
   Post,
 } from '@nestjs/common';
 
-import { CreateScoutDegreeDto } from './dto/create-scout-degree.dto';
+import { CompleteScoutDegreeDto } from './dto/complete-scout-degree.dto';
 import { CreateScoutDegreeTaskDto } from './dto/create-scout-degree-task.dto';
+import { CreateScoutDegreeDto } from './dto/create-scout-degree.dto';
 import { UpdateScoutDegreeTaskDto } from './dto/update-scout-degree-task.dto';
 import { ScoutDegreeService } from './scout-degree.service';
-import { CompleteScoutDegreeDto } from './dto/complete-scout-degree.dto';
 
 @Controller('scout-degrees')
 export class ScoutDegreeController {
