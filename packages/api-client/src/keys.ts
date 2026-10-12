@@ -107,3 +107,11 @@ export const scoutDegreeKeys = {
   list: (troopId?: string, scoutId?: string) =>
     [...scoutDegreeKeys.all, troopId, scoutId] as const,
 };
+
+export const contactKeys = {
+  all: ["contacts"] as const,
+  children: (troopId?: string) =>
+    [...contactKeys.all, "children", troopId] as const,
+  parents: (troopId?: string) =>
+    [...contactKeys.all, "parents", troopId] as const,
+};

@@ -6,7 +6,7 @@ import {
   fetchUserParents,
   updateParent,
 } from "./parent.api";
-import { parentsKeys } from "../keys";
+import { contactKeys, parentsKeys } from "../keys";
 import { CreateParentInput, UpdateParentInput } from "@harcapp/types";
 
 export const useFetchUserParents = (
@@ -33,6 +33,10 @@ export const useCreateParentAndLinkToUser = (
       queryClient.invalidateQueries({
         queryKey: parentsKeys.single(userId),
       });
+
+      queryClient.invalidateQueries({
+        queryKey: contactKeys.all,
+      });
     },
   });
 };
@@ -47,6 +51,10 @@ export const useUpdateParent = (supabase: SupabaseClient, userId?: string) => {
       queryClient.invalidateQueries({
         queryKey: parentsKeys.single(userId),
       });
+
+      queryClient.invalidateQueries({
+        queryKey: contactKeys.all,
+      });
     },
   });
 };
@@ -59,6 +67,10 @@ export const useDeleteParent = (supabase: SupabaseClient, userId?: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: parentsKeys.single(userId),
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: contactKeys.all,
       });
     },
   });

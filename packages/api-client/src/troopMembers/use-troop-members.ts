@@ -10,7 +10,7 @@ import {
   updateDegree,
 } from "./troop-members.api";
 import type { AddMemberPayload, UpdateMemberPayload } from "./types";
-import { attendanceKeys, troopMembersKeys } from "../keys";
+import { attendanceKeys, contactKeys, troopMembersKeys } from "../keys";
 import { Degree } from "@harcapp/types";
 
 export function useTroopMembersList(
@@ -37,6 +37,10 @@ export function useAddMember(troopId?: string) {
       queryClient.invalidateQueries({
         queryKey: attendanceKeys.statistics(troopId),
       });
+
+      queryClient.invalidateQueries({
+        queryKey: contactKeys.children(troopId),
+      });
     },
   });
 }
@@ -54,6 +58,10 @@ export function useDeleteTroopMember(troopId: string) {
       queryClient.invalidateQueries({
         queryKey: attendanceKeys.statistics(troopId),
       });
+
+      queryClient.invalidateQueries({
+        queryKey: contactKeys.all,
+      });
     },
   });
 }
@@ -66,6 +74,10 @@ export function useUpdateTroopMember(troopId: string) {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({
         queryKey: troopMembersKeys.all,
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: contactKeys.children(troopId),
       });
     },
   });

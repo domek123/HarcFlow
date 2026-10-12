@@ -16,3 +16,5 @@ export * from "./attendance/use-attendance";
 export * from "./scoutYear/use-scout-year";
 export * from "./degreeTemplate/use-degree-template";
 export * from "./scoutDegree/use-scout-degree";
+export * from "./contact/use-contact";
+export * from "./contact/contact.api";
