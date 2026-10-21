@@ -17,6 +17,16 @@ export class TroopMemberService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createMember(dto: CreateMemberDto) {
+    if (dto.patrolId) {
+      const patrol = await this.prisma.scoutPatrol.findUnique({
+        where: { id: dto.patrolId },
+        select: { troopId: true },
+      });
+      if (!patrol || patrol.troopId !== dto.troopId) {
+        throw new BadRequestException('Zastęp nie należy do wybranej drużyny.');
+      }
+    }
+
     try {
       return await this.prisma.scoutProfile.create({
         data: {
@@ -90,6 +100,16 @@ export class TroopMemberService {
 
     if (!profile) {
       throw new NotFoundException('Nie znaleziono profilu harcerskiego');
+    }
+
+    if (dto.patrolId) {
+      const patrol = await this.prisma.scoutPatrol.findUnique({
+        where: { id: dto.patrolId },
+        select: { troopId: true },
+      });
+      if (!patrol || patrol.troopId !== profile.troopId) {
+        throw new BadRequestException('Zastęp nie należy do drużyny członka.');
+      }
     }
 
     const targetFunction = dto.function ?? profile.function;

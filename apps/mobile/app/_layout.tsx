@@ -11,9 +11,15 @@ import { toastConfig } from "@/lib/toastConfig";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { configureApiClient } from "@harcapp/api-client";
 
+import { supabase } from "../src/lib/supabase";
 import { useAuthStore } from "../src/store/useAuthStore";
 
-configureApiClient(process.env.EXPO_PUBLIC_API_URL!);
+configureApiClient(process.env.EXPO_PUBLIC_API_URL!, async () => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  return session?.access_token ?? null;
+});
 
 const queryClient = new QueryClient({
   defaultOptions: {

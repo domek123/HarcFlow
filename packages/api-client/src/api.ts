@@ -1,7 +1,14 @@
-let apiBaseUrl = "http://localhost:3000";
+type AccessTokenProvider = () => Promise<string | null>;
 
-export function configureApiClient(baseUrl: string) {
+let apiBaseUrl = "http://localhost:3000";
+let accessTokenProvider: AccessTokenProvider | undefined;
+
+export function configureApiClient(
+  baseUrl: string,
+  tokenProvider?: AccessTokenProvider,
+) {
   apiBaseUrl = baseUrl;
+  accessTokenProvider = tokenProvider;
 }
 
 export class ApiError extends Error {
@@ -18,11 +25,15 @@ export async function apiClient<T>(
   endpoint: string,
   options?: RequestInit,
 ): Promise<T> {
+  const accessToken = accessTokenProvider ? await accessTokenProvider() : null;
+  const headers = new Headers(options?.headers);
+  headers.set("Content-Type", "application/json");
+  if (accessToken) {
+    headers.set("Authorization", `Bearer ${accessToken}`);
+  }
+
   const response = await fetch(`${apiBaseUrl}${endpoint}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options?.headers,
-    },
+    headers,
     ...options,
   });
 

@@ -23,9 +23,15 @@ import {
   ProtectedLayout,
   PublicOnlyLayout,
 } from "./lib/protectedRoute";
+import { supabase } from "./lib/supabase";
 import ParentsAndConsentsPage from "./pages/ParentAndConsents/ParentsAndConsentsPage";
 
-configureApiClient(import.meta.env.VITE_API_URL);
+configureApiClient(import.meta.env.VITE_API_URL, async () => {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  return session?.access_token ?? null;
+});
 
 function App() {
   return (
