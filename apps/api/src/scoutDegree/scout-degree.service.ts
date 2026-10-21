@@ -244,52 +244,98 @@ export class ScoutDegreeService {
   }
 
   async complete(scoutDegreeId: string, orderNumber: string) {
-    const degree = await this.getDegree(scoutDegreeId);
+    return this.prisma.$transaction(
+      async (tx) => {
+        await tx.$queryRaw`
+          SELECT "id"
+          FROM "ScoutDegree"
+          WHERE "id" = ${scoutDegreeId}
+          FOR UPDATE
+        `;
 
-    if (degree.status === ScoutDegreeStatus.COMPLETED) {
-      return degree;
-    }
+        await tx.$queryRaw`
+          SELECT "id"
+          FROM "ScoutDegreeTask"
+          WHERE "scoutDegreeId" = ${scoutDegreeId}
+          FOR UPDATE
+        `;
 
-    if (degree.status === ScoutDegreeStatus.PREPARED) {
-      throw new BadRequestException(
-        'Nie można ukończyć próby, która nie została rozpoczęta.',
-      );
-    }
+        const degree = await tx.scoutDegree.findUnique({
+          where: {
+            id: scoutDegreeId,
+          },
+          include: {
+            ...taskInclude,
+            scout: {
+              select: {
+                id: true,
+              },
+            },
+          },
+        });
 
-    const hasIncompleteTasks = degree.tasks.some(
-      (task) => task.status !== ScoutDegreeTaskStatus.APPROVED,
+        if (!degree) {
+          throw new NotFoundException('Nie znaleziono próby tego harcerza.');
+        }
+
+        if (degree.status === ScoutDegreeStatus.COMPLETED) {
+          return degree;
+        }
+
+        if (degree.status === ScoutDegreeStatus.PREPARED) {
+          throw new BadRequestException(
+            'Nie można ukończyć próby, która nie została rozpoczęta.',
+          );
+        }
+
+        const hasIncompleteTasks = degree.tasks.some(
+          (task) => task.status !== ScoutDegreeTaskStatus.APPROVED,
+        );
+
+        if (degree.tasks.length === 0 || hasIncompleteTasks) {
+          throw new BadRequestException(
+            'Nie można ukończyć próby, dopóki wszystkie zadania nie są zatwierdzone.',
+          );
+        }
+
+        const updateResult = await tx.scoutDegree.updateMany({
+          where: {
+            id: scoutDegreeId,
+            status: ScoutDegreeStatus.IN_PROGRESS,
+          },
+          data: {
+            status: ScoutDegreeStatus.COMPLETED,
+            completedAt: new Date(),
+            orderNumber,
+          },
+        });
+
+        if (updateResult.count !== 1) {
+          throw new ConflictException(
+            'Próba została zmieniona przez inne żądanie. Spróbuj ponownie.',
+          );
+        }
+
+        await tx.scoutProfile.update({
+          where: {
+            id: degree.scout.id,
+          },
+          data: {
+            degree: degree.degree.degree,
+          },
+        });
+
+        return tx.scoutDegree.findUniqueOrThrow({
+          where: {
+            id: scoutDegreeId,
+          },
+          include: taskInclude,
+        });
+      },
+      {
+        isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+      },
     );
-
-    if (degree.tasks.length === 0 || hasIncompleteTasks) {
-      throw new BadRequestException(
-        'Nie można ukończyć próby, dopóki wszystkie zadania nie są zatwierdzone.',
-      );
-    }
-
-    return this.prisma.$transaction(async (tx) => {
-      const updatedDegree = await tx.scoutDegree.update({
-        where: {
-          id: scoutDegreeId,
-        },
-        data: {
-          status: ScoutDegreeStatus.COMPLETED,
-          completedAt: new Date(),
-          orderNumber,
-        },
-        include: taskInclude,
-      });
-
-      await tx.scoutProfile.update({
-        where: {
-          id: degree.scout.id,
-        },
-        data: {
-          degree: degree.degree.degree,
-        },
-      });
-
-      return updatedDegree;
-    });
   }
 
   async deleteScoutDegree(scoutDegreeId: string) {
