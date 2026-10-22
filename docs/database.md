@@ -12,6 +12,10 @@
 - [ScoutYear](#scoutyear)
 - [Event](#event)
 - [Attendance](#attendance)
+- [DegreeTemplate](#degreetemplate)
+- [DegreeTemplateTask](#degreetemplatetask)
+- [ScoutDegree](#scoutdegree)
+- [ScoutDegreeTask](#scoutdegreetask)
 - [UserBadge](#userbadge)
 - [ScoutNote](#scoutnote)
 - [BadgeStore](#badgestore)
@@ -52,17 +56,23 @@ User
  │      │      ├── ScoutPatrol
  │      │      ├── Event
  │      │      ├── BadgeStore
- │      │      └── InventoryItem
+ │      │      ├── InventoryItem
+ │      │      └── DegreeTemplate
  │      │
  │      ├── UserBadge
  │      ├── ScoutNote
- │      └── Attendance
- │                 │
- │                 └── Event
- │                        │
- │                        └── ScoutYear
+ │      ├── Attendance
+ │      |── ScoutDegree
+ │      |── Event
+ │          │
+ │          └── ScoutYear
  │
  └── Parent
+
+DegreeTemplate
+ ├── DegreeTemplateTask[]
+ └── ScoutDegree[]
+        └── ScoutDegreeTask[]
 ```
 
 ---
@@ -169,18 +179,18 @@ Relacja `userId @unique` oznacza, że jedna osoba może posiadać maksymalnie je
 
 ## Najważniejsze pola
 
-| Pole              | Opis                                 |
-| ----------------- | ------------------------------------ |
-| `userId`          | Osoba, której dotyczy profil         |
-| `troopId`         | Drużyna                              |
-| `patrolId`        | Zastęp, jeśli został przypisany      |
-| `rank`            | Ranga                                |
-| `degree`          | Aktualny stopień                     |
-| `function`        | Pełniona funkcja                     |
-| `acquiringDegree` | Aktualnie zdobywany stopień          |
-| `hasNaramiennik`  | Informacja o posiadaniu naramiennika |
-| `joinedAt`        | Data dołączenia do drużyny           |
-| `isActive`        | Czy członek jest obecnie aktywny     |
+| Pole              | Opis                                  |
+| ----------------- | ------------------------------------- |
+| `userId`          | Osoba, której dotyczy profil          |
+| `troopId`         | Drużyna                               |
+| `patrolId`        | Zastęp, jeśli został przypisany       |
+| `rank`            | Stopień instruktorski                 |
+| `degree`          | Aktualny stopień harcerski            |
+| `function`        | Pełniona funkcja                      |
+| `acquiringDegree` | Aktualnie zdobywany stopień harcerski |
+| `hasNaramiennik`  | Informacja o posiadaniu naramiennika  |
+| `joinedAt`        | Data dołączenia do drużyny            |
+| `isActive`        | Czy członek jest obecnie aktywny      |
 
 ## User a ScoutProfile
 
@@ -446,6 +456,167 @@ Dzięki temu informacja o roku nie jest przechowywana wielokrotnie.
 
 ---
 
+# DegreeTemplate
+
+`DegreeTemplate` reprezentuje szablon stopnia dostępny w konkretnej drużynie.
+
+Szablon określa stopień, jego opis oraz listę zadań, które mogą zostać wykorzystane
+podczas rozpoczynania próby przez harcerza.
+
+```text
+ScoutTroop
+ └── DegreeTemplate
+      ├── degree
+      ├── description
+      ├── isActive
+      └── DegreeTemplateTask[]
+```
+
+## Najważniejsze pola
+
+| Pole          | Opis                                       |
+| ------------- | ------------------------------------------ |
+| `id`          | Identyfikator szablonu                     |
+| `troopId`     | Drużyna, do której należy szablon          |
+| `degree`      | Stopień opisywany przez szablon            |
+| `description` | Opcjonalny opis szablonu                   |
+| `isActive`    | Czy szablon jest dostępny do wykorzystania |
+| `createdAt`   | Data utworzenia                            |
+| `updatedAt`   | Data ostatniej aktualizacji                |
+
+## Unikalność
+
+W obrębie jednej drużyny może istnieć tylko jeden szablon dla danego stopnia:
+
+```prisma
+@@unique([troopId, degree])
+```
+
+Ta sama wartość `degree` może występować w wielu drużynach.
+
+---
+
+# DegreeTemplateTask
+
+`DegreeTemplateTask` reprezentuje zadanie należące do szablonu stopnia.
+
+Zadania są uporządkowane według pola `position`. Usunięcie szablonu usuwa również
+jego zadania dzięki relacji `onDelete: Cascade`.
+
+## Najważniejsze pola
+
+| Pole          | Opis                        |
+| ------------- | --------------------------- |
+| `id`          | Identyfikator zadania       |
+| `templateId`  | Szablon stopnia             |
+| `description` | Opis zadania                |
+| `position`    | Pozycja zadania w szablonie |
+| `createdAt`   | Data utworzenia             |
+| `updatedAt`   | Data ostatniej aktualizacji |
+
+Zadania są indeksowane po `templateId`, co ułatwia pobieranie kompletnej listy
+zadań konkretnego szablonu.
+
+---
+
+# ScoutDegree
+
+`ScoutDegree` reprezentuje indywidualną próbę zdobycia stopnia przez harcerza.
+
+Jest powiązany jednocześnie z profilem harcerza oraz szablonem stopnia:
+
+```text
+ScoutProfile
+      │
+      └── ScoutDegree ──── DegreeTemplate
+             │
+             └── ScoutDegreeTask[]
+```
+
+## Najważniejsze pola
+
+| Pole          | Opis                        |
+| ------------- | --------------------------- |
+| `id`          | Identyfikator próby         |
+| `scoutId`     | Profil harcerza             |
+| `degreeId`    | Szablon zdobywanego stopnia |
+| `status`      | Status całej próby          |
+| `startedAt`   | Data rozpoczęcia próby      |
+| `completedAt` | Data ukończenia próby       |
+| `orderNumber` | Opcjonalny numer próby      |
+| `createdAt`   | Data utworzenia             |
+| `updatedAt`   | Data ostatniej aktualizacji |
+
+## Unikalność
+
+Jeden harcerz nie może mieć dwóch prób opartych na tym samym szablonie:
+
+```prisma
+@@unique([scoutId, degreeId])
+```
+
+## Statusy próby
+
+```text
+PREPARED
+IN_PROGRESS
+COMPLETED
+```
+
+Próba posiada indeksy po `scoutId` oraz `degreeId`, co usprawnia pobieranie prób
+harcerza i wszystkich prób korzystających z danego szablonu.
+
+---
+
+# ScoutDegreeTask
+
+`ScoutDegreeTask` reprezentuje zadanie w konkretnej, indywidualnej próbie.
+
+Zadania są kopiowane z szablonu do próby, dzięki czemu późniejsze zmiany szablonu
+nie zmieniają automatycznie już rozpoczętej próby. Zadanie może również zostać
+dodane indywidualnie, bez bezpośredniego odpowiednika w szablonie.
+
+## Najważniejsze pola
+
+| Pole            | Opis                        |
+| --------------- | --------------------------- |
+| `id`            | Identyfikator zadania       |
+| `scoutDegreeId` | Indywidualna próba          |
+| `description`   | Opis zadania                |
+| `position`      | Pozycja zadania w próbie    |
+| `source`        | Źródło zadania              |
+| `status`        | Status realizacji           |
+| `createdAt`     | Data utworzenia             |
+| `updatedAt`     | Data ostatniej aktualizacji |
+
+## Źródło zadania
+
+```text
+TEMPLATE
+INDIVIDUAL
+```
+
+`TEMPLATE` oznacza zadanie pochodzące z `DegreeTemplateTask`, a `INDIVIDUAL`
+oznacza zadanie dodane tylko do konkretnej próby.
+
+## Statusy zadania
+
+```text
+TODO
+SUBMITTED
+APPROVED
+```
+
+Przejście statusów może wyglądać następująco:
+
+```text
+TODO → SUBMITTED → APPROVED
+```
+
+Usunięcie próby usuwa również wszystkie jej zadania (`onDelete: Cascade`).
+
+---
+
 # UserBadge
 
 `UserBadge` reprezentuje przypisanie sprawności do konkretnego harcerza.
@@ -552,7 +723,7 @@ Przykład:
 
 ```text
 Drużyna: Dzieci Słońca
-Sprawność: Samarytanin
+Sprawność: Higienista
 Ilość: 4
 ```
 
@@ -668,6 +839,59 @@ ScoutProfile 1 ───── N Attendance
 
 ---
 
+## Drużyna i szablony stopni
+
+```text
+ScoutTroop 1 ───── N DegreeTemplate
+```
+
+Szablon stopnia należy do jednej drużyny. Nazwa stopnia jest unikalna tylko
+w obrębie tej drużyny.
+
+---
+
+## Szablon stopnia i zadania szablonu
+
+```text
+DegreeTemplate 1 ───── N DegreeTemplateTask
+```
+
+Zadania szablonu są definicją wykorzystywaną przy tworzeniu prób.
+
+---
+
+## Harcerz i próby stopni
+
+```text
+ScoutProfile 1 ───── N ScoutDegree
+```
+
+Jeden profil może mieć próby różnych stopni. Para `scoutId` i `degreeId` jest
+unikalna.
+
+---
+
+## Szablon stopnia i próby
+
+```text
+DegreeTemplate 1 ───── N ScoutDegree
+```
+
+Próba korzysta z jednego szablonu stopnia, ale jej zadania są przechowywane jako
+osobne rekordy `ScoutDegreeTask`.
+
+---
+
+## Próba i zadania próby
+
+```text
+ScoutDegree 1 ───── N ScoutDegreeTask
+```
+
+Zadania należą do konkretnej próby i mają własny status oraz źródło.
+
+---
+
 ## Rodzice i dzieci
 
 ```text
@@ -741,6 +965,16 @@ Event
  └── Attendance
 ```
 
+oraz dla danych związanych z próbą:
+
+```text
+DegreeTemplate
+ └── DegreeTemplateTask
+
+ScoutDegree
+ └── ScoutDegreeTask
+```
+
 Jeżeli usunięcie nadrzędnego rekordu ma usunąć jego dane zależne, stosowane jest `onDelete: Cascade`.
 
 ## Restrict
@@ -760,6 +994,14 @@ Chroni to dane historyczne.
 # Indeksy
 
 W bazie zastosowano indeksy dla często wykonywanych zapytań.
+
+### ScoutYear
+
+```prisma
+@@index([startDate, endDate])
+```
+
+Ułatwia wyszukiwanie oraz filtrowanie lat harcerskich po zakresie dat.
 
 ### ScoutProfile
 
@@ -799,6 +1041,44 @@ Pozwala efektywnie pobierać wydarzenia według drużyny, roku i daty.
 ```
 
 Pozwala szybko pobierać najnowsze notatki konkretnego harcerza.
+
+### UserBadge
+
+```prisma
+@@index([profileId, status])
+```
+
+Ułatwia filtrowanie sprawności konkretnego harcerza po statusie.
+
+### DegreeTemplate
+
+```prisma
+@@unique([troopId, degree])
+@@index([isActive])
+```
+
+Zapewnia unikalność szablonu stopnia w drużynie i przyspiesza filtrowanie
+aktywnych szablonów.
+
+### DegreeTemplateTask
+
+```prisma
+@@index([templateId])
+```
+
+### ScoutDegree
+
+```prisma
+@@unique([scoutId, degreeId])
+@@index([scoutId])
+@@index([degreeId])
+```
+
+### ScoutDegreeTask
+
+```prisma
+@@index([scoutDegreeId])
+```
 
 ---
 
@@ -887,6 +1167,16 @@ Dzięki temu dane historyczne pozostają dostępne.
 
 ---
 
+## 6. Szablon próby i indywidualna próba to różne dane
+
+`DegreeTemplate` przechowuje wspólną definicję stopnia dla drużyny, natomiast
+`ScoutDegree` reprezentuje konkretną próbę konkretnego harcerza.
+
+Zadania próby są niezależnymi kopiami zadań szablonu. Dzięki temu aktualizacja
+szablonu nie zmienia automatycznie prób, które już się rozpoczęły.
+
+---
+
 # Przykładowy przepływ danych
 
 Dodanie wydarzenia:
@@ -923,40 +1213,6 @@ Attendance[]
 ScoutProfile
     ↓
 statystyki
-```
-
----
-
-# Rozszerzanie modelu
-
-Nowe funkcjonalności powinny być dodawane jako osobne encje, jeżeli posiadają własny cykl życia lub znaczenie biznesowe.
-
-Przykładowo:
-
-```text
-ScoutYear
- ├── Event
- ├── WorkPlan
- ├── Camp
- └── Reports
-```
-
-Nie należy dodawać `scoutYearId` do każdego modelu tylko dlatego, że dane mogą być wykorzystywane w statystykach za dany rok.
-
-Jeżeli rok można jednoznacznie ustalić przez istniejącą relację, należy wykorzystać tę relację.
-
-Przykład:
-
-```text
-Attendance → Event → ScoutYear
-```
-
-zamiast:
-
-```text
-Attendance
- ├── eventId
- └── scoutYearId
 ```
 
 ---
@@ -1041,43 +1297,35 @@ EQUIPMENT
 
 Określa kategorię wyposażenia.
 
----
-
-# Diagram zależności
+## ScoutDegreeStatus
 
 ```text
-                              ┌──────────────┐
-                              │  ScoutYear   │
-                              └──────┬───────┘
-                                     │
-                                     │ 1:N
-                                     ↓
-┌──────────┐       ┌──────────────┐       ┌──────────────┐
-│   User   │──────▶│ ScoutProfile │──────▶│  ScoutTroop  │
-└────┬─────┘ 1:1   └──────┬───────┘ N:1   └──────┬───────┘
-     │                    │                       │
-     │                    │                       │
-     │                    ↓                       ↓
-     │              ┌───────────┐          ┌─────────────┐
-     │              │ UserBadge │          │ ScoutPatrol │
-     │              └───────────┘          └─────────────┘
-     │
-     │ N:M
-     ↓
-┌──────────┐
-│  Parent  │
-└──────────┘
-
-ScoutTroop ──────── Event ──────── ScoutYear
-                     │
-                     │ 1:N
-                     ↓
-                Attendance
-                     ↑
-                     │ N:1
-                     │
-                ScoutProfile
+PREPARED
+IN_PROGRESS
+COMPLETED
 ```
+
+Określa etap realizacji próby zdobycia stopnia.
+
+## ScoutDegreeTaskStatus
+
+```text
+TODO
+SUBMITTED
+APPROVED
+```
+
+Określa status pojedynczego zadania w próbie.
+
+## ScoutDegreeTaskSource
+
+```text
+TEMPLATE
+INDIVIDUAL
+```
+
+Określa, czy zadanie zostało utworzone na podstawie szablonu stopnia, czy dodane
+indywidualnie do konkretnej próby.
 
 ---
 
@@ -1092,6 +1340,5 @@ Najważniejsze założenia modelu:
 5. **`Attendance` zależy od `Event`**, dlatego nie posiada własnego `scoutYearId`.
 6. **Historia wydarzeń i obecności jest zachowywana** po zakończeniu roku harcerskiego.
 7. **Zastępy mają unikalne nazwy tylko w obrębie swojej drużyny.**
-8. **Dane osobowe i dane harcerskie są rozdzielone.**
-9. **Indeksy są dodawane przede wszystkim pod rzeczywiste zapytania aplikacji.**
-10. **Nowe encje powinny być dodawane wtedy, gdy reprezentują osobny byt biznesowy, a nie tylko dla wygody zapytań.**
+8. **Szablon stopnia jest oddzielony od indywidualnej próby harcerza.**
+9. **Zadania indywidualnej próby są niezależne od późniejszych zmian szablonu.**
