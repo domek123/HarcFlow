@@ -2,12 +2,13 @@
   "name": "harcapp",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --filter=@harcapp/api...",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types",
+    "check-types": "turbo run check-types --filter=@harcapp/api...",
+    "test": "pnpm --filter @harcapp/api exec jest",
     "prepare": "husky"
   },
   "devDependencies": {

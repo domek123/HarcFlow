@@ -13,7 +13,7 @@ import {
 } from "./events.api";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { attendanceKeys, eventKeys } from "../keys";
-import { CreateEventInput } from "packages/types/src/event";
+import { CreateEventInput } from "@harcapp/types";
 
 export function useEvents(
   supabase: SupabaseClient,

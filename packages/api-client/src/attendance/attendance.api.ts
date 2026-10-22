@@ -2,11 +2,11 @@ import {
   RawTroopMemberAttendance,
   TroopMemberAttendanceDTO,
 } from "@harcapp/types";
-import { SupabaseClient } from "@supabase/supabase-js";
 import {
   AttendanceStatistics,
   CreateAttendanceInput,
-} from "packages/types/src/attendance";
+} from "@harcapp/types";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { apiClient } from "../api";
 
 export async function upsertAttendances(
