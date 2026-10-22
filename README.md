@@ -1,159 +1,334 @@
-# Turborepo starter
+# HarcApp
 
-This Turborepo starter is maintained by the Turborepo core team.
+HarcApp is a scout troop management platform built for everyday work with
+troops, patrols and their members. It combines a mobile application, a web
+application and a NestJS API backed by PostgreSQL.
 
-## Using this example
+The platform supports:
 
-Run the following command:
+- troop members, patrols and staff functions,
+- events and attendance tracking,
+- attendance statistics,
+- scout degrees, degree templates and degree tasks,
+- badges and troop inventory,
+- member notes and parent information,
+- Supabase authentication,
+- role- and troop-based authorization.
 
-```sh
-npx create-turbo@latest
+The project is maintained as a pnpm workspace managed by Turborepo. Shared
+TypeScript packages contain API clients, domain types, validation schemas and
+utility functions used by the applications.
+
+## Architecture
+
+```text
+                         ┌──────────────────────┐
+                         │   React + Vite Web   │
+                         │      apps/web        │
+                         └──────────┬───────────┘
+                                    │
+                         shared API client/types
+                                    │
+┌──────────────────────┐            │            ┌────────────────────────┐
+│ React Native + Expo  │────────────┼───────────▶│ NestJS REST API         │
+│     apps/mobile      │            │            │        apps/api          │
+└──────────┬───────────┘            │            └───────────┬────────────┘
+           │                        │                        │
+           │ Supabase Auth          │                        │ Prisma ORM
+           ▼                        │                        ▼
+┌──────────────────────┐            │            ┌────────────────────────┐
+│ Supabase Auth        │◀───────────┘            │ PostgreSQL / Supabase  │
+│ JWT access tokens    │                         │ RLS + relational data  │
+└──────────────────────┘                         └────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Shared packages: api-client · types · validators · utils                 │
+└──────────────────────────────────────────────────────────────────────────┘
 ```
 
-## What's inside?
+### Application responsibilities
 
-This Turborepo includes the following packages/apps:
+| Component             | Responsibility                                                            |
+| --------------------- | ------------------------------------------------------------------------- |
+| `apps/api`            | REST endpoints, validation, authorization, health check and Prisma access |
+| `apps/web`            | Browser interface for troop management                                    |
+| `apps/mobile`         | React Native/Expo interface for mobile users                              |
+| `packages/api-client` | Shared API functions and React Query hooks                                |
+| `packages/types`      | Shared DTOs and Prisma-derived enums/types                                |
+| `packages/validators` | Shared Zod validation schemas                                             |
+| `packages/utils`      | Shared date and formatting utilities                                      |
+| `supabase/migrations` | PostgreSQL schema policies, functions and RLS configuration               |
 
-### Apps and Packages
+The domain model is documented in
+[`docs/database.md`](./docs/database.md).
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## Technology stack
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- TypeScript
+- pnpm workspaces
+- Turborepo
+- React 19 and Vite
+- React Native, Expo and Expo Router
+- NestJS
+- Prisma
+- PostgreSQL
+- Supabase Auth and Row-Level Security
+- Jest and Supertest
+- ESLint and Prettier
 
-### Utilities
+## Requirements
 
-This Turborepo has some additional tools already setup for you:
+- Node.js 22 or newer
+- pnpm 9
+- PostgreSQL/Supabase project
+- Supabase project for authentication
+- Expo development tooling for the mobile application
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+The repository declares pnpm and the minimum Node.js version in the root
+[`package.json`](./package.json).
 
-### Build
+## Installation
 
-To build all apps and packages, run the following command:
+Clone the repository and install all workspace dependencies:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```bash
+git clone https://github.com/domek123/harcApp.git
+cd harc
+pnpm install
 ```
 
-Without global `turbo`, use your package manager:
+Generate the Prisma client before running the API:
 
-```sh
-cd my-turborepo
-npx turbo build
-pnpm dlx turbo build
-pnpm exec turbo build
+```bash
+pnpm --filter @harcapp/api prisma:generate
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+## Environment variables
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+### API
 
-```sh
-turbo build --filter=docs
+Create an environment file used by the API and Prisma:
+
+```dotenv
+DATABASE_URL=postgresql://user:password@host:5432/database
+DIRECT_URL=postgresql://user:password@host:5432/database
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-supabase-anon-key
+PORT=3000
 ```
 
-Without global `turbo`:
+`DIRECT_URL` is used by Prisma CLI when available. The API runtime uses
+`DATABASE_URL`.
 
-```sh
-npx turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+The API requires `DATABASE_URL` to connect to PostgreSQL and requires
+`SUPABASE_URL` plus either `SUPABASE_ANON_KEY` or
+`SUPABASE_PUBLISHABLE_KEY` to initialize authentication.
+
+### Web
+
+The web application reads Vite variables from its environment:
+
+```dotenv
+VITE_API_URL=http://localhost:3000
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
 ```
 
-### Develop
+### Mobile
 
-To develop all apps and packages, run the following command:
+The Expo application reads public variables prefixed with
+`EXPO_PUBLIC_`:
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
+```dotenv
+EXPO_PUBLIC_API_URL=http://localhost:3000
+EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+EXPO_PUBLIC_SUPABASE_KEY=your-supabase-publishable-key
 ```
 
-Without global `turbo`, use your package manager:
+Do not commit environment files or private keys. Public Supabase client keys
+are intended for client applications, but database access must still be
+protected by RLS policies.
 
-```sh
-cd my-turborepo
-npx turbo dev
-pnpm exec turbo dev
-pnpm exec turbo dev
+## Running the applications
+
+### API
+
+Start the NestJS API in watch mode:
+
+```bash
+pnpm --filter @harcapp/api dev
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+The default API URL is `http://localhost:3000`.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+The public health endpoint does not require authentication:
 
-```sh
-turbo dev --filter=web
+```bash
+curl http://localhost:3000/health
 ```
 
-Without global `turbo`:
+Expected response when the API and database are available:
 
-```sh
-npx turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+```json
+{
+  "status": "ok",
+  "checks": {
+    "database": "up"
+  }
+}
 ```
 
-### Remote Caching
+### Web
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+Start the Vite development server:
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
+```bash
+pnpm --filter @harcapp/web dev
 ```
 
-Without global `turbo`, use your package manager:
+The web application is typically available at `http://localhost:5173`.
+This is also the origin currently allowed by the API CORS configuration.
 
-```sh
-cd my-turborepo
-npx turbo login
-pnpm exec turbo login
-pnpm exec turbo login
+### Mobile
+
+Start Expo with the development client:
+
+```bash
+pnpm --filter @harcapp/mobile dev
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+For native platforms:
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
+```bash
+pnpm --filter @harcapp/mobile android
+pnpm --filter @harcapp/mobile ios
 ```
 
-Without global `turbo`:
+The native Android and iOS toolchains must be installed separately.
 
-```sh
-npx turbo link
-pnpm exec turbo link
-pnpm exec turbo link
+### Run all development tasks
+
+Turborepo can start all configured development tasks:
+
+```bash
+pnpm dev
 ```
 
-## Useful Links
+For local development, running the API and the web/mobile application
+separately is often easier because each application has different environment
+variables and platform requirements.
 
-Learn more about the power of Turborepo:
+## Quality checks
 
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+The root scripts provide the standard development commands:
+
+```bash
+pnpm lint
+pnpm check-types
+pnpm test
+pnpm build
+```
+
+The current CI gate checks:
+
+1. lint for the applications,
+2. Prisma client generation,
+3. type checking for the API and its dependencies,
+4. API unit tests,
+5. API build.
+
+The API test suite can be run directly:
+
+```bash
+pnpm --filter @harcapp/api exec jest --runInBand
+```
+
+The suite includes unit tests for authorization guards, controllers,
+services and the health check.
+
+## Database and migrations
+
+Prisma schema and migrations are located in
+[`apps/api/prisma`](./apps/api/prisma). Supabase SQL migrations, including RLS
+policies, are located in [`supabase/migrations`](./supabase/migrations).
+
+Generate the Prisma client:
+
+```bash
+pnpm --filter @harcapp/api prisma:generate
+```
+
+Inspect the current database migration status:
+
+```bash
+pnpm --filter @harcapp/api exec prisma migrate status \
+  --config prisma.config.ts
+```
+
+Read the full model description in
+[`docs/database.md`](./docs/database.md) before changing relationships,
+constraints or delete strategies.
+
+## Error handling and authorization
+
+The API uses:
+
+- a global validation pipe with whitelisting and transformation,
+- a global exception filter returning a consistent error shape,
+- `requestId` values for correlating client responses with server logs,
+- a global JWT guard backed by Supabase Auth,
+- troop-level guards for member, staff and leader permissions,
+- database-level RLS policies in Supabase.
+
+Errors returned by the API include the HTTP status, timestamp, request path and
+request ID. Internal exception details are logged by the API but are not
+exposed in responses to clients.
+
+## Continuous integration
+
+The workflow in
+[`.github/workflows/ci.yml`](./.github/workflows/ci.yml) runs on pushes to
+`main`/`master` and on pull requests. It installs dependencies with the
+frozen lockfile, generates Prisma Client, and runs lint, typecheck, tests and
+the API build.
+
+## Repository structure
+
+```text
+apps/
+  api/                 NestJS API, Prisma schema and API tests
+  mobile/              React Native + Expo application
+  web/                 React + Vite application
+packages/
+  api-client/          Shared API client and query hooks
+  eslint-config/       Shared ESLint configurations
+  types/               Shared domain types and enums
+  typescript-config/   Shared TypeScript configurations
+  utils/               Shared utility functions
+  validators/          Shared validation schemas
+docs/
+  database.md          Database model documentation
+supabase/
+  migrations/          Database functions and RLS policies
+```
+
+## Useful commands
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start one application
+pnpm --filter @harcapp/api dev
+pnpm --filter @harcapp/web dev
+pnpm --filter @harcapp/mobile dev
+
+# Run quality checks
+pnpm lint
+pnpm check-types
+pnpm test
+pnpm build
+
+# Format TypeScript and Markdown files
+pnpm format
+```
