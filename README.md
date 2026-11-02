@@ -1,4 +1,4 @@
-# HarcApp
+# HarcFlow
 
 HarcApp is a scout troop management platform built for everyday work with
 troops, patrols and their members. It combines a mobile application, a web
